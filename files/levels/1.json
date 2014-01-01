@@ -122,6 +122,46 @@
             "position": {
                 "x": -150,
                 "y": 40,
+                "z": -3100
+            },
+            "points": [
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": -3100
+                },
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": -3110
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": -3080
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": -3130
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 3,
+                "color": "0xff9900",
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -150,
+                "y": 40,
                 "z": -3150
             },
             "points": [

@@ -396,7 +396,6 @@ function spawnObjects() {
             continue;
         }
         if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1))
-            || (gameSettings.debug == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y * 2)))
             ) {
             mission.elements[i].spawned = true;
             spawnObject(i);
