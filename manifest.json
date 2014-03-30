@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "name": "__MSG_gameName__",
+    "description": "__MSG_gameDesc__",
+    "short_name": "__MSG_gameShortDesc__",
+    "default_locale": "en",
+    "minimum_chrome_version": "23",
+    "offline_enabled": true,
+    "author": "Mathieu de Ruiter",
+    "app": {
+        "background": {
+            "scripts": ["app.js"]
+        }
+    },
+    "externally_connectable": {
+        "matches": ["*://games.fellicht.nl/*"]
+    }
+    ,
+    "permissions": [
+        "overrideEscFullscreen",
+        "fullscreen",
+        "storage"
+    ]
+}

@@ -1,0 +1,83 @@
+@base: #840c0d;
+@spacing: 10px;
+@animation-speed: .5s;
+
+#container {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.info-window {
+  position: absolute;
+  left: 50%;
+  margin-left: -300px;
+  z-index: 10;
+  width: 600px;
+  top: 70px;
+  background-color: #fff;
+  padding: @spacing;
+  color: #000;
+  animation-duration: @animation-speed;
+  -webkit-animation-duration: @animation-speed;
+}
+
+.background-menu {
+  background-image: url(../img/ui/background.jpg);
+}
+.background-mission {
+  background-image: url(../img/ui/background-mission.jpg);
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.title {
+  color: @base;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  text-align: center;
+  font-size: 200%;
+  height: 70px;
+  line-height: 70px;
+}
+
+/*
+ * Main menu
+ */
+.menu {
+  font-size: 120%;
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  top: 70px;
+  margin-left: -150px;
+}
+.menu a {
+  text-align: center;
+  display: block;
+  padding: @spacing;
+  background-color: rgba(0,0,0,0.7);
+  border-radius: 3px;
+  color: #fff;
+  margin-bottom: @spacing;
+}
+.menu a:hover:not(.disabled) {
+  background-color: rgba(0,0,0,0.9);
+  color: @base;
+  animation-duration: @animation-speed;
+  -webkit-animation-duration: @animation-speed;
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+/*
+ * Forms
+ */
+.input label {
+  display: block;
+}

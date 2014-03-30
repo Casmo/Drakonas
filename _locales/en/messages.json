@@ -1,0 +1,14 @@
+{
+    "gameName": {
+        "message": "Drakonas",
+        "description": "The name of the game, displayed in the web store."
+    },
+    "gameDesc": {
+        "message": "A classic Shoot 'em up 3D shooter with a lot of old arcade fun! Shoot your enemies, destroy buildings and upgrade your amory in this ultimate side shooter!",
+        "description":"The description of the application, displayed in the web store."
+    },
+    "gameShortDesc": {
+        "message": "A classic Shoot 'em up!",
+        "description":"The very short description of the application, displayed in the web store."
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "name": "War is coming!",
+    "description": "War is coming.",
+    "code": 1,
+    "icon": "img/ui/levels/1.png",
+    "settings": [
+        {
+            "ambientLight": "0xff9900"
+        }
+    ],
+    "objects": [
+        {
+            "ref": "ground-001",
+            "file": "files/objects/ground/tile-island-001.obj"
+        },
+        {
+            "ref": "ground-002",
+            "file": "files/objects/ground/tile-water-s-grass-n-001.obj"
+        }
+    ],
+    "textures": [
+        {
+            "ref": "texture-ground-001",
+            "file": "files/objects/ground/tile-water-s-grass-n-001.jpg"
+        },
+        {
+            "ref": "tile-hills-001",
+            "file": "files/objects/ground/tile-hills-001.jpg"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "gameName": {
+        "message": "Drakonas",
+        "description": "The name of the game, displayed in the web store."
+    },
+    "gameDesc": {
+        "message": "Een ouderwedste shoot 'em up 3D shooter met alle leuke elementen van de oude arcade spellen! Schiet je vijanden, vernietig gebouwen en upgrade je schip in deze ultime side shooter.",
+        "description":"The description of the application, displayed in the web store."
+    },
+    "gameShortDesc": {
+        "message": "Een klassieke Shoot 'em up!",
+        "description":"The very short description of the application, displayed in the web store."
+    }
+}
