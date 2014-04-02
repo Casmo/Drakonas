@@ -1,11 +1,6 @@
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 }, false);
-window.onkeydown = function(e) {
-    if (e.keyCode == 27 /* ESC */) {
-        e.preventDefault();
-    }
-};
 
 // Find the right method, call on correct element
 function launchFullscreen() {

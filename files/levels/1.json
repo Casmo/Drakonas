@@ -1,14 +1,31 @@
 {
     "name": "War is coming!",
-    "description": "War is coming.",
+    "description": "Long time...",
     "code": 1,
     "icon": "img/ui/levels/1.png",
-    "settings": [
-        {
-            "ambientLight": "0xff9900"
+    "settings": {
+        "ambientLight": "0xff9900",
+        "camera": {
+            "position": {
+                "x": 0,
+                "y": 120,
+                "z": -150
+            }
+        },
+        "player": {
+            "position": {
+                "x": 0,
+                "y": 80,
+                "z": -150
+            },
+            "ref": "player"
         }
-    ],
+    },
     "objects": [
+        {
+            "ref": "player",
+            "file": "files/objects/player/default.obj"
+        },
         {
             "ref": "ground-001",
             "file": "files/objects/ground/tile-island-001.obj"
@@ -26,6 +43,32 @@
         {
             "ref": "tile-hills-001",
             "file": "files/objects/ground/tile-hills-001.jpg"
+        }
+    ],
+    "elements": [
+        {
+            "ref": "ground-001",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "ref": "ground-002",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 200
+            }
+        },
+        {
+            "ref": "ground-001",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 400
+            }
         }
     ]
 }

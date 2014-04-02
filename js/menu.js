@@ -112,8 +112,8 @@ function loadMission(missionCode) {
             gameObjects[object.ref] = new Object();
             // load file
             loader = new THREE.OBJLoader(manager);
-            loader.load(object.file, function (object) {
-                gameObjects[object.ref] = object;
+            loader.load(object.file, function (newObject) {
+                gameObjects[object.ref] = newObject.children[0];
                 loadingManager.objectLoaded();
             });
         }
@@ -131,42 +131,6 @@ function loadMission(missionCode) {
             });
         }
     });
-
-}
-
-function playMission(missionCode) {
-
-    var mission = missions[missionCode];
-    console.log(mission);
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMapEnabled = true;
-    $('#container').innerHTML = '';
-    $('#container').appendChild(renderer.domElement);
-
-    if (mission.gameSettings == null) {
-        mission.gameSettings = new Object();
-    }
-    if (mission.gameSettings.ambientLight != null) {
-        AmbientLight = new THREE.AmbientLight(mission.settings.ambientLight);
-        scene.add(AmbientLight);
-    }
-
-    sun = new THREE.SpotLight(0xffffff);
-    sun.position.set(10,50,10);
-    // must enable shadow casting ability for the light
-    scene.add(sun);
-    sun.shadowCameraVisible = false;
-    sun.shadowDarkness = 0.1;
-    sun.intensity = 1;
-    sun.shadowCameraFov = 50;
-    sun.castShadow = true;
-    sun.target = camera;
-    for (var key in gameObjects) {
-        var obj = gameObjects[key];
-        scene.add(obj);
-    }
-    render(); // Start looping the game
 
 }
 
