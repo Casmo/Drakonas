@@ -17,6 +17,8 @@ var gameObjects             = new Object();
 var scene 					= new THREE.Scene();
 var camera 					= new THREE.PerspectiveCamera(45, 1.7777777777777777777777777777778 , 1, 370); // 170); // window.innerWidth / window.innerHeight
 var renderer 				= new THREE.WebGLRenderer({antialias:true});
+
+var sun;
 var gameOptions             = new Object();
 gameOptions.size            = {x: 200, y: 100 } // game view port
 gameOptions.buildFor        = {x: 1920, y: 1080 }
@@ -51,30 +53,15 @@ function playMission(missionCode) {
         scene.add(AmbientLight);
     }
 
-    sun = new THREE.SpotLight(mission.settings.sun.color);
-    sun.position = mission.settings.sun.position;
-    sun.intensity = 2;
-    if (gameSettings.quality == 'high') {
-        sun.castShadow = true;
-    }
-    scene.add(sun);
-
 
     var material = new THREE.MeshLambertMaterial( {color: 0xff9900} );
     player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, material);
     player.position = mission.settings.player.position;
     player.position.relativeX = 0;
     player.position.relativeY = 0;
-    console.log(player.position);
+    player.castShadow = true;
     scene.add(player);
 
-
-//    sun.shadowCameraVisible = false;
-//    sun.shadowDarkness = 0.1;
-//    sun.intensity = 2;
-//    sun.shadowCameraFov = 150;
-//    sun.castShadow = true;
-//    sun.target = camera;
 //    for (var key in gameObjects) {
         //var obj = gameObjects[key];
         //console.log(obj);
@@ -86,6 +73,8 @@ function playMission(missionCode) {
         var refObject = gameObjects[mission.elements[i].ref];
         newObject = new THREE.Mesh(refObject.geometry, material);
         newObject.position = mission.elements[i].position;
+        newObject.receiveShadow = true;
+        newObject.castShadow = true;
         scene.add(newObject); // @todo texture/color
     }
 
@@ -110,6 +99,15 @@ function playMission(missionCode) {
         } )
         .start();
     renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+    sun = new THREE.SpotLight(mission.settings.sun.color);
+    sun.position = mission.settings.sun.position;
+    sun.intensity = 2;
+    if (gameSettings.quality == 'high') {
+        sun.castShadow = true;
+    }
+    sun.target = camera;
+    scene.add(sun);
     render(); // Start looping the game
 
 }
@@ -124,7 +122,6 @@ function render() {
         camera.position.z += .15;
     }
     player.position.z = camera.position.z;
-    player.position.x = 0 - (gameOptions.size.x / 2) + player.position.relativeX; // basis position
     //player.position.x = camera.position.x - player.position.relativeY; //  is the size of the player
     sun.position.x = camera.position.x;
     sun.position.y = camera.position.y + 50;
@@ -135,14 +132,14 @@ function render() {
     renderer.render(scene, camera);
 }
 
-gameOptions.size            = {x: 200, y: 100 }
+gameOptions.size            = {x: 200, y: 100, startX: 100 } // StartX: (0 - (gameOptions.size.x / 2))
 gameOptions.buildFor        = {x: 1920, y: 1080 }
 gameOptions.realSize        = {x: gameOptions.size.x / 200 }
 function onDocumentMouseMove( event ) {
     event.preventDefault();
     percentLeft = 100 / gameOptions.buildFor.x * event.clientX;
-    realLeft = gameOptions.realSize.x * percentLeft;
-    player.position.relativeX = realLeft;
+    realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
+    player.position.x = realLeft;
 //    player.position.relativeY = 0 - (150 / 2) + mouse.y;
 
 }
