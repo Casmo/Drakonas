@@ -37,6 +37,7 @@ function playMission(missionCode) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
     $('#container').innerHTML = '<div class="pause" id="pause">Pause</div>';
+    pause(true);
     $('#container').appendChild(renderer.domElement);
 
     if (mission.settings == null) {
@@ -113,8 +114,10 @@ function playMission(missionCode) {
     sun.target = camera;
     scene.add(sun);
 
+    document.addEventListener("mousemove", onDocumentMouseMove, false);
+
     if ( havePointerLock ) {
-        var element = document.body;
+        var element = document.getElementsByTagName('canvas')[0];
         var pointerlockchange = function ( event ) {
             if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
                 pause(false);
@@ -135,8 +138,6 @@ function playMission(missionCode) {
         document.addEventListener( 'pointerlockerror', pointerlockerror, false );
         document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
         document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
-
-        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
         document.getElementById('pause').addEventListener( 'click', function ( event ) {
 
@@ -193,16 +194,21 @@ function render() {
  * Calculates the player position ingame depending on the current mouse position
  * @param event
  */
+var previousCursorPositionX = 0;
 function onDocumentMouseMove( event ) {
-    var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || event.clientX || 0;
-    var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || event.clientY || 0;
-    event.preventDefault();
-    //console.log(movementX);
-    percentLeft = 100 / gameOptions.buildFor.x * event.clientX; // movementX; // @todo fix percent of current resolution
+    var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+    positionX = previousCursorPositionX + movementX;
+    if (positionX < 0) {
+        positionX = 0;
+    }
+    if (positionX > window.innerWidth) {
+        positionX = window.innerWidth;
+    }
+    percentLeft = 100 / gameOptions.buildFor.x * positionX ; // movementX; // @todo fix percent of current resolution
     realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
     gameOptions.player.newPosition.x = realLeft;
 //    player.position.relativeY = 0 - (150 / 2) + mouse.y;
-
+    previousCursorPositionX = positionX;
 }
 
 /**

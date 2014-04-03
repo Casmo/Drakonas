@@ -13,6 +13,7 @@ window.onkeydown = function(e) {
 
 function pause(force) {
     if (gameOptions.pause == false || (typeof force != 'undefined' && force == true)) {
+        document.getElementById('pause').style.lineHeight = window.innerHeight + 'px';
         document.getElementById('pause').style.display = '';
         for (var key in gameTweens) {
             var obj = gameTweens[key];
