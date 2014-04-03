@@ -8,17 +8,18 @@
         "camera": {
             "position": {
                 "x": 0,
-                "y": 120,
+                "y": 80,
                 "z": -150
             }
         },
         "player": {
             "position": {
                 "x": 0,
-                "y": 80,
+                "y": 40,
                 "z": -150
             },
-            "ref": "player"
+            "ref": "player",
+            "reftexture": "player"
         }
     },
     "objects": [
@@ -28,14 +29,18 @@
         },
         {
             "ref": "ground-001",
-            "file": "files/objects/ground/tile-island-001.obj"
+            "file": "files/objects/ground/tile-swamp-001.obj"
         },
         {
             "ref": "ground-002",
-            "file": "files/objects/ground/tile-water-s-grass-n-001.obj"
+            "file": "files/objects/ground/Tile02.02.obj"
         }
     ],
     "textures": [
+        {
+            "ref": "player",
+            "file": "files/objects/player/default.jpg"
+        },
         {
             "ref": "texture-ground-001",
             "file": "files/objects/ground/tile-water-s-grass-n-001.jpg"
@@ -63,7 +68,7 @@
             }
         },
         {
-            "ref": "ground-001",
+            "ref": "ground-002",
             "position": {
                 "x": 0,
                 "y": 0,

@@ -24,7 +24,7 @@ gameOptions.size            = {x: 200, y: 100, startX: 100 } // StartX: (0 - (ga
 gameOptions.buildFor        = {x: 1920, y: 1080 }
 gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
 gameOptions.move            = false;
-gameOptions.pause           = false;
+gameOptions.pause           = true;
 /**
  * Array with all the game tweens.
  * @type {Array}
@@ -36,7 +36,7 @@ function playMission(missionCode) {
     var mission = missions[missionCode];
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
-    $('#container').innerHTML = '';
+    $('#container').innerHTML = '<div class="pause" id="pause">Pause</div>';
     $('#container').appendChild(renderer.domElement);
 
     if (mission.settings == null) {
@@ -59,8 +59,10 @@ function playMission(missionCode) {
     }
 
 
-    var material = new THREE.MeshLambertMaterial( {color: 0xff9900} );
-    player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, material);
+    var defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
+
+    playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.reftexture];
+    player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, gameObjects[mission.settings.player.ref].material);
     player.position = mission.settings.player.position;
     player.position.relativeX = 0;
     player.position.relativeY = 0;
@@ -73,10 +75,9 @@ function playMission(missionCode) {
  //       scene.add(obj);
 //    }
 
-    var material = new THREE.MeshLambertMaterial( {color: 0x8888ff} );
     for (i = 0; i < mission.elements.length; i++) {
         var refObject = gameObjects[mission.elements[i].ref];
-        newObject = new THREE.Mesh(refObject.geometry, material);
+        newObject = new THREE.Mesh(refObject.geometry, defaultMaterial);
         newObject.position = mission.elements[i].position;
         newObject.receiveShadow = true;
         newObject.castShadow = true;
@@ -103,7 +104,6 @@ function playMission(missionCode) {
             delete(gameTweens['camera']);
         } )
         .start();
-    renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
     sun = new THREE.SpotLight(mission.settings.sun.color);
     sun.position = mission.settings.sun.position;
     sun.intensity = 2;
@@ -112,9 +112,46 @@ function playMission(missionCode) {
     }
     sun.target = camera;
     scene.add(sun);
+
+    if ( havePointerLock ) {
+        var element = document.body;
+        var pointerlockchange = function ( event ) {
+            if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+                pause(false);
+            } else {
+                pause(true);
+            }
+        }
+
+        var pointerlockerror = function ( event ) {
+            pause(true);
+        }
+
+        // Hook pointer lock state change events
+        document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+        document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
+        document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
+
+        document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+        document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+        document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+        document.getElementById('pause').addEventListener( 'click', function ( event ) {
+
+            document.getElementById('pause').style.display = 'none';
+            // Ask the browser to lock the pointer
+            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+            element.requestPointerLock();
+        }, false );
+
+    } else {
+        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+    }
+
     render(); // Start looping the game
 }
-
 
 function render() {
     requestAnimationFrame(render);
@@ -157,8 +194,11 @@ function render() {
  * @param event
  */
 function onDocumentMouseMove( event ) {
+    var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || event.clientX || 0;
+    var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || event.clientY || 0;
     event.preventDefault();
-    percentLeft = 100 / gameOptions.buildFor.x * event.clientX; // @todo fix percent of current resolution
+    //console.log(movementX);
+    percentLeft = 100 / gameOptions.buildFor.x * event.clientX; // movementX; // @todo fix percent of current resolution
     realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
     gameOptions.player.newPosition.x = realLeft;
 //    player.position.relativeY = 0 - (150 / 2) + mouse.y;

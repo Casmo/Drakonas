@@ -40,11 +40,12 @@ function showMenu() {
     }
 
     document.getElementById('start').addEventListener('click', function() {
-        //launchFullscreen();
+        launchFullscreen();
         gotoMissions();
     });
 
     document.getElementById('exit').addEventListener('click', function() {
+        exitFullscreen();
         exit();
     });
 }
@@ -122,16 +123,15 @@ function loadMission(missionCode) {
         if (texture.file != null) {
             loadingManager.totalObjects++;
             // load file
-            gameObjects[texture.ref] = new THREE.Texture();
+            gameObjects['texture-' + texture.ref] = new THREE.Texture();
             loader = new THREE.ImageLoader(manager);
             loader.load(texture.file, function (image) {
-                gameObjects[texture.ref].image = image;
-                gameObjects[texture.ref].needsUpdate = true;
+                gameObjects['texture-' + texture.ref].image = image;
+                gameObjects['texture-' + texture.ref].needsUpdate = true;
                 loadingManager.objectLoaded();
             });
         }
     });
-
 }
 
 function hideInfoWindows() {
