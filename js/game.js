@@ -15,18 +15,23 @@ gameSettings.quality = 'high';
  */
 var gameObjects             = new Object();
 var scene 					= new THREE.Scene();
-var camera 					= new THREE.PerspectiveCamera(45, 1.7777777777777777777777777777778 , 1, 370); // 170); // window.innerWidth / window.innerHeight
+var camera 					= new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
 var renderer 				= new THREE.WebGLRenderer({antialias:true});
 
 var sun;
 var gameOptions             = new Object();
-gameOptions.size            = {x: 200, y: 100 } // game view port
+gameOptions.size            = {x: 200, y: 100, startX: 100 } // StartX: (0 - (gameOptions.size.x / 2))
 gameOptions.buildFor        = {x: 1920, y: 1080 }
+gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
 gameOptions.move            = false;
 gameOptions.pause           = false;
+/**
+ * Array with all the game tweens.
+ * @type {Array}
+ */
 var gameTweens              = new Array();
 function playMission(missionCode) {
-
+    window.addEventListener('resize', onWindowResize, false);
     var playerMoving = false;
     var mission = missions[missionCode];
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -99,7 +104,6 @@ function playMission(missionCode) {
         } )
         .start();
     renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
     sun = new THREE.SpotLight(mission.settings.sun.color);
     sun.position = mission.settings.sun.position;
     sun.intensity = 2;
@@ -109,7 +113,6 @@ function playMission(missionCode) {
     sun.target = camera;
     scene.add(sun);
     render(); // Start looping the game
-
 }
 
 
@@ -121,8 +124,25 @@ function render() {
     if (gameOptions.move == true) {
         camera.position.z += .15;
     }
+
+    // Player position. It follows the mouse. Original idea from: http://jsfiddle.net/Gamedevtuts/nkZjR/
+    distanceX = gameOptions.player.newPosition.x - player.position.x;
+    distance = Math.sqrt(distanceX * distanceX);
+    if (distance > 1) {
+        movement = (distanceX * gameOptions.player.delta);
+        player.position.x += movement;
+        rotationMovement = movement * 1.2;
+        if (rotationMovement > 1) {
+            rotationMovement = 1;
+        }
+        if (rotationMovement < -1) {
+            rotationMovement = -1;
+        }
+        player.rotation.z = -rotationMovement;
+    }
+
     player.position.z = camera.position.z;
-    //player.position.x = camera.position.x - player.position.relativeY; //  is the size of the player
+
     sun.position.x = camera.position.x;
     sun.position.y = camera.position.y + 50;
     sun.position.z = camera.position.z;
@@ -132,14 +152,24 @@ function render() {
     renderer.render(scene, camera);
 }
 
-gameOptions.size            = {x: 200, y: 100, startX: 100 } // StartX: (0 - (gameOptions.size.x / 2))
-gameOptions.buildFor        = {x: 1920, y: 1080 }
-gameOptions.realSize        = {x: gameOptions.size.x / 200 }
+/**
+ * Calculates the player position ingame depending on the current mouse position
+ * @param event
+ */
 function onDocumentMouseMove( event ) {
     event.preventDefault();
-    percentLeft = 100 / gameOptions.buildFor.x * event.clientX;
+    percentLeft = 100 / gameOptions.buildFor.x * event.clientX; // @todo fix percent of current resolution
     realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
-    player.position.x = realLeft;
+    gameOptions.player.newPosition.x = realLeft;
 //    player.position.relativeY = 0 - (150 / 2) + mouse.y;
 
+}
+
+/**
+ * Callback when the player resizes the current browser window.
+ */
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
