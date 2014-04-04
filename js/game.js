@@ -24,20 +24,21 @@ gameOptions.size            = {x: 200, y: 100, startX: 100 } // StartX: (0 - (ga
 gameOptions.buildFor        = {x: 1920, y: 1080 }
 gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
 gameOptions.move            = false;
-gameOptions.pause           = true;
+gameOptions.pause           = false;
 /**
  * Array with all the game tweens.
  * @type {Array}
  */
 var gameTweens              = new Array();
 function playMission(missionCode) {
+
+    var mission = missions[missionCode];
     window.addEventListener('resize', onWindowResize, false);
     var playerMoving = false;
-    var mission = missions[missionCode];
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
-    $('#container').innerHTML = '<div class="pause" id="pause">Pause</div>';
-    pause(true);
+    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;">Pause</div>';
     $('#container').appendChild(renderer.domElement);
 
     if (mission.settings == null) {
@@ -115,41 +116,6 @@ function playMission(missionCode) {
     scene.add(sun);
 
     document.addEventListener("mousemove", onDocumentMouseMove, false);
-
-    if ( havePointerLock ) {
-        var element = document.getElementsByTagName('canvas')[0];
-        var pointerlockchange = function ( event ) {
-            if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-                pause(false);
-            } else {
-                pause(true);
-            }
-        }
-
-        var pointerlockerror = function ( event ) {
-            pause(true);
-        }
-
-        // Hook pointer lock state change events
-        document.addEventListener( 'pointerlockchange', pointerlockchange, false );
-        document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
-        document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
-
-        document.addEventListener( 'pointerlockerror', pointerlockerror, false );
-        document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
-        document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
-
-        document.getElementById('pause').addEventListener( 'click', function ( event ) {
-
-            document.getElementById('pause').style.display = 'none';
-            // Ask the browser to lock the pointer
-            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-            element.requestPointerLock();
-        }, false );
-
-    } else {
-        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
-    }
 
     render(); // Start looping the game
 }

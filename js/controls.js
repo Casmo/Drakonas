@@ -7,27 +7,51 @@ var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement
 window.onkeydown = function(e) {
     if (e.keyCode == 27 || e.keyCode == 80) {
         e.preventDefault();
+        e.stopPropagation();
         pause();
     }
 };
 
-function pause(force) {
-    if (gameOptions.pause == false || (typeof force != 'undefined' && force == true)) {
-        document.getElementById('pause').style.lineHeight = window.innerHeight + 'px';
-        document.getElementById('pause').style.display = '';
-        for (var key in gameTweens) {
-            var obj = gameTweens[key];
-            obj.pause();
-        }
-        gameOptions.pause = true;
+function pause() {
+    element = document.getElementById('pause');
+    if (element == null) {
+        return true;
     }
-    else {
-        document.getElementById('pause').style.display = 'none';
-        for (var key in gameTweens) {
-            var obj = gameTweens[key];
-            obj.play();
+    document.getElementById('pause').style.lineHeight = window.innerHeight + 'px';
+    document.getElementById('pause').style.display = '';
+    for (var key in gameTweens) {
+        var obj = gameTweens[key];
+        obj.pause();
+    }
+    gameOptions.pause = true;
+    exitPointerLock();
+
+    // Cotinue the game
+    if ( havePointerLock ) {
+        var element = document.getElementsByTagName('canvas')[0];
+
+        var pointerlockerror = function ( event ) {
+            pause();
         }
-        gameOptions.pause = false;
+
+        document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+        document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+        document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+        document.getElementById('pause').addEventListener( 'click', function ( event ) {
+            document.getElementById('pause').style.display = 'none';
+            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+            element.requestPointerLock();
+            launchFullscreen();
+            for (var key in gameTweens) {
+                var obj = gameTweens[key];
+                obj.play();
+            }
+            gameOptions.pause = false;
+        }, false );
+
+    } else {
+        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API.';
     }
 }
 
@@ -60,16 +84,14 @@ function exitFullscreen() {
  * Disable the mouse from leaving the screens
  * @type {boolean}
  */
-function requestPointerLock() {
-    element = document.documentElement;
-    return element.requestPointerLock ||
-    element.mozRequestPointerLock ||
-    element.webkitRequestPointerLock;
+function requestPointerLock(element) {
+    return element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 }
 
 // Ask the browser to release the pointer
 function exitPointerLock() {
-    return document.exitPointerLock ||
-    document.mozExitPointerLock ||
-    document.webkitExitPointerLock;
+    document.exitPointerLock = document.exitPointerLock ||
+        document.mozExitPointerLock ||
+        document.webkitExitPointerLock;
+    document.exitPointerLock();
 }

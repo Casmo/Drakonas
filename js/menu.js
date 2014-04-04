@@ -89,6 +89,8 @@ function showMissions() {
         if (typeof gameSettings.unlockedMissions[i] != 'undefined') {
             $('#mission_'+ i).addEventListener('click', function() {
                 loadMission(i);
+                element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+                element.requestPointerLock();
             });
         }
     });
