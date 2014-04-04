@@ -15,7 +15,7 @@ Details
 
 Contributing
 ----
-Currently we have a very early prototype that can be found at http://games.fellicht.nl/spaceshooter-old/. It shows the current speed of the game and the idea of a mission.
+Currently we have a very early prototype that can be found at http://games.fellicht.nl/drakonas/. It shows the current speed of the game and the idea of a mission. This will be a "live" update of the repository.
 
 **3D designers:** The world will be made out of tiles that are 200 by 200 units (same units are used in Blender 3D or Three.js). You can use an .obj file located in /files/objects/ground/ as example to make your own. Important is that the anchor point of the object is located at 0 units so the world fit always together.
 The size of the player is around 4x5 units and can be found in /files/objects/player/default.obj. Feel free to create your own fighter. We can use it as an upgrade.
