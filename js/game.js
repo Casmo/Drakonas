@@ -20,7 +20,7 @@ var renderer 				= new THREE.WebGLRenderer({antialias:true});
 
 var sun;
 var gameOptions             = new Object();
-gameOptions.size            = {x: 200, y: 100, startX: 100 } // StartX: (0 - (gameOptions.size.x / 2))
+gameOptions.size            = {x: 110, y: 100, startX: 55 } // StartX: (0 - (gameOptions.size.x / 2))
 gameOptions.buildFor        = {x: 1920, y: 1080 }
 gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
 gameOptions.move            = false;
@@ -38,7 +38,7 @@ function playMission(missionCode) {
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
-    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;">Pause</div>';
+    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div>';
     $('#container').appendChild(renderer.domElement);
 
     if (mission.settings == null) {
@@ -147,6 +147,8 @@ function render() {
 
     player.position.z = camera.position.z;
 
+    camera.position.x = player.position.x * 0.25;
+
     sun.position.x = camera.position.x;
     sun.position.y = camera.position.y + 50;
     sun.position.z = camera.position.z;
@@ -175,13 +177,4 @@ function onDocumentMouseMove( event ) {
     gameOptions.player.newPosition.x = realLeft;
 //    player.position.relativeY = 0 - (150 / 2) + mouse.y;
     previousCursorPositionX = positionX;
-}
-
-/**
- * Callback when the player resizes the current browser window.
- */
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
 }

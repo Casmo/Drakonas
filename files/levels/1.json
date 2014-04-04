@@ -8,15 +8,15 @@
         "camera": {
             "position": {
                 "x": 0,
-                "y": 80,
-                "z": -150
+                "y": 100,
+                "z": -155
             }
         },
         "player": {
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": -150
+                "z": -180
             },
             "ref": "player",
             "reftexture": "player"

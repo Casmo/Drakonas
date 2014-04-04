@@ -95,3 +95,16 @@ function exitPointerLock() {
         document.webkitExitPointerLock;
     document.exitPointerLock();
 }
+
+
+
+/**
+ * Callback when the player resizes the current browser window.
+ */
+function onWindowResize() {
+    if (camera != null) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+}
