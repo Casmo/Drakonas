@@ -16,7 +16,7 @@
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": -180
+                "z": -155
             },
             "ref": "player",
             "texture": "player"
@@ -87,16 +87,28 @@
             "ref": "enemy-ufo",
             "texture": "enemy-ufo-yellow",
             "position": {
-                "x": -50,
+                "x": 0,
                 "y": 40,
-                "z": -140
+                "z": -145
             },
             "movement": [
                 {
-                    "x": 150,
+                    "x": 0,
+                    "y": 50,
+                    "z": -115,
+                    "duration": 4000
+                },
+                {
+                    "x": -30,
                     "y": 20,
-                    "z": -140,
-                    "duration": 8000
+                    "z": -105,
+                    "duration": 5000
+                },
+                {
+                    "x": 12,
+                    "y": 20,
+                    "z": -65,
+                    "duration": 6000
                 }
             ]
         }

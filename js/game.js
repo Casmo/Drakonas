@@ -203,23 +203,25 @@ function spawnObject(index) {
 
     // Animate the object
     if (objectElement.movement != null) {
-        for (a = 0; a < objectElement.movement.length; a++) {
-            if (a == 0) {
-                animation = objectElement.movement[a];
-                console.log(animation);
-                gameTweens['object_' + index] = new TWEEN.Tween( { x: newObject.position.x, y: newObject.position.y, z: newObject.position.z } )
-                    .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
-                    .easing( TWEEN.Easing.Quadratic.InOut )
-                    .onUpdate( function () {
-                        newObject.position.x = this.x;
-                        newObject.position.y = this.y;
-                        newObject.position.z = this.z;
-                    } )
-                    .onComplete( function () {
-                        delete(gameTweens['object_' + index]);
-                    } )
-                    .start();
-            }
+        delay = 0;
+        currentPosition = {x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
+        for (var a = 0; a < objectElement.movement.length; a++) {
+            animation = objectElement.movement[a];
+            gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
+                .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
+                .easing( TWEEN.Easing.Quadratic.InOut )
+                .onUpdate( function () {
+                    newObject.position.x = this.x;
+                    newObject.position.y = this.y;
+                    newObject.position.z = this.z;
+                } )
+                .onComplete( function () {
+                    delete(gameTweens['object_' + index + '_' + a]);
+                } )
+                .delay(delay)
+                .start();
+            delay += animation.duration;
+            currentPosition = { x: animation.x, y: animation.y, z: animation.z }
         }
     }
     scene.add(newObject);
