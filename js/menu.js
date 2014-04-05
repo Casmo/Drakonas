@@ -17,6 +17,9 @@ function gotoMenu() {
 }
 
 function showMenu() {
+    if (gameOptions != null && gameOptions.inGame != null) {
+        gameOptions.inGame = false;
+    }
     $('#container').className = 'background-menu animated fadeIn';
     $('#container').innerHTML = menuHtml;
 

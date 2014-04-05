@@ -1,4 +1,6 @@
 /**
+ * Global controls for better gameplayer experiences. This file handles pausing the game, enable users to switch
+ * tabs without losing the game. Enter and exit fullscreen, etc.
  * Check if browser supports locking of mouse cursor.
  * @type {boolean}
  */
@@ -11,6 +13,9 @@ window.onkeydown = function(e) {
         pause();
     }
 };
+window.onblur = function () {
+    pause();
+}
 
 function pause() {
     pauseElement = document.getElementById('pause');
@@ -131,4 +136,43 @@ function onWindowResize() {
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
+}
+
+/**
+ * Calculates the player position ingame depending on the current mouse position
+ * @param event
+ */
+var previousCursorPositionX = 0;
+var previousCursorPositionY = 0;
+function onInGameDocumentMouseMove( event ) {
+    if (gameOptions.inGame == null || gameOptions.inGame == false) {
+        return true;
+    }
+    var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+    var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+    positionX = previousCursorPositionX + movementX;
+    positionY = previousCursorPositionY + movementY;
+
+    if (positionX < 0) {
+        positionX = 0;
+    }
+    if (positionX > window.innerWidth) {
+        positionX = window.innerWidth;
+    }
+    percentLeft = 100 / gameOptions.buildFor.x * positionX ; // movementX; // @todo fix percent of current resolution
+    realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
+    gameOptions.player.newPosition.x = realLeft;
+
+    if (positionY < 0) {
+        positionY = 0;
+    }
+    if (positionY > window.innerHeight) {
+        positionY = window.innerHeight;
+    }
+    percentTop = 100 / gameOptions.buildFor.y * positionY ; // movementX; // @todo fix percent of current resolution
+    realTop = gameOptions.size.startY - (gameOptions.size.y / 100 * percentTop);
+    gameOptions.player.newPosition.y = realTop;
+
+    previousCursorPositionY = positionY;
+    previousCursorPositionX = positionX;
 }

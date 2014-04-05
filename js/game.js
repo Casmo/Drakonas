@@ -38,6 +38,7 @@ function newGame() {
     gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
     gameOptions.move            = false;
     gameOptions.pause           = false;
+    gameOptions.inGame          = true;
     gameTweens                  = new Array();
     cancelAnimationFrame(gameOptions.requestId);
 }
@@ -132,7 +133,7 @@ function playMission(missionCode) {
     sun.target = camera;
     scene.add(sun);
 
-    document.addEventListener("mousemove", onDocumentMouseMove, false);
+    document.addEventListener("mousemove", onInGameDocumentMouseMove, false);
 
     render(); // Start looping the game
 }
@@ -179,40 +180,4 @@ function render() {
     TWEEN.update();
 
     renderer.render(scene, camera);
-}
-
-/**
- * Calculates the player position ingame depending on the current mouse position
- * @param event
- */
-var previousCursorPositionX = 0;
-var previousCursorPositionY = 0;
-function onDocumentMouseMove( event ) {
-    var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-    var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-    positionX = previousCursorPositionX + movementX;
-    positionY = previousCursorPositionY + movementY;
-
-    if (positionX < 0) {
-        positionX = 0;
-    }
-    if (positionX > window.innerWidth) {
-        positionX = window.innerWidth;
-    }
-    percentLeft = 100 / gameOptions.buildFor.x * positionX ; // movementX; // @todo fix percent of current resolution
-    realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
-    gameOptions.player.newPosition.x = realLeft;
-
-    if (positionY < 0) {
-        positionY = 0;
-    }
-    if (positionY > window.innerHeight) {
-        positionY = window.innerHeight;
-    }
-    percentTop = 100 / gameOptions.buildFor.y * positionY ; // movementX; // @todo fix percent of current resolution
-    realTop = gameOptions.size.startY - (gameOptions.size.y / 100 * percentTop);
-    gameOptions.player.newPosition.y = realTop;
-
-    previousCursorPositionY = positionY;
-    previousCursorPositionX = positionX;
 }
