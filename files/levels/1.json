@@ -95,20 +95,23 @@
                 {
                     "x": 0,
                     "y": 50,
-                    "z": -115,
-                    "duration": 4000
+                    "z": -125,
+                    "duration": 1500,
+                    "easing": "Circular.In"
                 },
                 {
                     "x": -30,
                     "y": 20,
                     "z": -105,
-                    "duration": 5000
+                    "duration": 2500,
+                    "easing": "Circular.In"
                 },
                 {
                     "x": 12,
                     "y": 20,
-                    "z": -65,
-                    "duration": 6000
+                    "z": -120,
+                    "duration": 1500,
+                    "easing": "Circular.In"
                 }
             ]
         }
