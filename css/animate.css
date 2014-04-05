@@ -2854,7 +2854,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     }
 
     100% {
-        -webkit-transform: scale(1.25);
+        -webkit-transform: scale(1.1);
     }
 
 }
@@ -2865,6 +2865,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     }
 
     100% {
-        transform: scale(1.25);
+        transform: scale(1.1);
     }
 }

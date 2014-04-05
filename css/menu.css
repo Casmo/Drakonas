@@ -14,8 +14,8 @@
   background-color: #fff;
   padding: 10px;
   color: #000;
-  animation-duration: 0.5s;
-  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.2s;
+  -webkit-animation-duration: 0.2s;
 }
 .background-menu {
   background-image: url(../img/ui/background.jpg);
@@ -59,8 +59,8 @@ a {
 .menu a:hover:not(.disabled) {
   background-color: rgba(0, 0, 0, 0.9);
   color: #840c0d;
-  animation-duration: 0.5s;
-  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.2s;
+  -webkit-animation-duration: 0.2s;
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn;
   animation-fill-mode: forwards;

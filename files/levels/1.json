@@ -19,7 +19,7 @@
                 "z": -180
             },
             "ref": "player",
-            "reftexture": "player"
+            "texture": "player"
         }
     },
     "objects": [
@@ -34,6 +34,10 @@
         {
             "ref": "tiles-002",
             "file": "files/objects/tiles/Tile02.02.obj"
+        },
+        {
+            "ref": "enemy-ufo",
+            "file": "files/objects/enemies/ufo.obj"
         }
     ],
     "textures": [
@@ -48,6 +52,10 @@
         {
             "ref": "tile-hills-001",
             "file": "files/objects/tiles/tile-hills-001.jpg"
+        },
+        {
+            "ref": "enemy-ufo-yellow",
+            "file": "files/objects/enemies/ufo-yellow.jpg"
         }
     ],
     "elements": [
@@ -74,6 +82,23 @@
                 "y": 0,
                 "z": 400
             }
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "position": {
+                "x": -50,
+                "y": 40,
+                "z": -140
+            },
+            "movement": [
+                {
+                    "x": 150,
+                    "y": 20,
+                    "z": -140,
+                    "duration": 8000
+                }
+            ]
         }
     ]
 }

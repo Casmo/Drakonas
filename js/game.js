@@ -18,6 +18,8 @@ var scene 					= new THREE.Scene();
 var camera 					= new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 570); // 170); // window.innerWidth / window.innerHeight
 var renderer 				= new THREE.WebGLRenderer({antialias:true});
 
+var mission                 = new Array(); // Holds the current mission
+
 var sun;
 var gameOptions             = new Object();
 gameOptions.requestId       = 0;
@@ -28,12 +30,12 @@ gameOptions.requestId       = 0;
 var gameTweens              = new Array();
 
 /**
- * Function to reset all data.
+ * Function to reset all data and starting a new game.
  */
 function newGame() {
     scene 					    = new THREE.Scene();
     camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
-    gameOptions.size            = {x: 110, y: 50, startX: 55, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
+    gameOptions.size            = {x: 130, y: 50, startX: 65, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
     gameOptions.buildFor        = {x: 1920, y: 1080 }
     gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
     gameOptions.move            = false;
@@ -44,10 +46,8 @@ function newGame() {
 }
 
 function playMission(missionCode) {
-
     newGame();
-
-    var mission = missions[missionCode];
+    mission = missions[missionCode];
     window.addEventListener('resize', onWindowResize, false);
     renderer.setSize(window.innerWidth, window.innerHeight);
     if (gameSettings.quality == 'high') {
@@ -85,7 +85,7 @@ function playMission(missionCode) {
         defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
     }
 
-    playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.reftexture];
+    playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.texture];
     player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, gameObjects[mission.settings.player.ref].material);
     player.position = mission.settings.player.position;
     player.position.relativeY = 0;
@@ -96,14 +96,8 @@ function playMission(missionCode) {
     scene.add(player);
 
     for (i = 0; i < mission.elements.length; i++) {
-        var refObject = gameObjects[mission.elements[i].ref];
-        newObject = new THREE.Mesh(refObject.geometry, defaultMaterial);
-        newObject.position = mission.elements[i].position;
-        newObject.receiveShadow = true;
-        newObject.castShadow = true;
-        scene.add(newObject); // @todo texture/color
+        spawnObject(i);
     }
-
 
     camera.rotation.z = 3.145;
     camera.position.x = mission.settings.camera.position.x;
@@ -112,7 +106,7 @@ function playMission(missionCode) {
     camera.lookAt(new THREE.Vector3(0,mission.settings.camera.z,0));
     camera.rotation.z = 3.145;
     gameTweens['camera'] = new TWEEN.Tween( { x: 0, y: 0, z: 0 } )
-        .to( { x: mission.settings.camera.position.x, y: mission.settings.camera.position.y, z: mission.settings.camera.position.z }, 3500 )
+        .to( { x: mission.settings.camera.position.x, y: mission.settings.camera.position.y, z: mission.settings.camera.position.z }, 1500 )
         .easing( TWEEN.Easing.Quadratic.InOut )
         .onUpdate( function () {
             camera.position.x = this.x;
@@ -171,7 +165,7 @@ function render() {
         player.position.relativeY += movement;
     }
     player.position.z = camera.position.z + player.position.relativeY;
-    camera.position.x = player.position.x * 0.25;
+    camera.position.x = player.position.x * 0.40;
 
     sun.position.x = camera.position.x;
     sun.position.y = camera.position.y + 50;
@@ -180,4 +174,53 @@ function render() {
     TWEEN.update();
 
     renderer.render(scene, camera);
+}
+
+/**
+ * Spawns an object into the game. Will start the animation directly if the there is one.
+ * @param index the index id of the elements in the json file
+ */
+function spawnObject(index) {
+    objectElement = mission.elements[index];
+    var refObject = gameObjects[objectElement.ref];
+    material = new THREE.MeshBasicMaterial( {color: 0xff9900} );
+    if (gameSettings.quality == 'high') {
+        material = new THREE.MeshLambertMaterial( {color: 0xff9900} );
+    }
+    if (objectElement.texture != null && gameObjects['texture-' + objectElement.texture] != null) {
+        material = new THREE.MeshLambertMaterial (
+            {
+                map: gameObjects['texture-' + objectElement.texture]
+            }
+        );
+    }
+    newObject = new THREE.Mesh(refObject.geometry, material);
+    newObject.position = objectElement.position;
+    if (gameSettings.quality == 'high') {
+        newObject.receiveShadow = true;
+        newObject.castShadow = true;
+    }
+
+    // Animate the object
+    if (objectElement.movement != null) {
+        for (a = 0; a < objectElement.movement.length; a++) {
+            if (a == 0) {
+                animation = objectElement.movement[a];
+                console.log(animation);
+                gameTweens['object_' + index] = new TWEEN.Tween( { x: newObject.position.x, y: newObject.position.y, z: newObject.position.z } )
+                    .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
+                    .easing( TWEEN.Easing.Quadratic.InOut )
+                    .onUpdate( function () {
+                        newObject.position.x = this.x;
+                        newObject.position.y = this.y;
+                        newObject.position.z = this.z;
+                    } )
+                    .onComplete( function () {
+                        delete(gameTweens['object_' + index]);
+                    } )
+                    .start();
+            }
+        }
+    }
+    scene.add(newObject);
 }
