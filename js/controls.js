@@ -22,6 +22,7 @@ function pause() {
     if (pauseElement == null) {
         return true;
     }
+    cancelAnimationFrame(gameOptions.requestId);
     document.getElementById('pause').style.display = '';
     for (var key in gameTweens) {
         var obj = gameTweens[key];
@@ -42,6 +43,7 @@ function continueGame() {
         obj.play();
     }
     gameOptions.pause = false;
+    render();
 }
 
 
