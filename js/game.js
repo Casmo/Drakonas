@@ -53,8 +53,10 @@ function playMission(missionCode) {
         renderer.shadowMapEnabled = true;
     }
     $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div>';
+
     ajax('files/content/pause.html', function(data) {
         document.getElementById('pause').innerHTML = data;
+        addPauseListeners();
     });
     $('#container').appendChild(renderer.domElement);
 
@@ -79,7 +81,7 @@ function playMission(missionCode) {
 
     var defaultMaterial = new THREE.MeshBasicMaterial( {color: 0xff9900} );
     if (gameSettings.quality == 'high') {
-        var defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
+        defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
     }
 
     playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.reftexture];

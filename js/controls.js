@@ -13,8 +13,8 @@ window.onkeydown = function(e) {
 };
 
 function pause() {
-    element = document.getElementById('pause');
-    if (element == null) {
+    pauseElement = document.getElementById('pause');
+    if (pauseElement == null) {
         return true;
     }
     document.getElementById('pause').style.display = '';
@@ -24,48 +24,14 @@ function pause() {
     }
     gameOptions.pause = true;
     exitPointerLock();
-
-    // Cotinue the game
-    if ( havePointerLock ) {
-        var element = document.getElementsByTagName('canvas')[0];
-
-        var pointerlockerror = function ( event ) {
-            pause();
-        }
-
-        document.addEventListener( 'pointerlockerror', pointerlockerror, false );
-        document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
-        document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
-
-        document.getElementById('pause').addEventListener( 'click', function ( event ) {
-            event.preventDefault();
-            event.stopPropagation();
-            return continueGame();
-        }, false );
-        document.getElementById('continue').addEventListener( 'click', function ( event ) {
-            event.preventDefault();
-            event.stopPropagation();
-            return continueGame();
-        }, false );
-        document.getElementById('exit').addEventListener( 'click', function ( event ) {
-            event.preventDefault();
-            event.stopPropagation();
-            return gotoMenu();
-        }, false );
-
-    } else {
-        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API. Please use Mozilla Firefox or Google Chrome.';
-    }
 }
 
 function continueGame() {
     if (gameOptions.pause == false) {
         return true;
     }
+    var element = document.getElementsByTagName('canvas')[0];
     document.getElementById('pause').style.display = 'none';
-    element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-    element.requestPointerLock();
-    launchFullscreen();
     for (var key in gameTweens) {
         var obj = gameTweens[key];
         obj.play();
@@ -114,6 +80,46 @@ function exitPointerLock() {
     document.exitPointerLock();
 }
 
+/**
+ * After loading the pause menu add listeners to the menu items.
+ */
+function addPauseListeners() {
+    if ( havePointerLock ) {
+        var pointerlockerror = function ( event ) {
+            pause();
+        }
+        document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+        document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+        document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+        document.getElementById('pause').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
+            event.stopPropagation();
+            launchFullscreen();
+            element = document.documentElement;
+            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+            element.requestPointerLock();
+            return continueGame();
+        }, false );
+        document.getElementById('continue').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
+            event.stopPropagation();
+            launchFullscreen();
+            element = document.documentElement;
+            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+            element.requestPointerLock();
+            return continueGame();
+        }, false );
+        document.getElementById('exit').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
+            event.stopPropagation();
+            return gotoMenu();
+        }, false );
+
+    } else {
+        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API. Please use Mozilla Firefox or Google Chrome.';
+    }
+}
 
 
 /**
