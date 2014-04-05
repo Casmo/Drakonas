@@ -9,7 +9,7 @@ gameSettings.currentMission = 1;
 gameSettings.quality = 'high';
 
 /**
- * List with all the objects in the game with it's position and callback functions, etc. Will be filled after loading a
+ * List with all the objects in the game with it'environments position and callback functions, etc. Will be filled after loading a
  * mission. The key of each object has to be unique and will be filled depending on the .json file in /files/levels/.
  * @type {Object}
  */

@@ -28,12 +28,12 @@
             "file": "files/objects/player/default.obj"
         },
         {
-            "ref": "ground-001",
-            "file": "files/objects/ground/tile-swamp-001.obj"
+            "ref": "tiles-001",
+            "file": "files/objects/tiles/tile-swamp-001.obj"
         },
         {
-            "ref": "ground-002",
-            "file": "files/objects/ground/Tile02.02.obj"
+            "ref": "tiles-002",
+            "file": "files/objects/tiles/Tile02.02.obj"
         }
     ],
     "textures": [
@@ -42,17 +42,17 @@
             "file": "files/objects/player/default.jpg"
         },
         {
-            "ref": "texture-ground-001",
-            "file": "files/objects/ground/tile-water-s-grass-n-001.jpg"
+            "ref": "texture-tiles-001",
+            "file": "files/objects/tiles/tile-water-s-grass-n-001.jpg"
         },
         {
             "ref": "tile-hills-001",
-            "file": "files/objects/ground/tile-hills-001.jpg"
+            "file": "files/objects/tiles/tile-hills-001.jpg"
         }
     ],
     "elements": [
         {
-            "ref": "ground-001",
+            "ref": "tiles-001",
             "position": {
                 "x": 0,
                 "y": 0,
@@ -60,7 +60,7 @@
             }
         },
         {
-            "ref": "ground-002",
+            "ref": "tiles-002",
             "position": {
                 "x": 0,
                 "y": 0,
@@ -68,7 +68,7 @@
             }
         },
         {
-            "ref": "ground-002",
+            "ref": "tiles-002",
             "position": {
                 "x": 0,
                 "y": 0,
