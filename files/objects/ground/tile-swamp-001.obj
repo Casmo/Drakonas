@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Tile07_Final.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving.
+# @link     http://games.fellicht.nl/
 mtllib Tile07.mtl
 o Plane
 v -3.661993 -2.000000 -47.558464

@@ -38,16 +38,19 @@ function pause() {
         document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
         document.getElementById('pause').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
             event.stopPropagation();
-            continueGame();
+            return continueGame();
         }, false );
         document.getElementById('continue').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
             event.stopPropagation();
-            continueGame();
+            return continueGame();
         }, false );
         document.getElementById('exit').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
             event.stopPropagation();
-            gotoMenu();
+            return gotoMenu();
         }, false );
 
     } else {
@@ -56,6 +59,9 @@ function pause() {
 }
 
 function continueGame() {
+    if (gameOptions.pause == false) {
+        return true;
+    }
     document.getElementById('pause').style.display = 'none';
     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
     element.requestPointerLock();

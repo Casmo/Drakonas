@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Plane01_12.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving.
+# @link     http://games.fellicht.nl/
 mtllib Plane01_ruwe_versie.02.mtl
 o Cylinder
 v -0.135608 -0.035650 5.498689

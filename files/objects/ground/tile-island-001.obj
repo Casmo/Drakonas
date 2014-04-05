@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Tile01_Final.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving.
+# @link     http://games.fellicht.nl/
 mtllib Tile01.mtl
 o Cube
 v 38.805916 -2.000000 -23.958145

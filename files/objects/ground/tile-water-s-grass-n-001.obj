@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Tile02_Final.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving.
+# @link     http://games.fellicht.nl/
 mtllib Tile02.mtl
 o Plane
 v 52.211739 -1.999998 -17.817869

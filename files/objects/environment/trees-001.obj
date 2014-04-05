@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Bomen01_Final.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving.
+# @link     http://games.fellicht.nl/
 mtllib Bomen01.mtl
 o Sphere.019
 v 8.620036 5.661335 -15.037215
