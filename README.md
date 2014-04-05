@@ -27,4 +27,4 @@ We will build a hangar for the default menu where we can use all kinds of object
 
 **Designers:** Textures for objects, the game interface, menu interface, weapon icons, etc.
 
-**Writes:** If you are interested in writing stories finding the right names for missions, weapons, messages, mission briefs, etc you are more then welcome to help and write for us. Translations can be found in the /_locales/ folder and level names and briefings can be found in the /files/levels/ json files.
+**Writers:** If you are interested in writing stories finding the right names for missions, weapons, messages, mission briefs, etc you are more then welcome to help and write for us. Translations can be found in the /_locales/ folder and level names and briefings can be found in the /files/levels/ json files.
