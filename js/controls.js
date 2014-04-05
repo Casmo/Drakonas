@@ -17,7 +17,6 @@ function pause() {
     if (element == null) {
         return true;
     }
-    document.getElementById('pause').style.lineHeight = window.innerHeight + 'px';
     document.getElementById('pause').style.display = '';
     for (var key in gameTweens) {
         var obj = gameTweens[key];
@@ -39,20 +38,33 @@ function pause() {
         document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
         document.getElementById('pause').addEventListener( 'click', function ( event ) {
-            document.getElementById('pause').style.display = 'none';
-            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-            element.requestPointerLock();
-            launchFullscreen();
-            for (var key in gameTweens) {
-                var obj = gameTweens[key];
-                obj.play();
-            }
-            gameOptions.pause = false;
+            event.stopPropagation();
+            continueGame();
+        }, false );
+        document.getElementById('continue').addEventListener( 'click', function ( event ) {
+            event.stopPropagation();
+            continueGame();
+        }, false );
+        document.getElementById('exit').addEventListener( 'click', function ( event ) {
+            event.stopPropagation();
+            gotoMenu();
         }, false );
 
     } else {
-        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API.';
+        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API. Please use Mozilla Firefox or Google Chrome.';
     }
+}
+
+function continueGame() {
+    document.getElementById('pause').style.display = 'none';
+    element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+    element.requestPointerLock();
+    launchFullscreen();
+    for (var key in gameTweens) {
+        var obj = gameTweens[key];
+        obj.play();
+    }
+    gameOptions.pause = false;
 }
 
 

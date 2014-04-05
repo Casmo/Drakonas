@@ -15,32 +15,50 @@ gameSettings.quality = 'high';
  */
 var gameObjects             = new Object();
 var scene 					= new THREE.Scene();
-var camera 					= new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
+var camera 					= new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 570); // 170); // window.innerWidth / window.innerHeight
 var renderer 				= new THREE.WebGLRenderer({antialias:true});
 
 var sun;
 var gameOptions             = new Object();
-gameOptions.size            = {x: 110, y: 100, startX: 55 } // StartX: (0 - (gameOptions.size.x / 2))
-gameOptions.buildFor        = {x: 1920, y: 1080 }
-gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
-gameOptions.move            = false;
-gameOptions.pause           = false;
+gameOptions.requestId       = 0;
 /**
  * Array with all the game tweens.
  * @type {Array}
  */
 var gameTweens              = new Array();
+
+/**
+ * Function to reset all data.
+ */
+function newGame() {
+    scene 					    = new THREE.Scene();
+    camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
+    gameOptions.size            = {x: 110, y: 50, startX: 55, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
+    gameOptions.buildFor        = {x: 1920, y: 1080 }
+    gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
+    gameOptions.move            = false;
+    gameOptions.pause           = false;
+    gameTweens                  = new Array();
+    cancelAnimationFrame(gameOptions.requestId);
+}
+
 function playMission(missionCode) {
+
+    newGame();
 
     var mission = missions[missionCode];
     window.addEventListener('resize', onWindowResize, false);
-    var playerMoving = false;
-
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMapEnabled = true;
+    if (gameSettings.quality == 'high') {
+        renderer.shadowMapEnabled = true;
+    }
     $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div>';
+    ajax('files/content/pause.html', function(data) {
+        document.getElementById('pause').innerHTML = data;
+    });
     $('#container').appendChild(renderer.domElement);
 
+    // @todo Get default menu settings and extend current mission with it (array/object merge)
     if (mission.settings == null) {
         mission.settings = new Object();
     }
@@ -54,28 +72,25 @@ function playMission(missionCode) {
             }
         };
     }
-
     if (mission.settings.ambientLight != null) {
         AmbientLight = new THREE.AmbientLight(mission.settings.ambientLight);
         scene.add(AmbientLight);
     }
 
-
-    var defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
+    var defaultMaterial = new THREE.MeshBasicMaterial( {color: 0xff9900} );
+    if (gameSettings.quality == 'high') {
+        var defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
+    }
 
     playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.reftexture];
     player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, gameObjects[mission.settings.player.ref].material);
     player.position = mission.settings.player.position;
-    player.position.relativeX = 0;
     player.position.relativeY = 0;
-    player.castShadow = true;
-    scene.add(player);
 
-//    for (var key in gameObjects) {
-        //var obj = gameObjects[key];
-        //console.log(obj);
- //       scene.add(obj);
-//    }
+    if (gameSettings.quality == 'high') {
+        player.castShadow = true;
+    }
+    scene.add(player);
 
     for (i = 0; i < mission.elements.length; i++) {
         var refObject = gameObjects[mission.elements[i].ref];
@@ -121,7 +136,7 @@ function playMission(missionCode) {
 }
 
 function render() {
-    requestAnimationFrame(render);
+    gameOptions.requestId = requestAnimationFrame(render);
     if (gameOptions.pause == true) {
         return true;
     }
@@ -145,8 +160,14 @@ function render() {
         player.rotation.z = -rotationMovement;
     }
 
-    player.position.z = camera.position.z;
-
+    distanceY = gameOptions.player.newPosition.y - player.position.relativeY;
+    distance = Math.sqrt(distanceY * distanceY);
+    movement = 0;
+    if (distance > 1) {
+        movement = (distanceY * gameOptions.player.delta);
+        player.position.relativeY += movement;
+    }
+    player.position.z = camera.position.z + player.position.relativeY;
     camera.position.x = player.position.x * 0.25;
 
     sun.position.x = camera.position.x;
@@ -163,9 +184,13 @@ function render() {
  * @param event
  */
 var previousCursorPositionX = 0;
+var previousCursorPositionY = 0;
 function onDocumentMouseMove( event ) {
     var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+    var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
     positionX = previousCursorPositionX + movementX;
+    positionY = previousCursorPositionY + movementY;
+
     if (positionX < 0) {
         positionX = 0;
     }
@@ -175,6 +200,17 @@ function onDocumentMouseMove( event ) {
     percentLeft = 100 / gameOptions.buildFor.x * positionX ; // movementX; // @todo fix percent of current resolution
     realLeft = gameOptions.size.startX - (gameOptions.size.x / 100 * percentLeft);
     gameOptions.player.newPosition.x = realLeft;
-//    player.position.relativeY = 0 - (150 / 2) + mouse.y;
+
+    if (positionY < 0) {
+        positionY = 0;
+    }
+    if (positionY > window.innerHeight) {
+        positionY = window.innerHeight;
+    }
+    percentTop = 100 / gameOptions.buildFor.y * positionY ; // movementX; // @todo fix percent of current resolution
+    realTop = gameOptions.size.startY - (gameOptions.size.y / 100 * percentTop);
+    gameOptions.player.newPosition.y = realTop;
+
+    previousCursorPositionY = positionY;
     previousCursorPositionX = positionX;
 }
