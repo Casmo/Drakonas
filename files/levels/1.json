@@ -46,12 +46,8 @@
             "file": "files/objects/player/default.jpg"
         },
         {
-            "ref": "texture-tiles-001",
-            "file": "files/objects/tiles/tile-water-s-grass-n-001.jpg"
-        },
-        {
-            "ref": "tile-hills-001",
-            "file": "files/objects/tiles/tile-hills-001.jpg"
+            "ref": "texture-grass",
+            "file": "files/objects/tiles/texture-grass-001.jpg"
         },
         {
             "ref": "enemy-ufo-yellow",
@@ -65,7 +61,8 @@
                 "x": 0,
                 "y": 0,
                 "z": 0
-            }
+            },
+            "texture": "texture-grass"
         },
         {
             "ref": "tiles-002",
@@ -73,7 +70,8 @@
                 "x": 0,
                 "y": 0,
                 "z": 200
-            }
+            },
+            "texture": "texture-grass"
         },
         {
             "ref": "tiles-002",
@@ -81,7 +79,8 @@
                 "x": 0,
                 "y": 0,
                 "z": 400
-            }
+            },
+            "texture": "texture-grass"
         },
         {
             "ref": "enemy-ufo",
@@ -112,6 +111,48 @@
                     "z": -120,
                     "duration": 1500,
                     "easing": "Circular.In"
+                },
+                {
+                    "x": 12,
+                    "y": 20,
+                    "z": -80,
+                    "duration": 4500,
+                    "easing": "Circular.InOut"
+                },
+                {
+                    "x": 30,
+                    "y": 30,
+                    "z": -60,
+                    "duration": 3500,
+                    "easing": "Bounce.InOut"
+                },
+                {
+                    "x": -30,
+                    "y": 30,
+                    "z": -40,
+                    "duration": 2500,
+                    "easing": "Circular.InOut"
+                },
+                {
+                    "x": 0,
+                    "y": 70,
+                    "z": 0,
+                    "duration": 1500,
+                    "easing": "Circular.InOut"
+                },
+                {
+                    "x": 0,
+                    "y": 10,
+                    "z": 0,
+                    "duration": 2500,
+                    "easing": "Circular.InOut"
+                },
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 120,
+                    "duration": 2500,
+                    "easing": "Back.In"
                 }
             ]
         }
