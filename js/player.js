@@ -5,6 +5,9 @@
 var bullets             = new Array();
 var bulletIndex         = 0;
 
+var explosions          = new Array();
+var explosionIndex      = 0;
+
 /**
  * List with current equiped weapons. Intervall is based on time but might need to base it
  * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
@@ -144,14 +147,93 @@ function bulletHit(index, objectIndex) {
         }
     }
     // Remove bullet from scene, tweens, etc
-    removeBullet(index);
+    removeBullet(index, true);
+}
+
+function createExplosion(position, size, amount, explosionRatio, color, duration) {
+    if (gameSettings.quality != 'high') {
+        return;
+    }
+    if (size == null) {
+        size = 4;
+    }
+    if (amount == null) {
+        amount = 10;
+    }
+    if (explosionRatio == null) {
+        explosionRatio = 5;
+    }
+    if (color == null) {
+        color = 0xffffff;
+    }
+    if (duration == null) {
+        duration = 350;
+    }
+    for (i = 0; i < amount; i++ ) {
+        var material = new THREE.MeshBasicMaterial({ color: color });
+        var radius = (Math.random() * size) / 10;
+        var segments = 8;
+        var circleGeometry = new THREE.CircleGeometry( radius, segments );
+        var circle = new THREE.Mesh( circleGeometry, material );
+        circle.rotation.x = -(Math.PI / 2);
+        circle.position.x = position.x + ((Math.random() * 4) - 2);
+        circle.position.y = position.y + ((Math.random() * 4) - 2);
+        circle.position.z = position.z + ((Math.random() * 4) - 2);
+        circle.position.i = explosionIndex;
+        var positionTo = new Object;
+        positionTo.x = position.x + (Math.random() * explosionRatio) - (explosionRatio / 2);
+        positionTo.y = position.y + (Math.random() * explosionRatio) - (explosionRatio / 2);
+        positionTo.z = position.z + (Math.random() * explosionRatio) - (explosionRatio / 2);
+        gameTweens['explosion' + explosionIndex] = new TWEEN.Tween( circle.position )
+            .to( positionTo, duration )
+            .easing( TWEEN.Easing.Quadratic.Out )
+            .onUpdate( function () {
+                if (explosions[this.i] != null) {
+                    explosions[this.i].position.x = this.x;
+                    explosions[this.i].position.y = this.y;
+                    explosions[this.i].position.z = this.z;
+                    explosions[this.i].scale.x *= 0.98;
+                    explosions[this.i].scale.y *= 0.98;
+                    explosions[this.i].scale.z *= 0.98;
+                }
+            } )
+            .onComplete( function () {
+                delete(gameTweens['explosion' + this.i]);
+                scene.remove(explosions[this.i]);
+            } )
+            .start();
+        explosions[explosionIndex] = circle;
+        scene.add(explosions[explosionIndex]);
+        explosionIndex++;
+    }
+//
+//    gameTweens['eplosion_' + explosionIndex] = new TWEEN.Tween( position )
+//        .to( position, 1000 )
+//        .easing( TWEEN.Easing.Linear.None )
+//        .onUpdate( function () {
+//            for (var p = 0; p < 100; p++) {
+//                bullets[this.i].position.x = this.x;
+//                bullets[this.i].position.y = this.y;
+//                bullets[this.i].position.z = this.z;
+//            }
+//        } )
+//        .onComplete( function () {
+//            removeBullet(this.i);
+//        } )
+//        .start();
+//
+//    scene.add(particleSystem);
+//    explosionIndex++;
 }
 
 /**
  * Removes a bullet from the game including its animation
  * @param index
  */
-function removeBullet(index) {
+function removeBullet(index, explosion) {
+    if (bullets[index] != null && explosion != null && explosion == true) {
+        createExplosion(bullets[index].position);
+    }
     scene.remove(bullets[index]);
     delete(bullets[index]);
     //gameTweens['bullets_' + index].stop();
@@ -167,6 +249,8 @@ function removeObject(objectIndex) {
     if (object == null) {
         return;
     }
+    // createExplosion(position, size, amount, explosionSize, color)
+    createExplosion(objects[objectIndex].position, 8, 20, 50, 0xff0000, 1750);
     //gameTweens['bullets_' + index].stop();
     objectElement = mission.elements[object.missionIndex];
     for (var a = 0; a < objectElement.movement.length; a++) {
