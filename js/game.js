@@ -16,7 +16,7 @@ gameSettings.quality = 'high';
 var gameObjects                 = new Object();
 var scene 					    = new THREE.Scene();
 var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 570); // 170); // window.innerWidth / window.innerHeight
-var renderer 				    = new THREE.WebGLRenderer({antialias:false});
+var renderer 				    = new THREE.WebGLRenderer({antialias:true});
 
 /**
  * Holds the objects and information about the current mission. Information is loaded from

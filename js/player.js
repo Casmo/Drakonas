@@ -6,17 +6,35 @@ var bullets             = new Array();
 
 /**
  * List with current equiped weapons. Intervall is based on time but might need to base it
- * on frames. (Use a counter loop in render() perhaps. Minimum of 100 microseconds.
+ * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
  * @type {Array}
  */
 var currentWeapons      = new Array();
 currentWeapons[0]       = {
-    "geometry":         new THREE.CubeGeometry(2,3,1),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0x00ff99}),
-    "interval":         500,
+    "geometry":         new THREE.CubeGeometry(.2,.2,.2),
+    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+    "interval":         50,
     "lastShot":         new Date().getTime(),
     "easing":           "Linear.None",
-    "duration":         1000
+    "duration":         1000,
+    "offset":           {
+        x: -.75,
+        y: -.5,
+        z: 2
+    }
+}
+currentWeapons[1]       = {
+    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
+    "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
+    "interval":         750,
+    "lastShot":         new Date().getTime(),
+    "easing":           "Linear.None",
+    "duration":         1500,
+    "offset":           {
+        x: -.75,
+        y: -.5,
+        z: 2
+    }
 }
 function shoot() {
     if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true) {
@@ -31,7 +49,7 @@ function shoot() {
     }
 
     if (mouseDown == true) {
-        setTimeout(function() { shoot(); }, 100);
+        setTimeout(function() { shoot(); }, 50);
     }
     // 0. @todo check weapon(s)
     // 1. Check shooting interval
@@ -49,6 +67,11 @@ function spawnBullet(currentWeapon) {
     bullets[bullets.length-1].position.y = player.position.y;
     bullets[bullets.length-1].position.z = player.position.z;
     bullets[bullets.length-1].position.i = bullets.length-1;
+    if (currentWeapon.offset != null) {
+        bullets[bullets.length-1].position.x += currentWeapon.offset.x;
+        bullets[bullets.length-1].position.y += currentWeapon.offset.y;
+        bullets[bullets.length-1].position.z += currentWeapon.offset.z;
+    }
 
     var toPosition = {x:  bullets[bullets.length-1].position.x, y:  bullets[bullets.length-1].position.y, z:  (bullets[bullets.length-1].position.z + (gameOptions.size.y * 2)) }
 
