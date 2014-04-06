@@ -44,7 +44,16 @@ gameOptions.requestId           = 0; // window.requestAnimationFrame id.
  * Array with all the game tweens.
  * @type {Array}
  */
-var gameTweens              = new Array();
+var gameTweens                  = new Array();
+
+var objects                     = new Array();
+var objectIndex                 = 0;
+
+/**
+ * Array with collidable meshes.
+ * Idea from: http://stemkoski.github.io/Three.js/Collision-Detection.html
+ */
+var collidableMeshList          = new Array();
 
 /**
  * Function to reset all data and starting a new game.
@@ -59,6 +68,7 @@ function newGame() {
     gameOptions.pause           = false;
     gameOptions.inGame          = true;
     gameTweens                  = new Array();
+    bullets                     = new Array();
     cancelAnimationFrame(gameOptions.requestId);
 }
 
@@ -97,11 +107,6 @@ function playMission(missionCode) {
         scene.add(AmbientLight);
     }
 
-    var defaultMaterial = new THREE.MeshBasicMaterial( {color: 0xff9900} );
-    if (gameSettings.quality == 'high') {
-        defaultMaterial = new THREE.MeshLambertMaterial( {color: 0xff9900} );
-    }
-
     playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.texture];
     player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, gameObjects[mission.settings.player.ref].material);
     player.position = mission.settings.player.position;
@@ -116,12 +121,11 @@ function playMission(missionCode) {
         spawnObject(i);
     }
 
-    camera.rotation.z = 3.145;
     camera.position.x = mission.settings.camera.position.x;
     camera.position.y = mission.settings.camera.position.y;
     camera.position.z = 0;
     camera.lookAt(new THREE.Vector3(0,mission.settings.camera.z,0));
-    camera.rotation.z = 3.145;
+    camera.rotation.z = Math.PI;
     gameTweens['camera'] = new TWEEN.Tween( { x: 0, y: 0, z: 0 } )
         .to( { x: mission.settings.camera.position.x, y: mission.settings.camera.position.y, z: mission.settings.camera.position.z }, 1500 )
         .easing( TWEEN.Easing.Quadratic.InOut )
@@ -188,6 +192,22 @@ function render() {
     sun.position.y = camera.position.y + 50;
     sun.position.z = camera.position.z;
 
+    // Collision detection between bullets and objects
+    bullets.forEach(function(bullet, index) {
+        var originPoint = bullet.position.clone();
+        for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
+            var localVertex = bullet.geometry.vertices[vertexIndex].clone();
+            var globalVertex = localVertex.applyMatrix4( bullet.matrix );
+            var directionVector = globalVertex.sub( bullet.position );
+
+            var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
+            var collisionResults = ray.intersectObjects( collidableMeshList );
+            if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) {
+                bulletHit(index, collisionResults[0].object.index);
+            }
+        }
+    });
+
     TWEEN.update();
 
     renderer.render(scene, camera);
@@ -212,16 +232,21 @@ function spawnObject(index) {
         );
     }
     var newObject = new THREE.Mesh(refObject.geometry, material);
+    newObject.missionIndex = index;
     newObject.position = objectElement.position;
     if (gameSettings.quality == 'high') {
         newObject.receiveShadow = true;
         newObject.castShadow = true;
     }
 
+    if (objectElement.collision != null && objectElement.collision == true) {
+        collidableMeshList.push(newObject);
+    }
+
     // Animate the object
     if (objectElement.movement != null) {
         delay = 0;
-        currentPosition = {x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
+        currentPosition = {i: objectIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
         for (var a = 0; a < objectElement.movement.length; a++) {
             animation = objectElement.movement[a];
             easing = TWEEN.Easing.Linear.None;
@@ -232,9 +257,11 @@ function spawnObject(index) {
                 .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
                 .easing( easing )
                 .onUpdate( function () {
-                    newObject.position.x = this.x;
-                    newObject.position.y = this.y;
-                    newObject.position.z = this.z;
+                    if (objects[this.i] != null) {
+                        objects[this.i].position.x = this.x;
+                        objects[this.i].position.y = this.y;
+                        objects[this.i].position.z = this.z;
+                    }
                 } )
                 .onComplete( function () {
                     delete(gameTweens['object_' + index + '_' + a]);
@@ -245,7 +272,10 @@ function spawnObject(index) {
             currentPosition = { x: animation.x, y: animation.y, z: animation.z }
         }
     }
+    objects[objectIndex] = newObject;
+    objects[objectIndex].index = objectIndex;
     scene.add(newObject);
+    objectIndex++;
 }
 
 /**
@@ -255,7 +285,6 @@ function spawnObject(index) {
  * @see http://sole.github.io/tween.js/examples/03_graphs.html
  */
 function getEasingByString(easing) {
-    // See http://sole.github.io/tween.js/examples/03_graphs.html for examples
     switch (easing) {
         case "Quadratic.In":
             easing = TWEEN.Easing.Quadratic.In;

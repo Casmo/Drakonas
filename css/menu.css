@@ -11,11 +11,14 @@
   z-index: 10;
   width: 600px;
   top: 70px;
+  font-size: 24px;
+  line-height: 32px;
   background-color: #fff;
   padding: 10px;
   color: #000;
   animation-duration: 0.2s;
   -webkit-animation-duration: 0.2s;
+  letter-spacing: 2px;
 }
 .background-menu {
   background-image: url(../img/ui/background.jpg);
