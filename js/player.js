@@ -14,10 +14,11 @@ var currentWeapons      = new Array();
 currentWeapons[0]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         50,
+    "interval":         100,
     "lastShot":         new Date().getTime(),
     "easing":           "Linear.None",
     "duration":         750,
+    "damage":           1,
     "offset":           {
         x: -.75,
         y: -.5,
@@ -27,10 +28,11 @@ currentWeapons[0]       = {
 currentWeapons[1]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.8),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
-    "interval":         750,
+    "interval":         1500,
     "lastShot":         new Date().getTime(),
     "easing":           "Linear.None",
-    "duration":         750,
+    "duration":         1000,
+    "damage":           5,
     "offset":           {
         x: -.75,
         y: -.5,
@@ -40,10 +42,11 @@ currentWeapons[1]       = {
 currentWeapons[2]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.9),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         250,
+    "interval":         350,
     "lastShot":         new Date().getTime(),
     "easing":           "Quintic.In",
-    "duration":         750,
+    "duration":         1250,
+    "damage":           10,
     "offset":           {
         x: -1.5,
         y: -.5,
@@ -53,10 +56,11 @@ currentWeapons[2]       = {
 currentWeapons[3]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.9),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         250,
+    "interval":         350,
     "lastShot":         new Date().getTime(),
     "easing":           "Quintic.In",
-    "duration":         750,
+    "duration":         1250,
+    "damage":           10,
     "offset":           {
         x: 0,
         y: -.5,
@@ -90,6 +94,7 @@ function spawnBullet(currentWeapon) {
     var currentIndex = bulletIndex;
     var bullet = new THREE.Mesh(refObject.geometry, material);
     bullet.index = currentIndex;
+    bullet.damage = currentWeapon.damage;
     bullet.position.x = player.position.x;
     bullet.position.y = player.position.y;
     bullet.position.z = player.position.z;
@@ -100,7 +105,7 @@ function spawnBullet(currentWeapon) {
         bullet.position.z += currentWeapon.offset.z;
     }
 
-    var toPosition = {x: bullet.position.x, i: currentIndex, y: bullet.position.y, z: (bullet.position.z + (gameOptions.size.y * 2)) }
+    var toPosition = {x: bullet.position.x, i: currentIndex, y: bullet.position.y, z: (bullet.position.z + gameOptions.size.y * 1.2) }
 
     easing = TWEEN.Easing.Linear.None;
     if (currentWeapon.easing != null) {
@@ -130,7 +135,14 @@ function spawnBullet(currentWeapon) {
 function bulletHit(index, objectIndex) {
     // Calculate damage
     // Remove object
-    removeObject(objectIndex);
+    if (objects[objectIndex] != null) {
+        if (objects[objectIndex].stats.hp == null || objects[objectIndex].stats.hp <= 0) {
+            removeObject(objectIndex);
+        }
+        else if (bullets[index] != null) {
+            objects[objectIndex].stats.hp -= bullets[index].damage;
+        }
+    }
     // Remove bullet from scene, tweens, etc
     removeBullet(index);
 }
@@ -157,10 +169,10 @@ function removeObject(objectIndex) {
     }
     //gameTweens['bullets_' + index].stop();
     objectElement = mission.elements[object.missionIndex];
-    // Todo
     for (var a = 0; a < objectElement.movement.length; a++) {
         delete(gameTweens['object_' + objectIndex + '_' + a]);
     }
     scene.remove(objects[objectIndex]);
     delete(objects[objectIndex]);
+    delete(collidableMeshList[objectIndex]);
 }

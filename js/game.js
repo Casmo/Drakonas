@@ -15,7 +15,7 @@ gameSettings.quality = 'high';
  */
 var gameObjects                 = new Object();
 var scene 					    = new THREE.Scene();
-var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 570); // 170); // window.innerWidth / window.innerHeight
+var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 170); // 170); // window.innerWidth / window.innerHeight
 var renderer 				    = new THREE.WebGLRenderer({antialias:true});
 
 /**
@@ -221,6 +221,7 @@ function spawnObject(index) {
     objectElement = mission.elements[index];
     var refObject = gameObjects[objectElement.ref];
     material = new THREE.MeshBasicMaterial( {color: 0xff9900} );
+    var thisIndex = objectIndex;
     if (gameSettings.quality == 'high') {
         material = new THREE.MeshLambertMaterial( {color: 0xff9900} );
     }
@@ -233,6 +234,7 @@ function spawnObject(index) {
     }
     var newObject = new THREE.Mesh(refObject.geometry, material);
     newObject.missionIndex = index;
+    newObject.stats = objectElement.stats;
     newObject.position = objectElement.position;
     if (gameSettings.quality == 'high') {
         newObject.receiveShadow = true;
@@ -240,13 +242,13 @@ function spawnObject(index) {
     }
 
     if (objectElement.collision != null && objectElement.collision == true) {
-        collidableMeshList.push(newObject);
+        collidableMeshList[objectIndex] = newObject;
     }
 
     // Animate the object
     if (objectElement.movement != null) {
         delay = 0;
-        currentPosition = {i: objectIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
+        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
         for (var a = 0; a < objectElement.movement.length; a++) {
             animation = objectElement.movement[a];
             easing = TWEEN.Easing.Linear.None;
@@ -269,7 +271,7 @@ function spawnObject(index) {
                 .delay(delay)
                 .start();
             delay += animation.duration;
-            currentPosition = { x: animation.x, y: animation.y, z: animation.z }
+            currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
         }
     }
     objects[objectIndex] = newObject;

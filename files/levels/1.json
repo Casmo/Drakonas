@@ -29,11 +29,11 @@
         },
         {
             "ref": "tiles-001",
-            "file": "files/objects/tiles/tile-swamp-001.obj"
+            "file": "files/objects/tiles/tile-island-001.obj"
         },
         {
             "ref": "tiles-002",
-            "file": "files/objects/tiles/Tile02.02.obj"
+            "file": "files/objects/tiles/tile-island-001.obj"
         },
         {
             "ref": "enemy-ufo",
@@ -47,7 +47,7 @@
         },
         {
             "ref": "texture-grass",
-            "file": "files/objects/tiles/texture-grass-001.jpg"
+            "file": "files/objects/tiles/tile-island-001.jpg"
         },
         {
             "ref": "enemy-ufo-yellow",
@@ -91,6 +91,9 @@
                 "z": -145
             },
             "collision": true,
+            "stats": {
+                "hp": 100
+            },
             "movement": [
                 {
                     "x": 0,
