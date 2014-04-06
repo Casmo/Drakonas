@@ -6,16 +6,27 @@
  */
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
-window.onkeydown = function(e) {
+window.addEventListener("keydown", function(e) {
     if (e.keyCode == 27 || e.keyCode == 80) {
         e.preventDefault();
         e.stopPropagation();
         pause();
     }
-};
-window.onblur = function () {
-    pause();
-}
+});
+window.addEventListener("blur", pause, false);
+window.addEventListener("resize", onWindowResize, false);
+
+// Set shooting
+var mouseDown = false;
+window.addEventListener("mousedown", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    mouseDown = true;
+    shoot();
+});
+window.addEventListener("mouseup", function(event) {
+    mouseDown = false;
+});
 
 function pause() {
     pauseElement = document.getElementById('pause');
@@ -99,15 +110,6 @@ function addPauseListeners() {
         document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
         document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
-        document.getElementById('pause').addEventListener( 'click', function ( event ) {
-            event.preventDefault();
-            event.stopPropagation();
-            launchFullscreen();
-            element = document.documentElement;
-            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-            element.requestPointerLock();
-            return continueGame();
-        }, false );
         document.getElementById('continue').addEventListener( 'click', function ( event ) {
             event.preventDefault();
             event.stopPropagation();
@@ -124,7 +126,7 @@ function addPauseListeners() {
         }, false );
 
     } else {
-        document.getElementById('pause').innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API. Please use Mozilla Firefox or Google Chrome.';
+        document.getElementById('pause').innerHTML = 'Your browser probably sucks. Use <a href="http://getfirefox.com" target="_blank">Mozilla Firefox</a> or <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a> and report back for duty!';
     }
 }
 

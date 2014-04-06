@@ -61,8 +61,8 @@ a {
   color: #840c0d;
   animation-duration: 0.2s;
   -webkit-animation-duration: 0.2s;
-  -webkit-animation-name: zoomIn;
-  animation-name: zoomIn;
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
   animation-fill-mode: forwards;
   -webkit-animation-fill-mode: forwards;
 }

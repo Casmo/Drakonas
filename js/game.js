@@ -13,16 +13,33 @@ gameSettings.quality = 'high';
  * mission. The key of each object has to be unique and will be filled depending on the .json file in /files/levels/.
  * @type {Object}
  */
-var gameObjects             = new Object();
-var scene 					= new THREE.Scene();
-var camera 					= new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 570); // 170); // window.innerWidth / window.innerHeight
-var renderer 				= new THREE.WebGLRenderer({antialias:true});
+var gameObjects                 = new Object();
+var scene 					    = new THREE.Scene();
+var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 570); // 170); // window.innerWidth / window.innerHeight
+var renderer 				    = new THREE.WebGLRenderer({antialias:false});
 
-var mission                 = new Array(); // Holds the current mission
+/**
+ * Holds the objects and information about the current mission. Information is loaded from
+ * the json file.
+ * @type {Array}
+ */
+var mission                     = new Array();
 
+/**
+ * THREE spotlight for creating sunlight in the game. Information comes from the json
+ * file.
+ */
 var sun;
-var gameOptions             = new Object();
-gameOptions.requestId       = 0;
+
+/**
+ * Global object with options and settings for the game. Like if the player is moving,
+ * the game has started, the resolution of the map and browser, etc. Use this object to
+ * create new variables that you wanna use in the game.
+ * @type {Object}
+ */
+var gameOptions                 = new Object();
+gameOptions.requestId           = 0; // window.requestAnimationFrame id.
+
 /**
  * Array with all the game tweens.
  * @type {Array}
@@ -36,7 +53,7 @@ function newGame() {
     scene 					    = new THREE.Scene();
     camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
     gameOptions.size            = {x: 130, y: 50, startX: 65, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
-    gameOptions.buildFor        = {x: 1920, y: 1080 }
+    gameOptions.buildFor        = {x: window.innerWidth, y: window.innerHeight } // We might need to do something with this. I build this game on a fullscreen resolution of 1920x1080. In some 4:3 situations the player can move out of the screen.
     gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
     gameOptions.move            = false;
     gameOptions.pause           = false;
@@ -48,7 +65,7 @@ function newGame() {
 function playMission(missionCode) {
     newGame();
     mission = missions[missionCode];
-    window.addEventListener('resize', onWindowResize, false);
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     if (gameSettings.quality == 'high') {
         renderer.shadowMapEnabled = true;
@@ -194,7 +211,7 @@ function spawnObject(index) {
             }
         );
     }
-    newObject = new THREE.Mesh(refObject.geometry, material);
+    var newObject = new THREE.Mesh(refObject.geometry, material);
     newObject.position = objectElement.position;
     if (gameSettings.quality == 'high') {
         newObject.receiveShadow = true;
@@ -209,100 +226,7 @@ function spawnObject(index) {
             animation = objectElement.movement[a];
             easing = TWEEN.Easing.Linear.None;
             if (animation.easing != null) {
-                switch (animation.easing) {
-                    case "Quadratic.In":
-                        easing = TWEEN.Easing.Quadratic.In;
-                    break;
-                    case "Quadratic.Out":
-                        easing = TWEEN.Easing.Quadratic.Out;
-                    break;
-                    case "Quadratic.InOut":
-                        easing = TWEEN.Easing.Quadratic.InOut;
-                    break;
-                    case "Cubic.In":
-                        easing = TWEEN.Easing.Cubic.In;
-                    break;
-                    case "Cubic.Out":
-                        easing = TWEEN.Easing.Cubic.Out;
-                    break;
-                    case "Cubic.InOut":
-                        easing = TWEEN.Easing.Cubic.InOut;
-                    break;
-                    case "Quartic.In":
-                        easing = TWEEN.Easing.Quartic.In;
-                    break;
-                    case "Quartic.Out":
-                        easing = TWEEN.Easing.Quartic.Out;
-                    break;
-                    case "Quartic.InOut":
-                        easing = TWEEN.Easing.Quartic.InOut;
-                    break;
-                    case "Quintic.In":
-                        easing = TWEEN.Easing.Quintic.In;
-                    break;
-                    case "Quintic.Out":
-                        easing = TWEEN.Easing.Quintic.Out;
-                    break;
-                    case "Quintic.InOut":
-                        easing = TWEEN.Easing.Quintic.InOut;
-                    break;
-                    case "Sinusoidal.In":
-                        easing = TWEEN.Easing.Sinusoidal.In;
-                    break;
-                    case "Sinusoidal.Out":
-                        easing = TWEEN.Easing.Sinusoidal.Out;
-                    break;
-                    case "Sinusoidal.InOut":
-                        easing = TWEEN.Easing.Sinusoidal.InOut;
-                    break;
-                    case "Exponential.In":
-                        easing = TWEEN.Easing.Exponential.In;
-                    break;
-                    case "Exponential.Out":
-                        easing = TWEEN.Easing.Exponential.Out;
-                    break;
-                    case "Exponential.InOut":
-                        easing = TWEEN.Easing.Exponential.InOut;
-                    break;
-                    case "Circular.In":
-                        easing = TWEEN.Easing.Circular.In;
-                    break;
-                    case "Circular.Out":
-                        easing = TWEEN.Easing.Circular.Out;
-                    break;
-                    case "Circular.InOut":
-                        easing = TWEEN.Easing.Circular.InOut;
-                    break;
-                    case "Elastic.In":
-                        easing = TWEEN.Easing.Elastic.In;
-                    break;
-                    case "Elastic.Out":
-                        easing = TWEEN.Easing.Elastic.Out;
-                    break;
-                    case "Elastic.InOut":
-                        easing = TWEEN.Easing.Elastic.InOut;
-                    break;
-                    case "Back.In":
-                        easing = TWEEN.Easing.Back.In;
-                    break;
-                    case "Back.Out":
-                        easing = TWEEN.Easing.Back.Out;
-                    break;
-                    case "Back.InOut":
-                        easing = TWEEN.Easing.Back.InOut;
-                    break;
-                    case "Bounce.In":
-                        easing = TWEEN.Easing.Bounce.In;
-                    break;
-                    case "Bounce.Out":
-                        easing = TWEEN.Easing.Bounce.Out;
-                    break;
-                    case "Bounce.InOut":
-                        easing = TWEEN.Easing.Bounce.InOut;
-                    break;
-                    default:
-                        easing = TWEEN.Easing.Linear.None;
-                }
+                easing = getEasingByString(animation.easing);
             }
             gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
                 .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
@@ -322,4 +246,109 @@ function spawnObject(index) {
         }
     }
     scene.add(newObject);
+}
+
+/**
+ * Converts a string to a TWEEN function
+ * @param easing
+ * @returns {*}
+ * @see http://sole.github.io/tween.js/examples/03_graphs.html
+ */
+function getEasingByString(easing) {
+    // See http://sole.github.io/tween.js/examples/03_graphs.html for examples
+    switch (easing) {
+        case "Quadratic.In":
+            easing = TWEEN.Easing.Quadratic.In;
+            break;
+        case "Quadratic.Out":
+            easing = TWEEN.Easing.Quadratic.Out;
+            break;
+        case "Quadratic.InOut":
+            easing = TWEEN.Easing.Quadratic.InOut;
+            break;
+        case "Cubic.In":
+            easing = TWEEN.Easing.Cubic.In;
+            break;
+        case "Cubic.Out":
+            easing = TWEEN.Easing.Cubic.Out;
+            break;
+        case "Cubic.InOut":
+            easing = TWEEN.Easing.Cubic.InOut;
+            break;
+        case "Quartic.In":
+            easing = TWEEN.Easing.Quartic.In;
+            break;
+        case "Quartic.Out":
+            easing = TWEEN.Easing.Quartic.Out;
+            break;
+        case "Quartic.InOut":
+            easing = TWEEN.Easing.Quartic.InOut;
+            break;
+        case "Quintic.In":
+            easing = TWEEN.Easing.Quintic.In;
+            break;
+        case "Quintic.Out":
+            easing = TWEEN.Easing.Quintic.Out;
+            break;
+        case "Quintic.InOut":
+            easing = TWEEN.Easing.Quintic.InOut;
+            break;
+        case "Sinusoidal.In":
+            easing = TWEEN.Easing.Sinusoidal.In;
+            break;
+        case "Sinusoidal.Out":
+            easing = TWEEN.Easing.Sinusoidal.Out;
+            break;
+        case "Sinusoidal.InOut":
+            easing = TWEEN.Easing.Sinusoidal.InOut;
+            break;
+        case "Exponential.In":
+            easing = TWEEN.Easing.Exponential.In;
+            break;
+        case "Exponential.Out":
+            easing = TWEEN.Easing.Exponential.Out;
+            break;
+        case "Exponential.InOut":
+            easing = TWEEN.Easing.Exponential.InOut;
+            break;
+        case "Circular.In":
+            easing = TWEEN.Easing.Circular.In;
+            break;
+        case "Circular.Out":
+            easing = TWEEN.Easing.Circular.Out;
+            break;
+        case "Circular.InOut":
+            easing = TWEEN.Easing.Circular.InOut;
+            break;
+        case "Elastic.In":
+            easing = TWEEN.Easing.Elastic.In;
+            break;
+        case "Elastic.Out":
+            easing = TWEEN.Easing.Elastic.Out;
+            break;
+        case "Elastic.InOut":
+            easing = TWEEN.Easing.Elastic.InOut;
+            break;
+        case "Back.In":
+            easing = TWEEN.Easing.Back.In;
+            break;
+        case "Back.Out":
+            easing = TWEEN.Easing.Back.Out;
+            break;
+        case "Back.InOut":
+            easing = TWEEN.Easing.Back.InOut;
+            break;
+        case "Bounce.In":
+            easing = TWEEN.Easing.Bounce.In;
+            break;
+        case "Bounce.Out":
+            easing = TWEEN.Easing.Bounce.Out;
+            break;
+        case "Bounce.InOut":
+            easing = TWEEN.Easing.Bounce.InOut;
+            break;
+        default:
+            easing = TWEEN.Easing.Linear.None;
+    }
+    return easing;
 }
