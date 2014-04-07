@@ -85,78 +85,93 @@
         {
             "ref": "enemy-ufo",
             "texture": "enemy-ufo-yellow",
+            "spawn": true,
             "position": {
-                "x": 0,
-                "y": 40,
-                "z": -145
+                "x": -80,
+                "y": 39,
+                "z": 0
             },
             "collision": true,
             "stats": {
-                "hp": 100
+                "hp": 5,
+                "color": "0xffff00"
             },
             "movement": [
                 {
-                    "x": 0,
-                    "y": 40,
-                    "z": -125,
-                    "duration": 1500,
-                    "easing": "Circular.In"
+                    "x": 60,
+                    "y": 39,
+                    "z": -5,
+                    "duration": 4000,
+                    "easing": "Sinusoidal.Out"
                 },
                 {
-                    "x": -30,
-                    "y": 40,
-                    "z": -105,
-                    "duration": 2500,
-                    "easing": "Circular.In"
-                },
+                    "x": 50,
+                    "y": 39,
+                    "z": -30,
+                    "duration": 2000,
+                    "easing": "Sinusoidal.In"
+                }
+            ]
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "spawn": true,
+            "position": {
+                "x": -80,
+                "y": 39,
+                "z": 5
+            },
+            "collision": true,
+            "stats": {
+                "hp": 5,
+                "color": "0xffff00"
+            },
+            "movement": [
                 {
-                    "x": 12,
-                    "y": 40,
-                    "z": -120,
-                    "duration": 1500,
-                    "easing": "Circular.In"
-                },
-                {
-                    "x": 12,
-                    "y": 40,
-                    "z": -80,
-                    "duration": 4500,
-                    "easing": "Circular.InOut"
-                },
-                {
-                    "x": 30,
-                    "y": 40,
-                    "z": -60,
-                    "duration": 3500,
-                    "easing": "Bounce.InOut"
-                },
-                {
-                    "x": -30,
-                    "y": 40,
-                    "z": -40,
-                    "duration": 2500,
-                    "easing": "Circular.InOut"
-                },
-                {
-                    "x": 0,
-                    "y": 70,
+                    "x": 60,
+                    "y": 39,
                     "z": 0,
-                    "duration": 1500,
-                    "easing": "Circular.InOut"
+                    "duration": 4000,
+                    "easing": "Sinusoidal.Out"
                 },
                 {
-                    "x": 0,
-                    "y": 40,
-                    "z": 0,
-                    "duration": 2500,
-                    "easing": "Circular.InOut"
+                    "x": 50,
+                    "y": 39,
+                    "z": -25,
+                    "duration": 2000,
+                    "easing": "Sinusoidal.In"
+                }
+            ]
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "spawn": true,
+            "position": {
+                "x": -80,
+                "y": 39,
+                "z": 10
+            },
+            "collision": true,
+            "stats": {
+                "hp": 5,
+                "color": "0xffff00"
+            },
+            "movement": [
+                {
+                    "x": 60,
+                    "y": 39,
+                    "z": 5,
+                    "duration": 4000,
+                    "easing": "Sinusoidal.Out"
                 },
                 {
-                    "x": 0,
-                    "y": 120,
-                    "z": 70,
-                    "duration": 2500,
-                    "easing": "Back.In"
+                    "x": 50,
+                    "y": 39,
+                    "z": -20,
+                    "duration": 2000,
+                    "easing": "Sinusoidal.In"
                 }
             ]
         }

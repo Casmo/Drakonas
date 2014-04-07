@@ -117,9 +117,8 @@ function playMission(missionCode) {
     }
     scene.add(player);
 
-    for (i = 0; i < mission.elements.length; i++) {
-        spawnObject(i);
-    }
+    // @todo only spawn objects inside the view port
+    setTimeout(spawnObjects, 250);
 
     camera.position.x = mission.settings.camera.position.x;
     camera.position.y = mission.settings.camera.position.y;
@@ -211,6 +210,22 @@ function render() {
     TWEEN.update();
 
     renderer.render(scene, camera);
+}
+
+/**
+ * Loop through the current objects and spawn objects/monsters that are in the viewport.
+ */
+function spawnObjects() {
+    for (i = 0; i < mission.elements.length; i++) {
+        if (mission.elements[i].spawned != null) {
+            continue;
+        }
+        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1.2))) {
+            mission.elements[i].spawned = true;
+            spawnObject(i);
+        }
+    }
+    setTimeout(spawnObjects, 250);
 }
 
 /**

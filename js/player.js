@@ -17,59 +17,59 @@ var currentWeapons      = new Array();
 currentWeapons[0]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         100,
+    "interval":         75,
     "lastShot":         new Date().getTime(),
     "easing":           "Linear.None",
-    "duration":         750,
+    "duration":         650,
     "damage":           1,
     "offset":           {
         x: -.75,
-        y: -.5,
+        y: -1,
         z: 2
     }
 }
-currentWeapons[1]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
-    "interval":         1500,
-    "lastShot":         new Date().getTime(),
-    "easing":           "Linear.None",
-    "duration":         1000,
-    "damage":           5,
-    "offset":           {
-        x: -.75,
-        y: -.5,
-        z: 2
-    }
-}
-currentWeapons[2]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         350,
-    "lastShot":         new Date().getTime(),
-    "easing":           "Quintic.In",
-    "duration":         1250,
-    "damage":           10,
-    "offset":           {
-        x: -1.5,
-        y: -.5,
-        z: 3.7
-    }
-}
-currentWeapons[3]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         350,
-    "lastShot":         new Date().getTime(),
-    "easing":           "Quintic.In",
-    "duration":         1250,
-    "damage":           10,
-    "offset":           {
-        x: 0,
-        y: -.5,
-        z: 3.7
-    }
-}
+//currentWeapons[1]       = {
+//    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
+//    "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
+//    "interval":         1500,
+//    "lastShot":         new Date().getTime(),
+//    "easing":           "Linear.None",
+//    "duration":         1000,
+//    "damage":           5,
+//    "offset":           {
+//        x: -.75,
+//        y: -1,
+//        z: 2
+//    }
+//}
+//currentWeapons[2]       = {
+//    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
+//    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+//    "interval":         350,
+//    "lastShot":         new Date().getTime(),
+//    "easing":           "Quintic.In",
+//    "duration":         1250,
+//    "damage":           10,
+//    "offset":           {
+//        x: -1.5,
+//        y: -1,
+//        z: 3.7
+//    }
+//}
+//currentWeapons[3]       = {
+//    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
+//    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+//    "interval":         350,
+//    "lastShot":         new Date().getTime(),
+//    "easing":           "Quintic.In",
+//    "duration":         1250,
+//    "damage":           10,
+//    "offset":           {
+//        x: 0,
+//        y: -1,
+//        z: 3.7
+//    }
+//}
 function shoot() {
     if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true) {
         return;
@@ -155,13 +155,13 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         return;
     }
     if (size == null) {
-        size = 4;
+        size = 2;
     }
     if (amount == null) {
-        amount = 10;
+        amount = 5;
     }
     if (explosionRatio == null) {
-        explosionRatio = 5;
+        explosionRatio = 4;
     }
     if (color == null) {
         color = 0xffffff;
@@ -250,7 +250,11 @@ function removeObject(objectIndex) {
         return;
     }
     // createExplosion(position, size, amount, explosionSize, color)
-    createExplosion(objects[objectIndex].position, 8, 20, 50, 0xff0000, 1750);
+    color = 0xff0000;
+    if (objects[objectIndex].stats.color != null) {
+        color = parseInt(objects[objectIndex].stats.color);
+    }
+    createExplosion(objects[objectIndex].position, 8, 20, 50, color, 1250);
     //gameTweens['bullets_' + index].stop();
     objectElement = mission.elements[object.missionIndex];
     for (var a = 0; a < objectElement.movement.length; a++) {
