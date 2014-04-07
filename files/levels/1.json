@@ -86,32 +86,61 @@
             "ref": "enemy-ufo",
             "texture": "enemy-ufo-yellow",
             "spawn": true,
-            "position": {
-                "x": -80,
-                "y": 39,
-                "z": 0
-            },
             "collision": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00"
             },
-            "movement": [
-                {
-                    "x": 60,
-                    "y": 39,
-                    "z": -5,
-                    "duration": 4000,
-                    "easing": "Sinusoidal.Out"
-                },
-                {
-                    "x": 50,
-                    "y": 39,
-                    "z": -30,
-                    "duration": 2000,
-                    "easing": "Sinusoidal.In"
-                }
-            ]
+            "position": {
+                "x": 10,
+                "y": 39,
+                "z": -100
+            }
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "spawn": true,
+            "collision": true,
+            "stats": {
+                "hp": 5,
+                "color": "0xffff00"
+            },
+            "position": {
+                "x": -30,
+                "y": 39,
+                "z": -90
+            }
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "spawn": true,
+            "collision": true,
+            "stats": {
+                "hp": 5,
+                "color": "0xffff00"
+            },
+            "position": {
+                "x": 30,
+                "y": 39,
+                "z": -80
+            }
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "spawn": true,
+            "collision": true,
+            "stats": {
+                "hp": 5,
+                "color": "0xffff00"
+            },
+            "position": {
+                "x": 10,
+                "y": 39,
+                "z": -60
+            }
         },
         {
             "ref": "enemy-ufo",
@@ -120,7 +149,7 @@
             "position": {
                 "x": -80,
                 "y": 39,
-                "z": 5
+                "z": -20
             },
             "collision": true,
             "stats": {
@@ -130,15 +159,46 @@
             "movement": [
                 {
                     "x": 60,
-                    "y": 39,
-                    "z": 0,
-                    "duration": 4000,
-                    "easing": "Sinusoidal.Out"
-                },
-                {
-                    "x": 50,
                     "y": 39,
                     "z": -25,
+                    "duration": 4000,
+                    "easing": "Sinusoidal.Out"
+                },
+                {
+                    "x": 50,
+                    "y": 39,
+                    "z": -50,
+                    "duration": 2000,
+                    "easing": "Sinusoidal.In"
+                }
+            ]
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "enemy-ufo-yellow",
+            "spawn": true,
+            "position": {
+                "x": -40,
+                "y": 39,
+                "z": -15
+            },
+            "collision": true,
+            "stats": {
+                "hp": 5,
+                "color": "0xffff00"
+            },
+            "movement": [
+                {
+                    "x": 60,
+                    "y": 39,
+                    "z": -20,
+                    "duration": 4000,
+                    "easing": "Sinusoidal.Out"
+                },
+                {
+                    "x": 50,
+                    "y": 39,
+                    "z": -45,
                     "duration": 2000,
                     "easing": "Sinusoidal.In"
                 }
@@ -151,7 +211,7 @@
             "position": {
                 "x": -80,
                 "y": 39,
-                "z": 10
+                "z": -10
             },
             "collision": true,
             "stats": {
@@ -162,14 +222,14 @@
                 {
                     "x": 60,
                     "y": 39,
-                    "z": 5,
+                    "z": -15,
                     "duration": 4000,
                     "easing": "Sinusoidal.Out"
                 },
                 {
                     "x": 50,
                     "y": 39,
-                    "z": -20,
+                    "z": -40,
                     "duration": 2000,
                     "easing": "Sinusoidal.In"
                 }

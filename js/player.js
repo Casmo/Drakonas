@@ -257,8 +257,10 @@ function removeObject(objectIndex) {
     createExplosion(objects[objectIndex].position, 8, 20, 50, color, 1250);
     //gameTweens['bullets_' + index].stop();
     objectElement = mission.elements[object.missionIndex];
-    for (var a = 0; a < objectElement.movement.length; a++) {
-        delete(gameTweens['object_' + objectIndex + '_' + a]);
+    if (objectElement.movement != null) {
+        for (var a = 0; a < objectElement.movement.length; a++) {
+            delete(gameTweens['object_' + objectIndex + '_' + a]);
+        }
     }
     scene.remove(objects[objectIndex]);
     delete(objects[objectIndex]);

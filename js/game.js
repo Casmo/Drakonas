@@ -55,6 +55,10 @@ var objectIndex                 = 0;
  */
 var collidableMeshList          = new Array();
 
+var veryBasicMaterial = new THREE.LineBasicMaterial({
+    color: 0x0000ff
+});
+
 /**
  * Function to reset all data and starting a new game.
  */
@@ -194,21 +198,16 @@ function render() {
     // Collision detection between bullets and objects
     bullets.forEach(function(bullet, index) {
         var originPoint = bullet.position.clone();
-        for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
-            var localVertex = bullet.geometry.vertices[vertexIndex].clone();
-            var globalVertex = localVertex.applyMatrix4( bullet.matrix );
-            var directionVector = globalVertex.sub( bullet.position );
-
-            var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
-            var collisionResults = ray.intersectObjects( collidableMeshList );
-            if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) {
-                bulletHit(index, collisionResults[0].object.index);
-            }
+        originPoint.y = 70;
+        var endPoint = new THREE.Vector3(0,-1,0);
+        var ray = new THREE.Raycaster(originPoint, endPoint, 0, 70);
+        var collisionResults = ray.intersectObjects(collidableMeshList);
+        if ( collisionResults.length > 0) {
+            bulletHit(index, collisionResults[0].object.index);
         }
     });
 
     TWEEN.update();
-
     renderer.render(scene, camera);
 }
 
@@ -255,8 +254,10 @@ function spawnObject(index) {
         newObject.receiveShadow = true;
         newObject.castShadow = true;
     }
-
+    // Add the object to the collision array if it is hittable.
     if (objectElement.collision != null && objectElement.collision == true) {
+        // http://stackoverflow.com/questions/20534042/three-js-raycaster-intersectobjects-only-detects-intersection-on-front-surface
+        newObject.material.side = THREE.DoubleSided;
         collidableMeshList[objectIndex] = newObject;
     }
 
@@ -278,6 +279,10 @@ function spawnObject(index) {
                         objects[this.i].position.x = this.x;
                         objects[this.i].position.y = this.y;
                         objects[this.i].position.z = this.z;
+
+                        collidableMeshList[this.i].position.x = this.x;
+                        collidableMeshList[this.i].position.y = this.y;
+                        collidableMeshList[this.i].position.z = this.z;
                     }
                 } )
                 .onComplete( function () {
@@ -288,10 +293,14 @@ function spawnObject(index) {
             delay += animation.duration;
             currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
         }
+        if (delay > 0) {
+            setTimeout(function() { scene.remove(objects[thisIndex]) }, delay);
+        }
     }
     objects[objectIndex] = newObject;
     objects[objectIndex].index = objectIndex;
-    scene.add(newObject);
+    scene.add(objects[objectIndex]);
+
     objectIndex++;
 }
 
