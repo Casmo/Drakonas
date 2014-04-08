@@ -9,14 +9,17 @@ gameSettings.currentMission = 1;
 gameSettings.quality = 'high';
 
 /**
- * List with all the objects in the game with it'environments position and callback functions, etc. Will be filled after loading a
+ * List with all the objects in the game with it's environments position and callback functions, etc. Will be filled after loading a
  * mission. The key of each object has to be unique and will be filled depending on the .json file in /files/levels/.
  * @type {Object}
  */
 var gameObjects                 = new Object();
 var scene 					    = new THREE.Scene();
-var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 170); // 170); // window.innerWidth / window.innerHeight
+//var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 170); // 170); // window.innerWidth / window.innerHeight
+var camera;//                      = new THREE.OrthographicCamera( window.innerWidth / - 2,window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000 ); // OrthographicCamera( left, right, top, bottom, near, far )
 var renderer 				    = new THREE.WebGLRenderer({antialias:true});
+
+var centerPosition;
 
 /**
  * Holds the objects and information about the current mission. Information is loaded from
@@ -65,6 +68,7 @@ var veryBasicMaterial = new THREE.LineBasicMaterial({
 function newGame() {
     scene 					    = new THREE.Scene();
     camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
+//    camera                      = new THREE.OrthographicCamera(-60,60, 25, -25, 1, 170 ); // OrthographicCamera( left, right, top, bottom, near, far )
     gameOptions.size            = {x: 130, y: 50, startX: 65, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
     gameOptions.buildFor        = {x: window.innerWidth, y: window.innerHeight } // We might need to do something with this. I build this game on a fullscreen resolution of 1920x1080. In some 4:3 situations the player can move out of the screen.
     gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
@@ -192,15 +196,15 @@ function render() {
     camera.position.x = player.position.x * 0.40;
 
     sun.position.x = camera.position.x;
-    sun.position.y = camera.position.y + 50;
+    sun.position.y = camera.position.y + 50; // 50;
     sun.position.z = camera.position.z;
 
     // Collision detection between bullets and objects
     bullets.forEach(function(bullet, index) {
         var originPoint = bullet.position.clone();
-        originPoint.y = 70;
+        originPoint.y += 10;
         var endPoint = new THREE.Vector3(0,-1,0);
-        var ray = new THREE.Raycaster(originPoint, endPoint, 0, 70);
+        var ray = new THREE.Raycaster(originPoint, endPoint, 0, 20);
         var collisionResults = ray.intersectObjects(collidableMeshList);
         if ( collisionResults.length > 0) {
             bulletHit(index, collisionResults[0].object.index);

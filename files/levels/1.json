@@ -38,6 +38,10 @@
         {
             "ref": "enemy-ufo",
             "file": "files/objects/enemies/ufo.obj"
+        },
+        {
+            "ref": "tower-bunker",
+            "file": "files/objects/buildings/tower-bunker-001.obj"
         }
     ],
     "textures": [
@@ -52,6 +56,10 @@
         {
             "ref": "enemy-ufo-yellow",
             "file": "files/objects/enemies/ufo-yellow.jpg"
+        },
+        {
+            "ref": "tower-bunker",
+            "file": "files/objects/buildings/tower-bunker-001.jpg"
         }
     ],
     "elements": [
@@ -81,6 +89,21 @@
                 "z": 400
             },
             "texture": "texture-grass"
+        },
+        {
+            "ref": "tower-bunker",
+            "texture": "tower-bunker",
+            "spawn": true,
+            "collision": true,
+            "stats": {
+                "hp": 155,
+                "color": "0xb7b3b0"
+            },
+            "position": {
+                "x": -20,
+                "y": 10,
+                "z": -70
+            }
         },
         {
             "ref": "enemy-ufo",
@@ -167,7 +190,7 @@
                 {
                     "x": 50,
                     "y": 39,
-                    "z": -50,
+                    "z": -70,
                     "duration": 2000,
                     "easing": "Sinusoidal.In"
                 }
@@ -198,7 +221,7 @@
                 {
                     "x": 50,
                     "y": 39,
-                    "z": -45,
+                    "z": -65,
                     "duration": 2000,
                     "easing": "Sinusoidal.In"
                 }
@@ -229,7 +252,7 @@
                 {
                     "x": 50,
                     "y": 39,
-                    "z": -40,
+                    "z": -60,
                     "duration": 2000,
                     "easing": "Sinusoidal.In"
                 }

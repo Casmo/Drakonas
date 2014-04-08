@@ -19,14 +19,37 @@ currentWeapons[0]       = {
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
     "interval":         75,
     "lastShot":         new Date().getTime(),
-    "easing":           "Linear.None",
-    "duration":         650,
     "damage":           1,
     "offset":           {
         x: -.75,
         y: -1,
         z: 2
+    },
+    "animation":        [
+    {
+        x: -.75,
+        y: -1,
+        z: 50,
+        "duration": 750,
+        "easing": "Linear.None"
     }
+    ]
+//    "animation":        [
+//        {
+//            x: 0,
+//            y: -20,
+//            z: 15,
+//            "duration": 350,
+//            "easing": "Sinusoidal.In"
+//        },
+//        {
+//            x: 0,
+//            y: -20,
+//            z: 60,
+//            "duration": 750,
+//            "easing": "Sinusoidal.Out"
+//        }
+//    ]
 }
 //currentWeapons[1]       = {
 //    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
@@ -98,6 +121,7 @@ function spawnBullet(currentWeapon) {
     var bullet = new THREE.Mesh(refObject.geometry, material);
     bullet.index = currentIndex;
     bullet.damage = currentWeapon.damage;
+
     bullet.position.x = player.position.x;
     bullet.position.y = player.position.y;
     bullet.position.z = player.position.z;
@@ -107,31 +131,35 @@ function spawnBullet(currentWeapon) {
         bullet.position.y += currentWeapon.offset.y;
         bullet.position.z += currentWeapon.offset.z;
     }
-
-    var toPosition = {x: bullet.position.x, i: currentIndex, y: bullet.position.y, z: (bullet.position.z + gameOptions.size.y * 1.2) }
-
-    easing = TWEEN.Easing.Linear.None;
-    if (currentWeapon.easing != null) {
-        easing = getEasingByString(currentWeapon.easing);
+    delay = 0;
+    position = bullet.position;
+    for (var b = 0; b < currentWeapon.animation.length; b++) {
+        var toPosition = {x: (position.x + currentWeapon.animation[b].x), i: currentIndex, y: (position.y + currentWeapon.animation[b].y), z: (position.z + currentWeapon.animation[b].z) }
+        easing = TWEEN.Easing.Linear.None;
+        if (currentWeapon.animation[b].easing != null) {
+            easing = getEasingByString(currentWeapon.animation[b].easing);
+        }
+        var bulletName = 'bullets_' + currentIndex + '_' + b;
+        gameTweens[bulletName] = new TWEEN.Tween( position )
+            .to( toPosition, currentWeapon.animation[b].duration )
+            .easing( easing )
+            .onUpdate( function () {
+                if (bullets[this.i] != null) {
+                    bullets[this.i].position.x = this.x;
+                    bullets[this.i].position.y = this.y;
+                    bullets[this.i].position.z = this.z;
+                }
+            } )
+            .onComplete( function () {
+            } )
+            .delay(delay)
+            .start();
+        position = toPosition;
+        delay += currentWeapon.animation[b].duration;
     }
-    var bulletName = 'bullets_' + currentIndex;
-    gameTweens[bulletName] = new TWEEN.Tween( bullet.position )
-        .to( toPosition, currentWeapon.duration )
-        .easing( easing )
-        .onUpdate( function () {
-            if (bullets[this.i] != null) {
-                bullets[this.i].position.x = this.x;
-                bullets[this.i].position.y = this.y;
-                bullets[this.i].position.z = this.z;
-            }
-        } )
-        .onComplete( function () {
-            removeBullet(this.i);
-        } )
-        .start();
-
     bullets[currentIndex] = bullet;
     scene.add(bullets[currentIndex]);
+    setTimeout(function() { removeBullet(currentIndex); }, delay);
     bulletIndex++;
 }
 
@@ -170,21 +198,33 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         duration = 350;
     }
     for (i = 0; i < amount; i++ ) {
+        randomObject = Math.round(Math.random() * 3);
         var material = new THREE.MeshBasicMaterial({ color: color });
-        var radius = (Math.random() * size) / 10;
-        var segments = 8;
-        var circleGeometry = new THREE.CircleGeometry( radius, segments );
-        var circle = new THREE.Mesh( circleGeometry, material );
-        circle.rotation.x = -(Math.PI / 2);
-        circle.position.x = position.x + ((Math.random() * 4) - 2);
-        circle.position.y = position.y + ((Math.random() * 4) - 2);
-        circle.position.z = position.z + ((Math.random() * 4) - 2);
-        circle.position.i = explosionIndex;
+
+        if (randomObject == 1) {
+            var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
+            var mesh = new THREE.Mesh( circleGeometry, material );
+        }
+        else if (randomObject == 2) {
+            var tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 ); // (size, size, size);
+            var mesh = new THREE.Mesh( tertraGeometry, material );
+        }
+        else {
+            var radius = (Math.random() * size) / 10;
+            var segments = 8;
+            var circleGeometry = new THREE.CircleGeometry( radius, segments );
+            var mesh = new THREE.Mesh( circleGeometry, material );
+        }
+        mesh.rotation.x = -(Math.PI / 2);
+        mesh.position.x = position.x + ((Math.random() * 4) - 2);
+        mesh.position.y = position.y + ((Math.random() * 4) - 2);
+        mesh.position.z = position.z + ((Math.random() * 4) - 2);
+        mesh.position.i = explosionIndex;
         var positionTo = new Object;
         positionTo.x = position.x + (Math.random() * explosionRatio) - (explosionRatio / 2);
         positionTo.y = position.y + (Math.random() * explosionRatio) - (explosionRatio / 2);
         positionTo.z = position.z + (Math.random() * explosionRatio) - (explosionRatio / 2);
-        gameTweens['explosion' + explosionIndex] = new TWEEN.Tween( circle.position )
+        gameTweens['explosion' + explosionIndex] = new TWEEN.Tween( mesh.position )
             .to( positionTo, duration )
             .easing( TWEEN.Easing.Quadratic.Out )
             .onUpdate( function () {
@@ -202,7 +242,7 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
                 scene.remove(explosions[this.i]);
             } )
             .start();
-        explosions[explosionIndex] = circle;
+        explosions[explosionIndex] = mesh;
         scene.add(explosions[explosionIndex]);
         explosionIndex++;
     }
@@ -254,7 +294,7 @@ function removeObject(objectIndex) {
     if (objects[objectIndex].stats.color != null) {
         color = parseInt(objects[objectIndex].stats.color);
     }
-    createExplosion(objects[objectIndex].position, 8, 20, 50, color, 1250);
+    createExplosion(objects[objectIndex].position, 8, 20, 30, color, 750);
     //gameTweens['bullets_' + index].stop();
     objectElement = mission.elements[object.missionIndex];
     if (objectElement.movement != null) {
