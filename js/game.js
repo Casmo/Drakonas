@@ -17,9 +17,7 @@ var gameObjects                 = new Object();
 var scene 					    = new THREE.Scene();
 //var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 170); // 170); // window.innerWidth / window.innerHeight
 var camera;//                      = new THREE.OrthographicCamera( window.innerWidth / - 2,window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000 ); // OrthographicCamera( left, right, top, bottom, near, far )
-var renderer 				    = new THREE.WebGLRenderer({antialias:true});
-
-var centerPosition;
+var renderer 				    = new THREE.WebGLRenderer({antialias:false});
 
 /**
  * Holds the objects and information about the current mission. Information is loaded from
@@ -33,6 +31,7 @@ var mission                     = new Array();
  * file.
  */
 var sun;
+var sunTarget;
 
 /**
  * Global object with options and settings for the game. Like if the player is moving,
@@ -58,7 +57,7 @@ var objectIndex                 = 0;
  */
 var collidableMeshList          = new Array();
 
-var veryBasicMaterial = new THREE.LineBasicMaterial({
+var veryBasicMaterial = new THREE.MeshBasicMaterial({
     color: 0x0000ff
 });
 
@@ -67,9 +66,9 @@ var veryBasicMaterial = new THREE.LineBasicMaterial({
  */
 function newGame() {
     scene 					    = new THREE.Scene();
-    camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 370); // 170); // window.innerWidth / window.innerHeight
+    camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 870); // 170); // window.innerWidth / window.innerHeight
 //    camera                      = new THREE.OrthographicCamera(-60,60, 25, -25, 1, 170 ); // OrthographicCamera( left, right, top, bottom, near, far )
-    gameOptions.size            = {x: 130, y: 50, startX: 65, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
+    gameOptions.size            = {x: 120, y: 50, startX: 60, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
     gameOptions.buildFor        = {x: window.innerWidth, y: window.innerHeight } // We might need to do something with this. I build this game on a fullscreen resolution of 1920x1080. In some 4:3 situations the player can move out of the screen.
     gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
     gameOptions.move            = false;
@@ -87,6 +86,8 @@ function playMission(missionCode) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     if (gameSettings.quality == 'high') {
         renderer.shadowMapEnabled = true;
+        //renderer.shadowMapType = THREE.PCFShadowMap; // options are THREE.BasicShadowMap | THREE.PCFShadowMap | THREE.PCFSoftShadowMap
+
     }
     $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div>';
 
@@ -102,16 +103,17 @@ function playMission(missionCode) {
     }
     if (mission.settings.sun == null) {
         mission.settings.sun = {
-            color: 0xffffff,
+            color: '0xffffff',
+            intensity: 1,
             position: {
                 x: 0,
                 y: 120,
-                z: 100
+                z: -155
             }
         };
     }
     if (mission.settings.ambientLight != null) {
-        AmbientLight = new THREE.AmbientLight(mission.settings.ambientLight);
+        AmbientLight = new THREE.AmbientLight(parseInt(mission.settings.ambientLight));
         scene.add(AmbientLight);
     }
 
@@ -124,35 +126,39 @@ function playMission(missionCode) {
         player.castShadow = true;
     }
     scene.add(player);
+    setTimeout(function() {gameOptions.move = true;}, 1500);
 
-    // @todo only spawn objects inside the view port
     setTimeout(spawnObjects, 250);
 
     camera.position.x = mission.settings.camera.position.x;
     camera.position.y = mission.settings.camera.position.y;
-    camera.position.z = 0;
-    camera.lookAt(new THREE.Vector3(0,mission.settings.camera.z,0));
+    camera.position.z = mission.settings.camera.position.z;
+    camera.lookAt(new THREE.Vector3(camera.position.x,0,camera.position.z));
     camera.rotation.z = Math.PI;
-    gameTweens['camera'] = new TWEEN.Tween( { x: 0, y: 0, z: 0 } )
-        .to( { x: mission.settings.camera.position.x, y: mission.settings.camera.position.y, z: mission.settings.camera.position.z }, 1500 )
-        .easing( TWEEN.Easing.Quadratic.InOut )
-        .onUpdate( function () {
-            camera.position.x = this.x;
-            camera.position.y = this.y;
-            camera.position.z = this.z;
-        } )
-        .onComplete( function () {
-            gameOptions.move = true;
-            delete(gameTweens['camera']);
-        } )
-        .start();
-    sun = new THREE.SpotLight(mission.settings.sun.color);
-    sun.position = mission.settings.sun.position;
-    sun.intensity = 2;
+
+    // Lights
+    environmentLight = new THREE.HemisphereLight(parseInt(mission.settings.environment.sunColor), parseInt(mission.settings.environment.groundColor), mission.settings.environment.intensity);
+    scene.add(environmentLight);
+    sunTarget = new THREE.Mesh(new THREE.CubeGeometry(10,10,10), veryBasicMaterial);
+    sunTarget.position.x = camera.position.x;
+    sunTarget.position.y = -50;
+    sunTarget.position.z = camera.position.z;
+//    sun = new THREE.DirectionalLight(parseInt(mission.settings.sun.color), mission.settings.sun.intensity);
+    // SpotLight(hex, intensity, distance, angle, exponent)
+    sun = new THREE.SpotLight(parseInt(mission.settings.sun.color), mission.settings.sun.intensity );
+    sun.position.x = camera.position.x;
+    sun.position.y = camera.position.y * 2;
+    sun.position.z = camera.position.z;
+    sun.target = sunTarget;
+
     if (gameSettings.quality == 'high') {
         sun.castShadow = true;
+        sun.shadowCameraFov = 50;
+        sun.shadowBias = 0.0001;
+        sun.shadowDarkness = .5;
+        sun.shadowMapWidth = window.innerWidth; // Shadow map texture width in pixels.
+        sun.shadowMapHeight = window.innerHeight;
     }
-    sun.target = camera;
     scene.add(sun);
 
     document.addEventListener("mousemove", onInGameDocumentMouseMove, false);
@@ -161,10 +167,10 @@ function playMission(missionCode) {
 }
 
 function render() {
-    gameOptions.requestId = requestAnimationFrame(render);
     if (gameOptions.pause == true) {
         return true;
     }
+    gameOptions.requestId = requestAnimationFrame(render);
     if (gameOptions.move == true) {
         camera.position.z += .15;
     }
@@ -192,19 +198,22 @@ function render() {
         movement = (distanceY * gameOptions.player.delta);
         player.position.relativeY += movement;
     }
-    player.position.z = camera.position.z + player.position.relativeY;
-    camera.position.x = player.position.x * 0.40;
+    player.position.z = camera.position.z + player.position.relativeY; // camera.position.z + player.position.relativeY;
+    camera.position.x = player.position.x * 0.90;
 
-    sun.position.x = camera.position.x;
-    sun.position.y = camera.position.y + 50; // 50;
+    //camera.lookAt(new THREE.Vector3(player.position.x * 0.40,0,camera.position.z+15));
+
+    //sun.position.x = camera.position.x * 0.5;
+    //sun.position.y = camera.position.y + 10;
     sun.position.z = camera.position.z;
+    sunTarget.position.z = camera.position.z;
 
     // Collision detection between bullets and objects
     bullets.forEach(function(bullet, index) {
         var originPoint = bullet.position.clone();
         originPoint.y += 10;
         var endPoint = new THREE.Vector3(0,-1,0);
-        var ray = new THREE.Raycaster(originPoint, endPoint, 0, 20);
+        var ray = new THREE.Raycaster(originPoint, endPoint, 0, 70);
         var collisionResults = ray.intersectObjects(collidableMeshList);
         if ( collisionResults.length > 0) {
             bulletHit(index, collisionResults[0].object.index);

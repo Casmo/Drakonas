@@ -166,6 +166,8 @@ function spawnBullet(currentWeapon) {
 function bulletHit(index, objectIndex) {
     // Calculate damage
     // Remove object
+    yPos = objects[objectIndex].position.y;
+    // Remove bullet from scene, tweens, etc
     if (objects[objectIndex] != null) {
         if (objects[objectIndex].stats.hp == null || objects[objectIndex].stats.hp <= 0) {
             removeObject(objectIndex);
@@ -174,8 +176,7 @@ function bulletHit(index, objectIndex) {
             objects[objectIndex].stats.hp -= bullets[index].damage;
         }
     }
-    // Remove bullet from scene, tweens, etc
-    removeBullet(index, true);
+    removeBullet(index, true, yPos);
 }
 
 function createExplosion(position, size, amount, explosionRatio, color, duration) {
@@ -199,7 +200,12 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
     }
     for (i = 0; i < amount; i++ ) {
         randomObject = Math.round(Math.random() * 3);
+
         var material = new THREE.MeshBasicMaterial({ color: color });
+
+        if (gameSettings.quality == 'high') {
+            material = new THREE.MeshLambertMaterial( {color: color} );
+        }
 
         if (randomObject == 1) {
             var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
@@ -215,6 +221,12 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
             var circleGeometry = new THREE.CircleGeometry( radius, segments );
             var mesh = new THREE.Mesh( circleGeometry, material );
         }
+
+        if (gameSettings.quality == 'high') {
+            mesh.receiveShadow = true;
+            mesh.castShadow = true;
+        }
+
         mesh.rotation.x = -(Math.PI / 2);
         mesh.position.x = position.x + ((Math.random() * 4) - 2);
         mesh.position.y = position.y + ((Math.random() * 4) - 2);
@@ -270,9 +282,9 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
  * Removes a bullet from the game including its animation
  * @param index
  */
-function removeBullet(index, explosion) {
+function removeBullet(index, explosion, explosionY) {
     if (bullets[index] != null && explosion != null && explosion == true) {
-        createExplosion(bullets[index].position);
+        createExplosion({x: bullets[index].position.x, y: explosionY, z: bullets[index].position.z});
     }
     scene.remove(bullets[index]);
     delete(bullets[index]);

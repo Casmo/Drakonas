@@ -4,7 +4,6 @@
     "code": 1,
     "icon": "img/ui/levels/1.png",
     "settings": {
-        "ambientLight": "0xff9900",
         "camera": {
             "position": {
                 "x": 0,
@@ -20,6 +19,11 @@
             },
             "ref": "player",
             "texture": "player"
+        },
+        "environment": {
+            "sunColor": "0xffffff",
+            "groundColor": "0xffff00",
+            "intensity": 0.7
         }
     },
     "objects": [
@@ -96,7 +100,7 @@
             "spawn": true,
             "collision": true,
             "stats": {
-                "hp": 155,
+                "hp": 15,
                 "color": "0xb7b3b0"
             },
             "position": {
