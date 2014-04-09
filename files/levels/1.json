@@ -2,8 +2,8 @@
     "name": "War is coming!",
     "description": "Long time...",
     "code": 1,
-    "icon": "img/ui/levels/1.png",
     "settings": {
+        "gameSpeed": 0.15,
         "camera": {
             "position": {
                 "x": 0,
@@ -46,6 +46,10 @@
         {
             "ref": "tower-bunker",
             "file": "files/objects/buildings/tower-bunker-001.obj"
+        },
+        {
+            "ref": "tower-number2",
+            "file": "files/objects/buildings/tower-number2-001.obj"
         }
     ],
     "textures": [
@@ -64,6 +68,10 @@
         {
             "ref": "tower-bunker",
             "file": "files/objects/buildings/tower-bunker-001.jpg"
+        },
+        {
+            "ref": "tower-number2",
+            "file": "files/objects/buildings/tower-number2-001.jpg"
         }
     ],
     "elements": [
@@ -98,7 +106,7 @@
             "ref": "tower-bunker",
             "texture": "tower-bunker",
             "spawn": true,
-            "collision": true,
+            "destroyable": true,
             "stats": {
                 "hp": 15,
                 "color": "0xb7b3b0"
@@ -110,63 +118,33 @@
             }
         },
         {
-            "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
+            "ref": "tower-number2",
+            "texture": "tower-number2",
             "spawn": true,
-            "collision": true,
+            "destroyable": true,
             "stats": {
-                "hp": 5,
-                "color": "0xffff00"
+                "hp": 20,
+                "color": "0xb7b3b0"
             },
             "position": {
-                "x": 10,
-                "y": 39,
-                "z": -100
-            }
-        },
-        {
-            "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
-            "spawn": true,
-            "collision": true,
-            "stats": {
-                "hp": 5,
-                "color": "0xffff00"
-            },
-            "position": {
-                "x": -30,
-                "y": 39,
+                "x": -15,
+                "y": 10,
                 "z": -90
             }
         },
         {
-            "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
+            "ref": "tower-bunker",
+            "texture": "tower-bunker",
             "spawn": true,
-            "collision": true,
+            "destroyable": true,
             "stats": {
-                "hp": 5,
-                "color": "0xffff00"
+                "hp": 25,
+                "color": "0xb7b3b0"
             },
             "position": {
-                "x": 30,
-                "y": 39,
-                "z": -80
-            }
-        },
-        {
-            "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
-            "spawn": true,
-            "collision": true,
-            "stats": {
-                "hp": 5,
-                "color": "0xffff00"
-            },
-            "position": {
-                "x": 10,
-                "y": 39,
-                "z": -60
+                "x": 60,
+                "y": 2,
+                "z": -50
             }
         },
         {
@@ -178,7 +156,7 @@
                 "y": 39,
                 "z": -20
             },
-            "collision": true,
+            "destroyable": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00"
@@ -209,7 +187,7 @@
                 "y": 39,
                 "z": -15
             },
-            "collision": true,
+            "destroyable": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00"
@@ -240,21 +218,21 @@
                 "y": 39,
                 "z": -10
             },
-            "collision": true,
+            "destroyable": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00"
             },
             "movement": [
                 {
-                    "x": 60,
+                    "x": 50,
                     "y": 39,
                     "z": -15,
                     "duration": 4000,
                     "easing": "Sinusoidal.Out"
                 },
                 {
-                    "x": 50,
+                    "x": 40,
                     "y": 39,
                     "z": -60,
                     "duration": 2000,

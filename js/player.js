@@ -29,7 +29,7 @@ currentWeapons[0]       = {
     {
         x: -.75,
         y: -1,
-        z: 50,
+        z: 60,
         "duration": 750,
         "easing": "Linear.None"
     }
@@ -51,48 +51,71 @@ currentWeapons[0]       = {
 //        }
 //    ]
 }
-//currentWeapons[1]       = {
-//    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
-//    "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
-//    "interval":         1500,
-//    "lastShot":         new Date().getTime(),
-//    "easing":           "Linear.None",
-//    "duration":         1000,
-//    "damage":           5,
-//    "offset":           {
-//        x: -.75,
-//        y: -1,
-//        z: 2
-//    }
-//}
-//currentWeapons[2]       = {
-//    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
-//    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-//    "interval":         350,
-//    "lastShot":         new Date().getTime(),
-//    "easing":           "Quintic.In",
-//    "duration":         1250,
-//    "damage":           10,
-//    "offset":           {
-//        x: -1.5,
-//        y: -1,
-//        z: 3.7
-//    }
-//}
-//currentWeapons[3]       = {
-//    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
-//    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-//    "interval":         350,
-//    "lastShot":         new Date().getTime(),
-//    "easing":           "Quintic.In",
-//    "duration":         1250,
-//    "damage":           10,
-//    "offset":           {
-//        x: 0,
-//        y: -1,
-//        z: 3.7
-//    }
-//}
+currentWeapons[1]       = {
+    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
+    "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
+    "interval":         1000,
+    "lastShot":         new Date().getTime(),
+    "damage":           5,
+    "offset":           {
+        x: -.75,
+        y: -1,
+        z: 2
+    },
+    "animation":        [
+        {
+            x: -.75,
+            y: -1,
+            z: 60,
+            "duration": 1500,
+            "easing": "Linear.None"
+        }
+    ]
+}
+currentWeapons[2]       = {
+    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
+    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+    "interval":         350,
+    "lastShot":         new Date().getTime(),
+    "damage":           10,
+    "offset":           {
+        x: -1.5,
+        y: -1,
+        z: 3.7
+    },
+    "animation":        [
+        {
+            x: -1.5,
+            y: -1,
+            z: 60,
+            "duration": 1250,
+            "easing": "Quintic.In"
+        }
+    ]
+}
+currentWeapons[3]       = {
+    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
+    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+    "interval":         350,
+    "lastShot":         new Date().getTime(),
+    "easing":           "Quintic.In",
+    "duration":         1250,
+    "damage":           10,
+    "offset":           {
+        x: 0,
+        y: -1,
+        z: 3.7
+    },
+    "animation":        [
+        {
+            x: 0,
+            y: -1,
+            z: 60,
+            "duration": 1250,
+            "easing": "Quintic.In"
+        }
+    ]
+}
 function shoot() {
     if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true) {
         return;
@@ -212,7 +235,7 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
             var mesh = new THREE.Mesh( circleGeometry, material );
         }
         else if (randomObject == 2) {
-            var tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 ); // (size, size, size);
+            var tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 );
             var mesh = new THREE.Mesh( tertraGeometry, material );
         }
         else {

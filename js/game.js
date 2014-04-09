@@ -4,9 +4,10 @@
  */
 var gameSettings = new Object();
 gameSettings.availableMissions = [1,2];
-gameSettings.unlockedMissions = [0,1];
+gameSettings.unlockedMissions = [0,1,2];
 gameSettings.currentMission = 1;
 gameSettings.quality = 'high';
+gameSettings.debug = true;
 
 /**
  * List with all the objects in the game with it's environments position and callback functions, etc. Will be filled after loading a
@@ -89,7 +90,7 @@ function playMission(missionCode) {
         //renderer.shadowMapType = THREE.PCFShadowMap; // options are THREE.BasicShadowMap | THREE.PCFShadowMap | THREE.PCFSoftShadowMap
 
     }
-    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div>';
+    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div><div class="overlay" id="overlay"></div>';
 
     ajax('files/content/pause.html', function(data) {
         document.getElementById('pause').innerHTML = data;
@@ -126,13 +127,16 @@ function playMission(missionCode) {
         player.castShadow = true;
     }
     scene.add(player);
-    setTimeout(function() {gameOptions.move = true;}, 1500);
 
     setTimeout(spawnObjects, 250);
 
     camera.position.x = mission.settings.camera.position.x;
     camera.position.y = mission.settings.camera.position.y;
     camera.position.z = mission.settings.camera.position.z;
+    if (gameSettings.debug == true) {
+        camera.position.y *= 3;
+        mission.settings.gameSpeed *= 3;
+    }
     camera.lookAt(new THREE.Vector3(camera.position.x,0,camera.position.z));
     camera.rotation.z = Math.PI;
 
@@ -159,9 +163,19 @@ function playMission(missionCode) {
         sun.shadowMapWidth = window.innerWidth; // Shadow map texture width in pixels.
         sun.shadowMapHeight = window.innerHeight;
     }
+
+    if (gameSettings.debug == true) {
+        sun.shadowCameraVisible = true;
+    }
+
     scene.add(sun);
 
     document.addEventListener("mousemove", onInGameDocumentMouseMove, false);
+
+    setTimeout(function() {
+        gameOptions.move = true;
+        document.getElementById('overlay').className = 'overlay fadeOut';
+    }, 750);
 
     render(); // Start looping the game
 }
@@ -172,7 +186,7 @@ function render() {
     }
     gameOptions.requestId = requestAnimationFrame(render);
     if (gameOptions.move == true) {
-        camera.position.z += .15;
+        camera.position.z += mission.settings.gameSpeed;
     }
 
     // Player position. It follows the mouse. Original idea from: http://jsfiddle.net/Gamedevtuts/nkZjR/
@@ -232,7 +246,9 @@ function spawnObjects() {
         if (mission.elements[i].spawned != null) {
             continue;
         }
-        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1.2))) {
+        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1.2))
+            || (gameSettings.debug == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y * 2)))
+            ) {
             mission.elements[i].spawned = true;
             spawnObject(i);
         }
@@ -268,7 +284,7 @@ function spawnObject(index) {
         newObject.castShadow = true;
     }
     // Add the object to the collision array if it is hittable.
-    if (objectElement.collision != null && objectElement.collision == true) {
+    if (objectElement.destroyable != null && objectElement.destroyable == true) {
         // http://stackoverflow.com/questions/20534042/three-js-raycaster-intersectobjects-only-detects-intersection-on-front-surface
         newObject.material.side = THREE.DoubleSided;
         collidableMeshList[objectIndex] = newObject;
