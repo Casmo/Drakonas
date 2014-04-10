@@ -8,6 +8,31 @@ gameSettings.unlockedMissions = [0,1,2];
 gameSettings.currentMission = 1;
 gameSettings.quality = 'high';
 gameSettings.debug = true;
+gameSettings.sound = true;
+gameSettings.effects = true;
+
+/**
+ * Retrieve saved user settings and overrides the gameSettings.
+ * @type {Object}
+ */
+if (window.localStorage) {
+    currentMission = window.localStorage.getItem('gameSettings.currentMission');
+    if (currentMission != null) {
+        gameSettings.currentMission = currentMission;
+    }
+    quality = window.localStorage.getItem('gameSettings.quality');
+    if (quality != null) {
+        gameSettings.quality = quality;
+    }
+    sound = window.localStorage.getItem('gameSettings.sound');
+    if (sound != null) {
+        gameSettings.sound = sound;
+    }
+    effects = window.localStorage.getItem('gameSettings.effects');
+    if (effects != null) {
+        gameSettings.effects = effects;
+    }
+}
 
 /**
  * List with all the objects in the game with it's environments position and callback functions, etc. Will be filled after loading a
