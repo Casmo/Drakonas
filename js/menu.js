@@ -38,6 +38,9 @@ function showMenu() {
             linkId = this.id;
             event.stopPropagation();
             hideInfoWindows();
+            if (linkId == 'options') {
+                getOptions();
+            }
             document.getElementById('window-' + linkId).className = 'info-window animated fadeIn';
         });
     }
@@ -144,4 +147,52 @@ function hideInfoWindows() {
     for (i = 0; i < infoWindows.length; i++) {
         infoWindows[i].className = 'info-window hidden';
     }
+}
+
+function getOptions() {
+    if (gameSettings.quality == 'high') {
+        document.getElementById('SettingsQualityHigh').checked = true;
+    }
+    else {
+        document.getElementById('SettingsQualityLow').checked = true;
+    }
+    if (gameSettings.music == "true" || gameSettings.music == true) {
+        document.getElementById('SettingsMusicOn').checked = true;
+    }
+    else {
+        document.getElementById('SettingsMusicOff').checked = true;
+    }
+    if (gameSettings.effects == "true" || gameSettings.effects == true) {
+        document.getElementById('SettingsEffectsOn').checked = true;
+    }
+    else {
+        document.getElementById('SettingsEffectsOff').checked = true;
+    }
+    return false;
+}
+
+function saveSettings() {
+    if (window.localStorage) {
+        quality = 'high';
+        if (document.getElementById('SettingsQualityLow').checked) {
+            quality = 'low';
+        }
+        window.localStorage.setItem('gameSettings.quality', quality);
+        gameSettings.quality = quality;
+        music = true;
+        if (document.getElementById('SettingsMusicOff').checked) {
+            music = false;
+        }
+        window.localStorage.setItem('gameSettings.music', music);
+        gameSettings.music = music;
+
+        effects = true;
+        if (document.getElementById('SettingsEffectsOff').checked) {
+            effects = false;
+        }
+        window.localStorage.setItem('gameSettings.effects', effects);
+        gameSettings.effects = effects;
+    }
+    hideInfoWindows();
+    return false;
 }

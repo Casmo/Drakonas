@@ -72,6 +72,15 @@ a {
 /*
  * Forms
  */
+.input strong {
+  display: inline-block;
+  width: 40%;
+}
 .input label {
-  display: block;
+  display: inline-block;
+  width: 15%;
+}
+.btn-primary {
+  float: right;
+  padding: 5px;
 }

@@ -21,31 +21,26 @@
     <form id="settings">
         <h1 class="text-center">Options</h1>
         <div class="input">
-            <label for="SettingsQuality">
+            <strong>
                 Quality
-            </label>
-            <select name="settings[quality]" id="SettingsQuality">
-                <option value="high">High</option>
-                <option value="low">Low</option>
-            </select>
+            </strong>
+            <input type="radio" name="quality" value="high" id="SettingsQualityHigh">  <label for="SettingsQualityHigh">High</label>
+            <input type="radio" name="quality" value="low" id="SettingsQualityLow"> <label for="SettingsQualityLow">Low</label>
         </div>
         <div class="input">
-            <label for="SettingsSoundeffects">
-                Sound effects
-            </label>
-            <select name="settings[soundeffects]" id="SettingsSoundeffects">
-                <option value="on">On</option>
-                <option value="off">Off</option>
-            </select>
-        </div>
-        <div class="input">
-            <label for="SettingsSoundmusic">
+            <strong>
                 Music
-            </label>
-            <select name="settings[soundmusic]" id="SettingsSoundmusic">
-                <option value="on">On</option>
-                <option value="off">Off</option>
-            </select>
+            </strong>
+            <input type="radio" name="music" id="SettingsMusicOn"> <label for="SettingsMusicOn">On</label>
+            <input type="radio" name="music" id="SettingsMusicOff"> <label for="SettingsMusicOff">Off</label>
         </div>
+        <div class="input">
+            <strong>
+                Sound effects
+            </strong>
+            <input type="radio" name="effects" id="SettingsEffectsOn"> <label for="SettingsEffectsOn">On</label>
+            <input type="radio" name="effects" id="SettingsEffectsOff"> <label for="SettingsEffectsOff">Off</label>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Save settings" onclick="return saveSettings();">
     </form>
 </div>

@@ -7,8 +7,8 @@ gameSettings.availableMissions = [1,2];
 gameSettings.unlockedMissions = [0,1,2];
 gameSettings.currentMission = 1;
 gameSettings.quality = 'high';
-gameSettings.debug = true;
-gameSettings.sound = true;
+gameSettings.debug = false;
+gameSettings.music = true;
 gameSettings.effects = true;
 
 /**
@@ -24,9 +24,9 @@ if (window.localStorage) {
     if (quality != null) {
         gameSettings.quality = quality;
     }
-    sound = window.localStorage.getItem('gameSettings.sound');
-    if (sound != null) {
-        gameSettings.sound = sound;
+    music = window.localStorage.getItem('gameSettings.music')
+    if (music != null) {
+        gameSettings.music = music;
     }
     effects = window.localStorage.getItem('gameSettings.effects');
     if (effects != null) {
