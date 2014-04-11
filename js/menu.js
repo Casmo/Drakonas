@@ -16,6 +16,9 @@ function gotoMenu() {
     });
 }
 
+/**
+ * Display the main menu of the game and enable the menu to work with the popups.
+ */
 function showMenu() {
     if (gameOptions != null && gameOptions.inGame != null) {
         gameOptions.inGame = false;
@@ -168,7 +171,13 @@ function getOptions() {
     else {
         document.getElementById('SettingsEffectsOff').checked = true;
     }
-    return false;
+    if (gameSettings.controls == "keyboard") {
+        document.getElementById('SettingsControlsKeyboard').checked = true;
+    }
+    else {
+        document.getElementById('SettingsControlsMouse').checked = true;
+    }
+    return true;
 }
 
 function saveSettings() {
@@ -192,6 +201,13 @@ function saveSettings() {
         }
         window.localStorage.setItem('gameSettings.effects', effects);
         gameSettings.effects = effects;
+
+        controls = 'mouse';
+        if (document.getElementById('SettingsControlsKeyboard').checked) {
+            controls = 'keyboard';
+        }
+        window.localStorage.setItem('gameSettings.controls', controls);
+        gameSettings.controls = controls;
     }
     hideInfoWindows();
     return false;

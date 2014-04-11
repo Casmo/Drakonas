@@ -4,12 +4,13 @@
  */
 var gameSettings = new Object();
 gameSettings.availableMissions = [1,2];
-gameSettings.unlockedMissions = [0,1,2];
+gameSettings.unlockedMissions = [0,1];
 gameSettings.currentMission = 1;
 gameSettings.quality = 'high';
 gameSettings.debug = false;
 gameSettings.music = true;
 gameSettings.effects = true;
+gameSettings.controls = 'mouse';
 
 /**
  * Retrieve saved user settings and overrides the gameSettings.
@@ -31,6 +32,10 @@ if (window.localStorage) {
     effects = window.localStorage.getItem('gameSettings.effects');
     if (effects != null) {
         gameSettings.effects = effects;
+    }
+    controls = window.localStorage.getItem('gameSettings.controls');
+    if (controls != null) {
+        gameSettings.controls = controls;
     }
 }
 
