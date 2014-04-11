@@ -337,7 +337,45 @@ function removeObject(objectIndex) {
             delete(gameTweens['object_' + objectIndex + '_' + a]);
         }
     }
+    // Add score
+    if (objectElement.stats.score != null) {
+        addScore(objectElement.stats.score);
+    }
     scene.remove(objects[objectIndex]);
     delete(objects[objectIndex]);
     delete(collidableMeshList[objectIndex]);
+}
+
+/**
+ * Function to add score for the current mission. Player will lose the score if it returns
+ * to the menu before finishing the mission. After finishing a mission the score will be
+ * add to the normal score and stored in the localStorage.
+ * @param score
+ */
+function addScore(score) {
+    currentScore = parseInt(document.getElementById('score').innerHTML);
+    if (score > 1000) {
+        newScore = currentScore + 250;
+        score -= 250;
+        setTimeout(function () { addScore(score) }, 50);
+    }
+    else if (score > 500) {
+        newScore = currentScore + 125;
+        score -= 125;
+        setTimeout(function() { addScore(score) }, 100);
+    }
+    else if (score > 250) {
+        newScore = currentScore + 50;
+        score -= 50;
+        setTimeout(function() { addScore(score) }, 150);
+    }
+    else if (score > 100) {
+        newScore = currentScore + 20;
+        score -= 20;
+        setTimeout(function() { addScore(score) }, 200);
+    }
+    else if (score > 0) {
+        newScore = currentScore + score;
+    }
+    document.getElementById('score').innerHTML = newScore;
 }

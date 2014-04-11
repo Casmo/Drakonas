@@ -13,7 +13,7 @@ gameSettings.effects = true;
 gameSettings.controls = 'mouse';
 
 /**
- * Retrieve saved user settings and overrides the gameSettings.
+ * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
  * @type {Object}
  */
 if (window.localStorage) {
@@ -37,6 +37,12 @@ if (window.localStorage) {
     if (controls != null) {
         gameSettings.controls = controls;
     }
+    score = window.localStorage.getItem('gameSettings.score');
+    if (score == null) {
+        score = 0;
+        window.localStorage.setItem('gameSettings.score', score);
+    }
+    gameSettings.score = score;
 }
 
 /**
@@ -120,12 +126,18 @@ function playMission(missionCode) {
         //renderer.shadowMapType = THREE.PCFShadowMap; // options are THREE.BasicShadowMap | THREE.PCFShadowMap | THREE.PCFSoftShadowMap
 
     }
-    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div><div class="overlay" id="overlay"></div>';
+    $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div><div class="overlay" id="overlay"></div><div class="ui" id="ui"></div>';
 
     ajax('files/content/pause.html', function(data) {
         document.getElementById('pause').innerHTML = data;
         addPauseListeners();
     });
+
+    ajax('files/content/ui.html', function(data) {
+        document.getElementById('ui').innerHTML = data;
+        setUi();
+    });
+
     $('#container').appendChild(renderer.domElement);
 
     // @todo Get default menu settings and extend current mission with it (array/object merge)
@@ -283,7 +295,10 @@ function spawnObjects() {
             spawnObject(i);
         }
     }
-    setTimeout(spawnObjects, 250);
+    // This should be higher in combination with the delay on animation of an object.
+    if (gameOptions.inGame == true) {
+        setTimeout(spawnObjects, 250);
+    }
 }
 
 /**
@@ -362,6 +377,16 @@ function spawnObject(index) {
     scene.add(objects[objectIndex]);
 
     objectIndex++;
+}
+
+/**
+ * Logic after loading files/content/ui.html
+ */
+function setUi() {
+    elScore = document.getElementById('score');
+    if (elScore != null) {
+        elScore.innerHTML = gameSettings.score;
+    }
 }
 
 /**

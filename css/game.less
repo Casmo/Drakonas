@@ -12,13 +12,51 @@
 }
 .overlay {
   position: absolute;
-  top: 0px;
   left: 0px;
+  top: 0px;
   height: 100%;
   width: 100%;
+  z-index: 99;
   background-color: #000;
   animation-duration: 1.5s;
   -webkit-animation-duration: 1.5s;
   animation-fill-mode: forwards;
   -webkit-animation-fill-mode: forwards;
+}
+.ui {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 98;
+}
+.ui > #score {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  display: block;
+  font-size: 32px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+.ui > #score:before {
+    content: "$ ";
+}
+.ui > .hp-container {
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 10px;
+  background-color: #500c0d;
+}
+.ui #hp {
+  background-color: #CD0C0D;
+  position: absolute;
+  bottom: 0px;
+  height: 1%;
+  border-top: 1px solid #840c0d;
+  width: 100%;
 }
