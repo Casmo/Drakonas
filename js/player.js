@@ -355,26 +355,41 @@ function removeObject(objectIndex) {
 function addScore(score) {
     currentScore = parseInt(document.getElementById('score').innerHTML);
     if (score > 1000) {
-        newScore = currentScore + 250;
-        score -= 250;
-        setTimeout(function () { addScore(score) }, 50);
+        newScore = currentScore + 500;
+        score -= 500;
+        setTimeout(function () { addScore(score) }, 20);
     }
     else if (score > 500) {
-        newScore = currentScore + 125;
-        score -= 125;
-        setTimeout(function() { addScore(score) }, 100);
+        newScore = currentScore + 250;
+        score -= 250;
+        setTimeout(function() { addScore(score) }, 30);
     }
     else if (score > 250) {
-        newScore = currentScore + 50;
-        score -= 50;
-        setTimeout(function() { addScore(score) }, 150);
+        newScore = currentScore + 125;
+        score -= 125;
+        setTimeout(function() { addScore(score) }, 40);
     }
     else if (score > 100) {
-        newScore = currentScore + 20;
-        score -= 20;
-        setTimeout(function() { addScore(score) }, 200);
+        newScore = currentScore + 50;
+        score -= 50;
+        setTimeout(function() { addScore(score) }, 50);
+    }
+    else if (score > 50) {
+        newScore = currentScore + 25;
+        score -= 25;
+        setTimeout(function() { addScore(score) }, 60);
+        newScore = currentScore + score;
+    }
+    else if (score > 10) {
+        newScore = currentScore + 5;
+        score -= 5;
+        setTimeout(function() { addScore(score) }, 70);
+        newScore = currentScore + score;
     }
     else if (score > 0) {
+        newScore = currentScore + 1;
+        score -= 1;
+        setTimeout(function() { addScore(score) }, 125);
         newScore = currentScore + score;
     }
     document.getElementById('score').innerHTML = newScore;
