@@ -276,7 +276,7 @@ function spawnObjects() {
         if (mission.elements[i].spawned != null) {
             continue;
         }
-        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1.2))
+        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 0.8))
             || (gameSettings.debug == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y * 2)))
             ) {
             mission.elements[i].spawned = true;
@@ -321,6 +321,7 @@ function spawnObject(index) {
     }
 
     // Animate the object
+    // @todo, might wanna do this when the objects is in the view port.
     if (objectElement.movement != null) {
         delay = 0;
         currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
