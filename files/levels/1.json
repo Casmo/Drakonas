@@ -85,6 +85,12 @@
             "file": "files/objects/buildings/tower-number2-001.jpg"
         }
     ],
+    "sounds": [
+        {
+            "ref": "weapon-laser",
+            "file": "files/sounds/effects/weapon-laser-preview.ogg"
+        }
+    ],
     "elements": [
         {
             "ref": "tiles-001",

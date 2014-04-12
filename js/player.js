@@ -18,6 +18,7 @@ currentWeapons[0]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
     "interval":         75,
+    "sound":            "sound-weapon-laser",
     "lastShot":         new Date().getTime(),
     "damage":           1,
     "offset":           {
@@ -182,6 +183,11 @@ function spawnBullet(currentWeapon) {
     }
     bullets[currentIndex] = bullet;
     scene.add(bullets[currentIndex]);
+    // Play sound
+    if (currentWeapon.sound != null && typeof gameObjects[currentWeapon.sound] != null) {
+        gameObjects[currentWeapon.sound].play(); // (0);
+    }
+
     setTimeout(function() { removeBullet(currentIndex); }, delay);
     bulletIndex++;
 }

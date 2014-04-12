@@ -2,6 +2,7 @@ document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 }, false);
 
+window.AudioContext = window.AudioContext||window.webkitAudioContext;
 
 function exit() {
     if (!window.close()) {

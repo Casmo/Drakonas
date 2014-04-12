@@ -143,6 +143,33 @@ function loadMission(missionCode) {
             });
         }
     });
+    // http://www.html5rocks.com/en/tutorials/webaudio/intro/js/rhythm-sample.js
+    var context = new AudioContext();
+    missions[missionCode].sounds.forEach(function(sound, i) {
+        if (sound.file != null) {
+            loadingManager.totalObjects++;
+            // load file
+            gameObjects['sound-' + sound.ref] = '';
+            ajax(sound.file, function(data) {
+                loadingManager.objectLoaded();
+                context.decodeAudioData(data, function(buffer) {
+                    gameObjects['sound-' + sound.ref] = {
+                        play: function() {
+                            if (gameSettings.effects == false) {
+                                return false;
+                            }
+                            var source = context.createBufferSource();
+                            source.buffer = buffer;
+                            source.connect(context.destination);
+                            if (!source.start)
+                                source.start = source.noteOn;
+                            source.start(0);
+                        }
+                    };
+                });
+            }, '', 'arraybuffer');
+        }
+    });
 }
 
 function hideInfoWindows() {
