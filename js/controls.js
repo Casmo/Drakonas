@@ -15,6 +15,9 @@ window.addEventListener("keydown", function(e) {
     if (e.keyCode == 71) {
         gameOver();
     }
+    if (e.keyCode == 66) {
+        bossMode();
+    }
 });
 window.addEventListener("blur", pause, false);
 window.addEventListener("resize", onWindowResize, false);
@@ -83,6 +86,29 @@ function exitFullscreen() {
     } else if(document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
     }
+}
+
+var isInBossMode = false;
+function bossMode() {
+    if (isInBossMode == true) {
+        isInBossMode = false;
+        document.getElementById("bossmode").remove();
+        return;
+    }
+    isInBossMode = true;
+    bsodHtml = '';
+    bsodHtml += '<div id="bossmode" style="position: absolute;padding:100px;left:0;top:0;z-index:999;line-height: 40px;width:100%;height:100%;background-color:#0000aa;color:#ffffff;font-family:courier;font-size: 12pt;text-align:left;">';
+    bsodHtml += '<div style="text-align:center;"><div style="display:inline-block;background: #fff;color: #0000aa;padding: 2px 8px;font-weight: bold;">Drakonas</div></div>';
+    bsodHtml += '<div>Oops, something terrible went wrong. Please restart your system or press "B" again.</div>';
+    bsodHtml += '<div>In case of emergency please leave the building immediately. In any other case, please continue the game.</div>';
+    bsodHtml += '<div>* Try not hitting any other objects during your mission, sir.</div>';
+    bsodHtml += '<div>* Report your duty at games.fellicht.nl.</div>';
+    bsodHtml += '<div>* Enjoy life. Smile!</div>';
+    bsodHtml += '<div style="text-align:center;">Press the "B" key to continue...</div>';
+    bsodHtml += '</div>';
+    $('#b-container').innerHTML = bsodHtml;
+    pause();
+    return;
 }
 
 /**
