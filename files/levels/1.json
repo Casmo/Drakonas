@@ -87,8 +87,8 @@
     ],
     "sounds": [
         {
-            "ref": "weapon-laser",
-            "file": "files/sounds/effects/weapon-laser-preview.ogg"
+            "ref": "weapon-default",
+            "file": "files/sounds/effects/weapon-default.wav"
         }
     ],
     "elements": [
