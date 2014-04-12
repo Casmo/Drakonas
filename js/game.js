@@ -12,6 +12,17 @@ gameSettings.music = true;
 gameSettings.effects = true;
 gameSettings.controls = 'mouse';
 
+var defaultSounds = [
+    {
+        "ref": "weapon-default",
+        "file": "files/sounds/effects/weapon-default.wav"
+    },
+    {
+        "ref": "explosion-phaser",
+        "file": "files/sounds/effects/explosion-phaser.wav"
+    }
+]
+
 /**
  * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
  * @type {Object}

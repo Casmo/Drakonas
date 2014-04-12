@@ -87,7 +87,7 @@
     ],
     "sounds": [
         {
-            "ref": "weapon-default",
+            "ref": "weapon-default-example",
             "file": "files/sounds/effects/weapon-default.wav"
         }
     ],

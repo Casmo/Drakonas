@@ -332,6 +332,7 @@ function removeObject(objectIndex) {
     if (collisionableMeshList[objectIndex] != null) {
         delete(collisionableMeshList[objectIndex]);
     }
+    gameObjects['sound-explosion-phaser'].play();
 }
 
 /**

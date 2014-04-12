@@ -145,30 +145,56 @@ function loadMission(missionCode) {
     });
     // http://www.html5rocks.com/en/tutorials/webaudio/intro/js/rhythm-sample.js
     var context = new AudioContext();
-    missions[missionCode].sounds.forEach(function(sound, i) {
-        if (sound.file != null) {
-            loadingManager.totalObjects++;
-            // load file
-            gameObjects['sound-' + sound.ref] = '';
-            ajax(sound.file, function(data) {
-                loadingManager.objectLoaded();
-                context.decodeAudioData(data, function(buffer) {
-                    gameObjects['sound-' + sound.ref] = {
-                        play: function() {
-                            if (gameSettings.effects == false) {
-                                return false;
+    if (missions[missionCode].sounds != null) {
+        missions[missionCode].sounds.forEach(function(sound, i) {
+            if (sound.file != null) {
+                loadingManager.totalObjects++;
+                // load file
+                gameObjects['sound-' + sound.ref] = '';
+                ajax(sound.file, function(data) {
+                    loadingManager.objectLoaded();
+                    context.decodeAudioData(data, function(buffer) {
+                        gameObjects['sound-' + sound.ref] = {
+                            play: function() {
+                                if (gameSettings.effects == false) {
+                                    return false;
+                                }
+                                var source = context.createBufferSource();
+                                source.buffer = buffer;
+                                source.connect(context.destination);
+                                if (!source.start)
+                                    source.start = source.noteOn;
+                                source.start(0);
                             }
-                            var source = context.createBufferSource();
-                            source.buffer = buffer;
-                            source.connect(context.destination);
-                            if (!source.start)
-                                source.start = source.noteOn;
-                            source.start(0);
+                        };
+                    });
+                }, '', 'arraybuffer');
+            }
+        });
+    }
+
+    defaultSounds.forEach(function(sound, i) {
+        loadingManager.totalObjects++;
+        // load file
+        gameObjects['sound-' + defaultSounds[i].ref] = {};
+        ajax(defaultSounds[i].file, function(data) {
+            loadingManager.objectLoaded();
+            context.decodeAudioData(data, function(buffer) {
+                gameObjects['sound-' + defaultSounds[i].ref] = {
+                    play: function() {
+                        if (gameSettings.effects == false) {
+                            return false;
                         }
-                    };
-                });
-            }, '', 'arraybuffer');
-        }
+                        var source = context.createBufferSource();
+                        source.buffer = buffer;
+                        source.connect(context.destination);
+                        if (!source.start)
+                            source.start = source.noteOn;
+                        source.start(0);
+                    }
+                };
+            });
+        }, '', 'arraybuffer');
     });
 }
 
