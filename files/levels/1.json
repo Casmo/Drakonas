@@ -21,9 +21,16 @@
             "texture": "player"
         },
         "environment": {
-            "sunColor": "0xffffff",
-            "groundColor": "0xffff00",
-            "intensity": 0.7
+            "sun": {
+                "color": "0xffffff",
+                "ground": "0xffff00",
+                "intensity": 0.7
+            },
+            "fog": {
+                "color": "0xcccccc",
+                "near": 200,
+                "far": 400
+            }
         }
     },
     "objects": [

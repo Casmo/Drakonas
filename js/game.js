@@ -117,6 +117,7 @@ function newGame() {
     gameOptions.move            = false;
     gameOptions.pause           = false;
     gameOptions.inGame          = true;
+    gameOptions.playable        = true; // Turn false to prevent player from interacting with game
     gameTweens                  = new Array();
     bullets                     = new Array();
     cancelAnimationFrame(gameOptions.requestId);
@@ -189,14 +190,12 @@ function playMission(missionCode) {
     camera.rotation.z = Math.PI;
 
     // Lights
-    environmentLight = new THREE.HemisphereLight(parseInt(mission.settings.environment.sunColor), parseInt(mission.settings.environment.groundColor), mission.settings.environment.intensity);
+    environmentLight = new THREE.HemisphereLight(parseInt(mission.settings.environment.sun.color), parseInt(mission.settings.environment.sun.ground), mission.settings.environment.sun.intensity);
     scene.add(environmentLight);
     sunTarget = new THREE.Mesh(new THREE.CubeGeometry(10,10,10), veryBasicMaterial);
     sunTarget.position.x = camera.position.x;
     sunTarget.position.y = -50;
     sunTarget.position.z = camera.position.z;
-//    sun = new THREE.DirectionalLight(parseInt(mission.settings.sun.color), mission.settings.sun.intensity);
-    // SpotLight(hex, intensity, distance, angle, exponent)
     sun = new THREE.SpotLight(parseInt(mission.settings.sun.color), mission.settings.sun.intensity );
     sun.position.x = camera.position.x;
     sun.position.y = camera.position.y * 2;
@@ -210,6 +209,11 @@ function playMission(missionCode) {
         sun.shadowDarkness = .5;
         sun.shadowMapWidth = window.innerWidth; // Shadow map texture width in pixels.
         sun.shadowMapHeight = window.innerHeight;
+    }
+
+    if (mission.settings.environment.fog != null) {
+        fog = new THREE.Fog
+        scene.fog = new THREE.Fog(parseInt(mission.settings.environment.fog.color), mission.settings.environment.fog.near, mission.settings.environment.fog.far);
     }
 
     if (gameSettings.debug == true) {
@@ -237,30 +241,32 @@ function render() {
         camera.position.z += mission.settings.gameSpeed;
     }
 
-    // Player position. It follows the mouse. Original idea from: http://jsfiddle.net/Gamedevtuts/nkZjR/
-    distanceX = gameOptions.player.newPosition.x - player.position.x;
-    distance = Math.sqrt(distanceX * distanceX);
-    if (distance > 1) {
-        movement = (distanceX * gameOptions.player.delta);
-        player.position.x += movement;
-        rotationMovement = movement * 1.2;
-        if (rotationMovement > 1) {
-            rotationMovement = 1;
+    if (gameOptions.playable == true) {
+        // Player position. It follows the mouse. Original idea from: http://jsfiddle.net/Gamedevtuts/nkZjR/
+        distanceX = gameOptions.player.newPosition.x - player.position.x;
+        distance = Math.sqrt(distanceX * distanceX);
+        if (distance > 1) {
+            movement = (distanceX * gameOptions.player.delta);
+            player.position.x += movement;
+            rotationMovement = movement * 1.2;
+            if (rotationMovement > 1) {
+                rotationMovement = 1;
+            }
+            if (rotationMovement < -1) {
+                rotationMovement = -1;
+            }
+            player.rotation.z = -rotationMovement;
         }
-        if (rotationMovement < -1) {
-            rotationMovement = -1;
-        }
-        player.rotation.z = -rotationMovement;
-    }
 
-    distanceY = gameOptions.player.newPosition.y - player.position.relativeY;
-    distance = Math.sqrt(distanceY * distanceY);
-    movement = 0;
-    if (distance > 1) {
-        movement = (distanceY * gameOptions.player.delta);
-        player.position.relativeY += movement;
+        distanceY = gameOptions.player.newPosition.y - player.position.relativeY;
+        distance = Math.sqrt(distanceY * distanceY);
+        movement = 0;
+        if (distance > 1) {
+            movement = (distanceY * gameOptions.player.delta);
+            player.position.relativeY += movement;
+        }
+        player.position.z = camera.position.z + player.position.relativeY; // camera.position.z + player.position.relativeY;
     }
-    player.position.z = camera.position.z + player.position.relativeY; // camera.position.z + player.position.relativeY;
     camera.position.x = player.position.x * 0.90;
 
     //camera.lookAt(new THREE.Vector3(player.position.x * 0.40,0,camera.position.z+15));
@@ -426,13 +432,32 @@ function setUi() {
     document.getElementById('hp').style.height = hp + '%';
 }
 
+/**
+ * Removes or add health from the player. The health will be saved whether the game has
+ * stopped or not.
+ * @param health
+ */
 function removeHealth(health) {
     newHealth = gameSettings.hp - health;
     if (newHealth < 0) {
         newHealth = 0;
+        if (gameOptions.inGame == true) {
+            gameOver();
+        }
+    }
+    if (newHealth  > 100) {
+        newHealth = 100;
     }
     gameSettings.hp = newHealth;
     document.getElementById('hp').style.height = newHealth + '%';
+    localStorage.setItem('gameSettings.hp', newHealth);
+}
+
+/**
+ * Logic after the player is being destroyed.
+ */
+function gameOver() {
+    gameOptions.playable = false;
 }
 
 /**
