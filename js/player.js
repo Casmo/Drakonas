@@ -118,7 +118,7 @@ currentWeapons[3]       = {
     ]
 }
 function shoot() {
-    if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true) {
+    if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true || gameOptions.playable == false) {
         return;
     }
     var timeNow = new Date().getTime();

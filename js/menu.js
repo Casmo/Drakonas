@@ -182,7 +182,7 @@ function loadMission(missionCode) {
         defaultSounds.forEach(function(sound, i) {
             loadingManager.totalObjects++;
             // load file
-            gameObjects['sound-' + defaultSounds[i].ref] = {play: function(){}};
+            gameObjects['sound-' + defaultSounds[i].ref] = {play: function(){console.log('Sound "'+ defaultSounds[i].ref +'" not loaded...');}};
             ajax(defaultSounds[i].file, function(data) {
                 loadingManager.objectLoaded();
                 try {

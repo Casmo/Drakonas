@@ -18,6 +18,10 @@ var defaultSounds = [
         "file": "files/sounds/effects/weapon-default.wav"
     },
     {
+        "ref": "dieing-player",
+        "file": "files/sounds/effects/dieing-player.wav"
+    },
+    {
         "ref": "explosion-phaser",
         "file": "files/sounds/effects/explosion-phaser.wav"
     }
@@ -492,12 +496,14 @@ function gameOver() {
     if (typeof player == 'undefined') {
         return;
     }
+    console.log(gameObjects);
+    gameObjects['sound-dieing-player'].play();
     var toPosition = { x: 0, y: 20, z: sunTarget.position.z + 25 }
     gameOptions.playable = false;
     // Animate the player to the ground... :)
     currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
     gameTweens['player_gameover'] = new TWEEN.Tween( currentPosition )
-        .to( toPosition, 4000 )
+        .to( toPosition, 2700 )
         .easing( TWEEN.Easing.Linear.None )
         .onUpdate( function () {
             player.position.x = this.x;
@@ -514,6 +520,7 @@ function gameOver() {
         .onComplete( function () {
             delete(gameTweens['player_gameover']);
             createExplosion(toPosition, 40,25,25,0xff0000,2500);
+            gameObjects['sound-explosion-phaser'].play();
         } )
         .start();
 }
