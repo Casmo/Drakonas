@@ -457,7 +457,30 @@ function removeHealth(health) {
  * Logic after the player is being destroyed.
  */
 function gameOver() {
+    if (typeof player == 'undefined') {
+        return;
+    }
+    var toPosition = { x: 0, y: 20, z: sunTarget.position.z + 25 }
     gameOptions.playable = false;
+    // Animate the player to the ground... :)
+    currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
+    gameTweens['player_gameover'] = new TWEEN.Tween( currentPosition )
+        .to( toPosition, 4000 )
+        .easing( TWEEN.Easing.Linear.None )
+        .onUpdate( function () {
+            player.position.x = this.x;
+            player.position.y = this.y;
+            player.position.z = this.z;
+            player.rotation.x -= 0.02;
+            player.rotation.y += 0.05;
+            player.rotation.z += 0.07;
+        })
+        .onComplete( function () {
+            delete(gameTweens['player_gameover']);
+            createExplosion(toPosition, 40,100,25,0xff0000,2500);
+            createExplosion(toPosition, 20,75,30,0xffffff,2500);
+        } )
+        .start();
 }
 
 /**

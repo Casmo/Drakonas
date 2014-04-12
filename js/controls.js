@@ -12,6 +12,9 @@ window.addEventListener("keydown", function(e) {
         e.stopPropagation();
         pause();
     }
+    if (e.keyCode == 71) {
+        gameOver();
+    }
 });
 window.addEventListener("blur", pause, false);
 window.addEventListener("resize", onWindowResize, false);
