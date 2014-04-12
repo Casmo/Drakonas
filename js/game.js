@@ -474,6 +474,11 @@ function gameOver() {
             player.rotation.x -= 0.02;
             player.rotation.y += 0.05;
             player.rotation.z += 0.07;
+            randomExplosion = Math.random() * 1000;
+            if (randomExplosion < 75) {
+                createExplosion({x: this.x, y: this.y, z: this.z}, 5,10,10,0xff0000,500);
+                createExplosion({x: this.x, y: this.y, z: this.z}, 5,10,7,0xffffff,500);
+            }
         })
         .onComplete( function () {
             delete(gameTweens['player_gameover']);
