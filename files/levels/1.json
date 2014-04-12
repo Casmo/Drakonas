@@ -69,8 +69,12 @@
             "file": "files/objects/tiles/tile-island-001.jpg"
         },
         {
-            "ref": "enemy-ufo-yellow",
-            "file": "files/objects/enemies/ufo-yellow.jpg"
+            "ref": "ufo-glow-orange",
+            "file": "files/objects/enemies/ufo-glow-orange.jpg"
+        },
+        {
+            "ref": "ufo-glow-pink",
+            "file": "files/objects/enemies/ufo-glow-pink.jpg"
         },
         {
             "ref": "tower-bunker",
@@ -159,12 +163,17 @@
         },
         {
             "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
+            "texture": "ufo-glow-pink",
             "spawn": true,
             "position": {
                 "x": -80,
                 "y": 39,
                 "z": -20
+            },
+            "animation": {
+                "rotation": {
+                    "y": 0.06
+                }
             },
             "destroyable": true,
             "collisionable": true,
@@ -192,12 +201,17 @@
         },
         {
             "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
+            "texture": "ufo-glow-orange",
             "spawn": true,
             "position": {
                 "x": -40,
                 "y": 39,
                 "z": -15
+            },
+            "animation": {
+                "rotation": {
+                    "y": 0.06
+                }
             },
             "destroyable": true,
             "collisionable": true,
@@ -225,12 +239,17 @@
         },
         {
             "ref": "enemy-ufo",
-            "texture": "enemy-ufo-yellow",
+            "texture": "ufo-glow-pink",
             "spawn": true,
             "position": {
                 "x": -80,
                 "y": 39,
                 "z": -10
+            },
+            "animation": {
+                "rotation": {
+                    "y": 0.06
+                }
             },
             "destroyable": true,
             "collisionable": true,

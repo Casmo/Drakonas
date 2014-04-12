@@ -288,14 +288,35 @@ function render() {
         }
     });
 
-    collisionableMeshList.forEach(function(mesh, index) {
-        v1 = {x: mesh.position.x, y: mesh.position.y, z: mesh.position.z};
-        v2 = player.position;
-        distance = calcDistance(v1, v2);
-        if (distance < 6) {
-            createExplosion(player.position, 4, 8, 28, 0xff0000);
-            removeHealth(2);
-            removeObjectHp(mesh.missionIndex, 1);
+    if (gameOptions.playable == true) {
+        collisionableMeshList.forEach(function(mesh, index) {
+            v1 = {x: mesh.position.x, y: mesh.position.y, z: mesh.position.z};
+            v2 = player.position;
+            distance = calcDistance(v1, v2);
+            if (distance < 6) {
+                createExplosion(player.position, 4, 8, 28, 0xff0000);
+                removeHealth(2);
+                removeObjectHp(mesh.missionIndex, 1);
+            }
+        });
+    }
+
+    // Animate game objects
+    objects.forEach(function(object, index) {
+        missionElement = mission.elements[object.missionIndex];
+        if (missionElement.animation != null) {
+            // Rotation
+            if (missionElement.animation.rotation != null) {
+                if (missionElement.animation.rotation.x != null) {
+                    objects[index].rotation.x += missionElement.animation.rotation.x;
+                }
+                if (missionElement.animation.rotation.y != null) {
+                    objects[index].rotation.y += missionElement.animation.rotation.y;
+                }
+                if (missionElement.animation.rotation.z != null) {
+                    objects[index].rotation.z += missionElement.animation.rotation.z;
+                }
+            }
         }
     });
 
@@ -476,14 +497,12 @@ function gameOver() {
             player.rotation.z += 0.07;
             randomExplosion = Math.random() * 1000;
             if (randomExplosion < 75) {
-                createExplosion({x: this.x, y: this.y, z: this.z}, 5,10,10,0xff0000,500);
-                createExplosion({x: this.x, y: this.y, z: this.z}, 5,10,7,0xffffff,500);
+                createExplosion({x: this.x, y: this.y, z: this.z}, 5,5,10,0xff0000,500);
             }
         })
         .onComplete( function () {
             delete(gameTweens['player_gameover']);
-            createExplosion(toPosition, 40,100,25,0xff0000,2500);
-            createExplosion(toPosition, 20,75,30,0xffffff,2500);
+            createExplosion(toPosition, 40,25,25,0xff0000,2500);
         } )
         .start();
 }

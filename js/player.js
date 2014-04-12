@@ -230,10 +230,6 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
 
         var material = new THREE.MeshBasicMaterial({ color: color });
 
-        if (gameSettings.quality == 'high') {
-            material = new THREE.MeshLambertMaterial( {color: color} );
-        }
-
         if (randomObject == 1) {
             var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
             var mesh = new THREE.Mesh( circleGeometry, material );
@@ -247,12 +243,6 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
             var segments = 8;
             var circleGeometry = new THREE.CircleGeometry( radius, segments );
             var mesh = new THREE.Mesh( circleGeometry, material );
-        }
-
-        if (gameSettings.quality == 'high') {
-            mesh.receiveShadow = true;
-            mesh.castShadow = true;
-            mesh.material.side = THREE.DoubleSided;
         }
 
         mesh.rotation.x = -(Math.PI / 2);
@@ -272,9 +262,6 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
                     explosions[this.i].position.x = this.x;
                     explosions[this.i].position.y = this.y;
                     explosions[this.i].position.z = this.z;
-                    explosions[this.i].rotation.x += 0.07;
-                    explosions[this.i].rotation.y += 0.08;
-                    explosions[this.i].rotation.z += 0.05;
                     explosions[this.i].scale.x *= 0.96;
                     explosions[this.i].scale.y *= 0.96;
                     explosions[this.i].scale.z *= 0.96;
@@ -289,24 +276,6 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         scene.add(explosions[explosionIndex]);
         explosionIndex++;
     }
-//
-//    gameTweens['eplosion_' + explosionIndex] = new TWEEN.Tween( position )
-//        .to( position, 1000 )
-//        .easing( TWEEN.Easing.Linear.None )
-//        .onUpdate( function () {
-//            for (var p = 0; p < 100; p++) {
-//                bullets[this.i].position.x = this.x;
-//                bullets[this.i].position.y = this.y;
-//                bullets[this.i].position.z = this.z;
-//            }
-//        } )
-//        .onComplete( function () {
-//            removeBullet(this.i);
-//        } )
-//        .start();
-//
-//    scene.add(particleSystem);
-//    explosionIndex++;
 }
 
 /**
