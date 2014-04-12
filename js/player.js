@@ -191,15 +191,19 @@ function bulletHit(index, objectIndex) {
     // Remove object
     yPos = objects[objectIndex].position.y;
     // Remove bullet from scene, tweens, etc
+    removeObjectHp(objectIndex, bullets[index].damage);
+    removeBullet(index, true, yPos);
+}
+
+function removeObjectHp(objectIndex, damage) {
     if (objects[objectIndex] != null) {
+        if (objects[objectIndex] != null && objects[objectIndex].stats != null && objects[objectIndex].stats.hp != null) {
+            objects[objectIndex].stats.hp -= damage;
+        }
         if (objects[objectIndex].stats.hp == null || objects[objectIndex].stats.hp <= 0) {
             removeObject(objectIndex);
         }
-        else if (bullets[index] != null) {
-            objects[objectIndex].stats.hp -= bullets[index].damage;
-        }
     }
-    removeBullet(index, true, yPos);
 }
 
 function createExplosion(position, size, amount, explosionRatio, color, duration) {
@@ -343,7 +347,12 @@ function removeObject(objectIndex) {
     }
     scene.remove(objects[objectIndex]);
     delete(objects[objectIndex]);
-    delete(collidableMeshList[objectIndex]);
+    if (destroyableMeshList[objectIndex] != null) {
+        delete(destroyableMeshList[objectIndex]);
+    }
+    if (collisionableMeshList[objectIndex] != null) {
+        delete(collisionableMeshList[objectIndex]);
+    }
 }
 
 /**

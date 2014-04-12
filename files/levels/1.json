@@ -160,6 +160,7 @@
                 "z": -20
             },
             "destroyable": true,
+            "collisionable": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00",
@@ -192,6 +193,7 @@
                 "z": -15
             },
             "destroyable": true,
+            "collisionable": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00",
@@ -224,6 +226,7 @@
                 "z": -10
             },
             "destroyable": true,
+            "collisionable": true,
             "stats": {
                 "hp": 5,
                 "color": "0xffff00",

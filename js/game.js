@@ -43,6 +43,12 @@ if (window.localStorage) {
         window.localStorage.setItem('gameSettings.score', score);
     }
     gameSettings.score = score;
+    hp = window.localStorage.getItem('gameSettings.hp');
+    if (hp == null) {
+        hp = 100;
+        window.localStorage.setItem('gameSettings.hp', hp);
+    }
+    gameSettings.hp = hp;
 }
 
 /**
@@ -92,7 +98,8 @@ var objectIndex                 = 0;
  * Array with collidable meshes.
  * Idea from: http://stemkoski.github.io/Three.js/Collision-Detection.html
  */
-var collidableMeshList          = new Array();
+var destroyableMeshList          = new Array();
+var collisionableMeshList          = new Array();
 
 var veryBasicMaterial = new THREE.MeshBasicMaterial({
     color: 0x0000ff
@@ -270,14 +277,32 @@ function render() {
         originPoint.y += 10;
         var endPoint = new THREE.Vector3(0,-1,0);
         var ray = new THREE.Raycaster(originPoint, endPoint, 0, 70);
-        var collisionResults = ray.intersectObjects(collidableMeshList);
+        var collisionResults = ray.intersectObjects(destroyableMeshList);
         if ( collisionResults.length > 0) {
             bulletHit(index, collisionResults[0].object.index);
         }
     });
 
+    collisionableMeshList.forEach(function(mesh, index) {
+        v1 = {x: mesh.position.x, y: mesh.position.y, z: mesh.position.z};
+        v2 = player.position;
+        distance = calcDistance(v1, v2);
+        if (distance < 6) {
+            createExplosion(player.position, 4, 8, 28, 0xff0000);
+            removeHealth(2);
+            removeObjectHp(mesh.missionIndex, 1);
+        }
+    });
+
     TWEEN.update();
     renderer.render(scene, camera);
+}
+
+function calcDistance (v1, v2) {
+    dx = v1.x - v2.x;
+    dy = v1.y - v2.y;
+    dz = v1.z - v2.z;
+    return Math.sqrt(dx*dx+dy*dy+dz*dz);
 }
 
 /**
@@ -328,11 +353,16 @@ function spawnObject(index) {
         newObject.receiveShadow = true;
         newObject.castShadow = true;
     }
+    if (objectElement.collisionable != null && objectElement.collisionable == true) {
+        // http://stackoverflow.com/questions/20534042/three-js-raycaster-intersectobjects-only-detects-intersection-on-front-surface
+        newObject.material.side = THREE.DoubleSided;
+        collisionableMeshList[objectIndex] = newObject;
+    }
     // Add the object to the collision array if it is hittable.
     if (objectElement.destroyable != null && objectElement.destroyable == true) {
         // http://stackoverflow.com/questions/20534042/three-js-raycaster-intersectobjects-only-detects-intersection-on-front-surface
         newObject.material.side = THREE.DoubleSided;
-        collidableMeshList[objectIndex] = newObject;
+        destroyableMeshList[objectIndex] = newObject;
     }
 
     // Animate the object
@@ -354,10 +384,16 @@ function spawnObject(index) {
                         objects[this.i].position.x = this.x;
                         objects[this.i].position.y = this.y;
                         objects[this.i].position.z = this.z;
-
-                        collidableMeshList[this.i].position.x = this.x;
-                        collidableMeshList[this.i].position.y = this.y;
-                        collidableMeshList[this.i].position.z = this.z;
+                        if (destroyableMeshList[this.i] != null) {
+                            destroyableMeshList[this.i].position.x = this.x;
+                            destroyableMeshList[this.i].position.y = this.y;
+                            destroyableMeshList[this.i].position.z = this.z;
+                        }
+                        if (collisionableMeshList[this.i] != null) {
+                            collisionableMeshList[this.i].position.x = this.x;
+                            collisionableMeshList[this.i].position.y = this.y;
+                            collisionableMeshList[this.i].position.z = this.z;
+                        }
                     }
                 } )
                 .onComplete( function () {
@@ -387,6 +423,17 @@ function setUi() {
     if (elScore != null) {
         elScore.innerHTML = gameSettings.score;
     }
+    hp = Math.round(gameSettings.hp);
+    document.getElementById('hp').style.height = hp + '%';
+}
+
+function removeHealth(health) {
+    newHealth = gameSettings.hp - health;
+    if (newHealth < 0) {
+        newHealth = 0;
+    }
+    gameSettings.hp = newHealth;
+    document.getElementById('hp').style.height = newHealth + '%';
 }
 
 /**
