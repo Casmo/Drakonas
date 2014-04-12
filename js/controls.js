@@ -146,8 +146,8 @@ function onWindowResize() {
  * Calculates the player position ingame depending on the current mouse position
  * @param event
  */
-var previousCursorPositionX = 0;
-var previousCursorPositionY = 0;
+var previousCursorPositionX = window.innerWidth / 2;
+var previousCursorPositionY = window.innerHeight / 2;
 function onInGameDocumentMouseMove( event ) {
     if (gameOptions.inGame == null || gameOptions.inGame == false) {
         return true;

@@ -58,8 +58,7 @@ if (window.localStorage) {
  */
 var gameObjects                 = new Object();
 var scene 					    = new THREE.Scene();
-//var camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 1, 170); // 170); // window.innerWidth / window.innerHeight
-var camera;//                      = new THREE.OrthographicCamera( window.innerWidth / - 2,window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000 ); // OrthographicCamera( left, right, top, bottom, near, far )
+var camera;
 var renderer 				    = new THREE.WebGLRenderer({antialias:false});
 
 /**

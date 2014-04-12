@@ -252,6 +252,7 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         if (gameSettings.quality == 'high') {
             mesh.receiveShadow = true;
             mesh.castShadow = true;
+            mesh.material.side = THREE.DoubleSided;
         }
 
         mesh.rotation.x = -(Math.PI / 2);
@@ -271,9 +272,12 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
                     explosions[this.i].position.x = this.x;
                     explosions[this.i].position.y = this.y;
                     explosions[this.i].position.z = this.z;
-                    explosions[this.i].scale.x *= 0.98;
-                    explosions[this.i].scale.y *= 0.98;
-                    explosions[this.i].scale.z *= 0.98;
+                    explosions[this.i].rotation.x += 0.07;
+                    explosions[this.i].rotation.y += 0.08;
+                    explosions[this.i].rotation.z += 0.05;
+                    explosions[this.i].scale.x *= 0.96;
+                    explosions[this.i].scale.y *= 0.96;
+                    explosions[this.i].scale.z *= 0.96;
                 }
             } )
             .onComplete( function () {
