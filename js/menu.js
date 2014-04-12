@@ -44,7 +44,9 @@ function showMenu() {
             if (linkId == 'options') {
                 getOptions();
             }
-            document.getElementById('window-' + linkId).className = 'info-window animated fadeIn';
+            else {
+                document.getElementById('window-' + linkId).className = 'info-window animated fadeIn';
+            }
         });
     }
 
@@ -144,17 +146,48 @@ function loadMission(missionCode) {
         }
     });
     // http://www.html5rocks.com/en/tutorials/webaudio/intro/js/rhythm-sample.js
-    var context = new AudioContext();
-    if (missions[missionCode].sounds != null) {
-        missions[missionCode].sounds.forEach(function(sound, i) {
-            if (sound.file != null) {
-                loadingManager.totalObjects++;
-                // load file
-                gameObjects['sound-' + sound.ref] = '';
-                ajax(sound.file, function(data) {
-                    loadingManager.objectLoaded();
+    var context = false;
+    if (typeof AudioContext == 'function') {
+        context = new AudioContext();
+    }
+    if (context) {
+        if (missions[missionCode].sounds != null) {
+            missions[missionCode].sounds.forEach(function(sound, i) {
+                if (sound.file != null) {
+                    loadingManager.totalObjects++;
+                    // load file
+                    gameObjects['sound-' + sound.ref] = '';
+                    ajax(sound.file, function(data) {
+                        loadingManager.objectLoaded();
+                        context.decodeAudioData(data, function(buffer) {
+                            gameObjects['sound-' + sound.ref] = {
+                                play: function() {
+                                    if (gameSettings.effects == false) {
+                                        return false;
+                                    }
+                                    var source = context.createBufferSource();
+                                    source.buffer = buffer;
+                                    source.connect(context.destination);
+                                    if (!source.start)
+                                        source.start = source.noteOn;
+                                    source.start(0);
+                                }
+                            };
+                        });
+                    }, '', 'arraybuffer');
+                }
+            });
+        }
+
+        defaultSounds.forEach(function(sound, i) {
+            loadingManager.totalObjects++;
+            // load file
+            gameObjects['sound-' + defaultSounds[i].ref] = {play: function(){}};
+            ajax(defaultSounds[i].file, function(data) {
+                loadingManager.objectLoaded();
+                try {
                     context.decodeAudioData(data, function(buffer) {
-                        gameObjects['sound-' + sound.ref] = {
+                        gameObjects['sound-' + defaultSounds[i].ref] = {
                             play: function() {
                                 if (gameSettings.effects == false) {
                                     return false;
@@ -168,34 +201,13 @@ function loadMission(missionCode) {
                             }
                         };
                     });
-                }, '', 'arraybuffer');
-            }
+                }
+                catch(e) {
+
+                }
+            }, '', 'arraybuffer');
         });
     }
-
-    defaultSounds.forEach(function(sound, i) {
-        loadingManager.totalObjects++;
-        // load file
-        gameObjects['sound-' + defaultSounds[i].ref] = {};
-        ajax(defaultSounds[i].file, function(data) {
-            loadingManager.objectLoaded();
-            context.decodeAudioData(data, function(buffer) {
-                gameObjects['sound-' + defaultSounds[i].ref] = {
-                    play: function() {
-                        if (gameSettings.effects == false) {
-                            return false;
-                        }
-                        var source = context.createBufferSource();
-                        source.buffer = buffer;
-                        source.connect(context.destination);
-                        if (!source.start)
-                            source.start = source.noteOn;
-                        source.start(0);
-                    }
-                };
-            });
-        }, '', 'arraybuffer');
-    });
 }
 
 function hideInfoWindows() {
@@ -206,30 +218,34 @@ function hideInfoWindows() {
 }
 
 function getOptions() {
-    if (gameSettings.quality == 'high') {
-        document.getElementById('SettingsQualityHigh').checked = true;
-    }
-    else {
-        document.getElementById('SettingsQualityLow').checked = true;
-    }
-    if (gameSettings.music == "true" || gameSettings.music == true) {
-        document.getElementById('SettingsMusicOn').checked = true;
-    }
-    else {
-        document.getElementById('SettingsMusicOff').checked = true;
-    }
-    if (gameSettings.effects == "true" || gameSettings.effects == true) {
-        document.getElementById('SettingsEffectsOn').checked = true;
-    }
-    else {
-        document.getElementById('SettingsEffectsOff').checked = true;
-    }
-    if (gameSettings.controls == "keyboard") {
-        document.getElementById('SettingsControlsKeyboard').checked = true;
-    }
-    else {
-        document.getElementById('SettingsControlsMouse').checked = true;
-    }
+    ajax('files/content/options.html', function(data) {
+        $('#window-options').innerHTML = data;
+        $('#window-options').className = 'info-window animated fadeIn';
+        if (gameSettings.quality == 'high') {
+            document.getElementById('SettingsQualityHigh').checked = true;
+        }
+        else {
+            document.getElementById('SettingsQualityLow').checked = true;
+        }
+        if (gameSettings.music == "true" || gameSettings.music == true) {
+            document.getElementById('SettingsMusicOn').checked = true;
+        }
+        else {
+            document.getElementById('SettingsMusicOff').checked = true;
+        }
+        if (gameSettings.effects == "true" || gameSettings.effects == true) {
+            document.getElementById('SettingsEffectsOn').checked = true;
+        }
+        else {
+            document.getElementById('SettingsEffectsOff').checked = true;
+        }
+        if (gameSettings.controls == "keyboard") {
+            document.getElementById('SettingsControlsKeyboard').checked = true;
+        }
+        else {
+            document.getElementById('SettingsControlsMouse').checked = true;
+        }
+    });
     return true;
 }
 

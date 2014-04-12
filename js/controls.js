@@ -148,6 +148,13 @@ function addPauseListeners() {
             element.requestPointerLock();
             return continueGame();
         }, false );
+
+        document.getElementById('options').addEventListener( 'click', function ( event ) {
+            event.preventDefault();
+            event.stopPropagation();
+            return getOptions();
+        }, false );
+
         document.getElementById('exit').addEventListener( 'click', function ( event ) {
             event.preventDefault();
             event.stopPropagation();

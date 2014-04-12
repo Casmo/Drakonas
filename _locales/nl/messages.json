@@ -4,7 +4,7 @@
         "description": "The name of the game, displayed in the web store."
     },
     "gameDesc": {
-        "message": "Een ouderwedste shoot 'em up 3D shooter met alle leuke elementen van de oude arcade spellen! Schiet je vijanden, vernietig gebouwen en upgrade je schip in deze ultime side shooter.",
+        "message": "Een klassieke shoot 'em up 3D shooter met alle leuke elementen dat een klassiek arcade spel bevat! Schiet je vijanden, vernietig gebouwen en upgrade je schip in deze ultieme side shooter.",
         "description":"The description of the application, displayed in the web store."
     },
     "gameShortDesc": {

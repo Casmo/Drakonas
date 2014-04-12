@@ -21,6 +21,7 @@
         "overrideEscFullscreen",
         "fullscreen",
         "storage",
-        "pointerLock"
+        "pointerLock",
+        "audio"
     ]
 }
