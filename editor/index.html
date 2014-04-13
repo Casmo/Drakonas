@@ -10,7 +10,211 @@
     <body>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-12"><a href="#" onclick="addRow();">Add row</a></div>
+                <div class="col-sm-1">
+                    <a href="#" onclick="addRow();">Add row</a>
+                </div>
+                <div class="col-sm-5">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label for="object" id="info-object"></label>
+                            <select name="object" id="object">
+                                <option value="">Select object</option>
+                                <option value="tower-bunker">Tower Bunker</option>
+                                <option value="tower-number2">Tower Number2</option>
+                                <option value="enemy-ufo">Enemy ufo</option>
+                            </select>
+                            <select name="texture" id="texture">
+                                <option value="">Select texture</option>
+                                <option value="tower-bunker">Tower Bunker</option>
+                                <option value="tower-number2">Tower Number2</option>
+                                <option value="ufo-glow-orange">Enemy Ufo Glow Orange</option>
+                                <option value="ufo-glow-pink">Enemy Ufo Glow Pink</option>
+                            </select>
+                            <input type="text" id="x" name="x" size="3" value=""> <label for="x">X</label>
+                            <input type="text" id="y" name="y" size="3" value="39"> <label for="y">Y</label>
+                            <input type="text" id="z" name="z" size="3" value=""> <label for="z">Z</label>
+                            <input type="checkbox" name="spawn" id="spawn" value="1" checked="checked"> <label for="spawn">Spawn</label>
+                            <input type="checkbox" name="destroyable" id="destroyable" value="1" checked="checked"> <label for="destroyable">Destroyable</label>
+                            <input type="checkbox" name="collisionable" id="collisionable" value="1" checked="checked"> <label for="collisionable">Collisionable</label>
+                        </div>
+                        <div class="col-xs-12">
+                            <input type="text" id="hp" name="hp" size="5" value="5"> <label for="hp">HP</label>
+                            <input type="text" id="color" name="color" size="10" value="0xff9900"> <label for="color">Explosion color</label>
+                            <input type="text" id="score" name="score" size="10" value="1000"> <label for="score">Score</label>
+                        </div>
+                        <div class="col-xs-12">
+                            Animation #1:
+                            <input type="text" id="animation1x" name="animation1x" size="5" value=""> <label for="animation1x">X</label>
+                            <input type="text" id="animation1y" name="animation1y" size="5" value="39"> <label for="animation1y">Y</label>
+                            <input type="text" id="animation1z" name="animation1z" size="5" value=""> <label for="animation1z">Z</label>
+                            <input type="text" id="animation1duration" name="animation1duration" size="10" value="2200"> <label for="animation1duration">Duration (ms)</label>
+                            <select name="animation1easing" id="animation1easing">
+                                <option value="">Select easing</option>
+                                <option value="Linear.None" SELECTED>Linear.None</option>
+                                <option value="Quadratic.In">Quadratic.In</option>
+                                <option value="Quadratic.Out">Quadratic.Out</option>
+                                <option value="Quadratic.InOut">Quadratic.InOut</option>
+                                <option value="Cubic.In">Cubic.In</option>
+                                <option value="Cubic.Out">Cubic.Out</option>
+                                <option value="Cubic.InOut">Cubic.InOut</option>
+                                <option value="Quartic.In">Quartic.In</option>
+                                <option value="Quartic.Out">Quartic.Out</option>
+                                <option value="Quartic.InOut">Quartic.InOut</option>
+                                <option value="Quintic.In">Quintic.In</option>
+                                <option value="Quintic.Out">Quintic.Out</option>
+                                <option value="Quintic.InOut">Quintic.InOut</option>
+                                <option value="Sinusoidal.In">Sinusoidal.In</option>
+                                <option value="Sinusoidal.Out">Sinusoidal.Out</option>
+                                <option value="Sinusoidal.InOut">Sinusoidal.InOut</option>
+                                <option value="Exponential.In">Exponential.In</option>
+                                <option value="Exponential.Out">Exponential.Out</option>
+                                <option value="Exponential.InOut">Exponential.InOut</option>
+                                <option value="Circular.In">Circular.In</option>
+                                <option value="Circular.Out">Circular.Out</option>
+                                <option value="Circular.InOut">Circular.InOut</option>
+                                <option value="Elastic.In">Elastic.In</option>
+                                <option value="Elastic.Out">Elastic.Out</option>
+                                <option value="Elastic.InOut">Elastic.InOut</option>
+                                <option value="Back.In">Back.In</option>
+                                <option value="Back.Out">Back.Out</option>
+                                <option value="Back.InOut">Back.InOut</option>
+                                <option value="Bounce.In">Bounce.In</option>
+                                <option value="Bounce.Out">Bounce.Out</option>
+                                <option value="Bounce.InOut">Bounce.InOut</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            Animation #2:
+                            <input type="text" id="animation2x" name="animation2x" size="5" value=""> <label for="animation2x">X</label>
+                            <input type="text" id="animation2y" name="animation2y" size="5" value="39"> <label for="animation2y">Y</label>
+                            <input type="text" id="animation2z" name="animation2z" size="5" value=""> <label for="animation2z">Z</label>
+                            <input type="text" id="animation2duration" name="animation2duration" size="10" value="2200"> <label for="animation2duration">Duration (ms)</label>
+                            <select name="animation2easing" id="animation2easing">
+                                <option value="">Select easing</option>
+                                <option value="Linear.None" SELECTED>Linear.None</option>
+                                <option value="Quadratic.In">Quadratic.In</option>
+                                <option value="Quadratic.Out">Quadratic.Out</option>
+                                <option value="Quadratic.InOut">Quadratic.InOut</option>
+                                <option value="Cubic.In">Cubic.In</option>
+                                <option value="Cubic.Out">Cubic.Out</option>
+                                <option value="Cubic.InOut">Cubic.InOut</option>
+                                <option value="Quartic.In">Quartic.In</option>
+                                <option value="Quartic.Out">Quartic.Out</option>
+                                <option value="Quartic.InOut">Quartic.InOut</option>
+                                <option value="Quintic.In">Quintic.In</option>
+                                <option value="Quintic.Out">Quintic.Out</option>
+                                <option value="Quintic.InOut">Quintic.InOut</option>
+                                <option value="Sinusoidal.In">Sinusoidal.In</option>
+                                <option value="Sinusoidal.Out">Sinusoidal.Out</option>
+                                <option value="Sinusoidal.InOut">Sinusoidal.InOut</option>
+                                <option value="Exponential.In">Exponential.In</option>
+                                <option value="Exponential.Out">Exponential.Out</option>
+                                <option value="Exponential.InOut">Exponential.InOut</option>
+                                <option value="Circular.In">Circular.In</option>
+                                <option value="Circular.Out">Circular.Out</option>
+                                <option value="Circular.InOut">Circular.InOut</option>
+                                <option value="Elastic.In">Elastic.In</option>
+                                <option value="Elastic.Out">Elastic.Out</option>
+                                <option value="Elastic.InOut">Elastic.InOut</option>
+                                <option value="Back.In">Back.In</option>
+                                <option value="Back.Out">Back.Out</option>
+                                <option value="Back.InOut">Back.InOut</option>
+                                <option value="Bounce.In">Bounce.In</option>
+                                <option value="Bounce.Out">Bounce.Out</option>
+                                <option value="Bounce.InOut">Bounce.InOut</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            Animation #3:
+                            <input type="text" id="animation3x" name="animation3x" size="5" value=""> <label for="animation3x">X</label>
+                            <input type="text" id="animation3y" name="animation3y" size="5" value="39"> <label for="animation3y">Y</label>
+                            <input type="text" id="animation3z" name="animation3z" size="5" value=""> <label for="animation3z">Z</label>
+                            <input type="text" id="animation3duration" name="animation3duration" size="10" value="2200"> <label for="animation3duration">Duration (ms)</label>
+                            <select name="animation3easing" id="animation3easing">
+                                <option value="">Select easing</option>
+                                <option value="Linear.None" SELECTED>Linear.None</option>
+                                <option value="Quadratic.In">Quadratic.In</option>
+                                <option value="Quadratic.Out">Quadratic.Out</option>
+                                <option value="Quadratic.InOut">Quadratic.InOut</option>
+                                <option value="Cubic.In">Cubic.In</option>
+                                <option value="Cubic.Out">Cubic.Out</option>
+                                <option value="Cubic.InOut">Cubic.InOut</option>
+                                <option value="Quartic.In">Quartic.In</option>
+                                <option value="Quartic.Out">Quartic.Out</option>
+                                <option value="Quartic.InOut">Quartic.InOut</option>
+                                <option value="Quintic.In">Quintic.In</option>
+                                <option value="Quintic.Out">Quintic.Out</option>
+                                <option value="Quintic.InOut">Quintic.InOut</option>
+                                <option value="Sinusoidal.In">Sinusoidal.In</option>
+                                <option value="Sinusoidal.Out">Sinusoidal.Out</option>
+                                <option value="Sinusoidal.InOut">Sinusoidal.InOut</option>
+                                <option value="Exponential.In">Exponential.In</option>
+                                <option value="Exponential.Out">Exponential.Out</option>
+                                <option value="Exponential.InOut">Exponential.InOut</option>
+                                <option value="Circular.In">Circular.In</option>
+                                <option value="Circular.Out">Circular.Out</option>
+                                <option value="Circular.InOut">Circular.InOut</option>
+                                <option value="Elastic.In">Elastic.In</option>
+                                <option value="Elastic.Out">Elastic.Out</option>
+                                <option value="Elastic.InOut">Elastic.InOut</option>
+                                <option value="Back.In">Back.In</option>
+                                <option value="Back.Out">Back.Out</option>
+                                <option value="Back.InOut">Back.InOut</option>
+                                <option value="Bounce.In">Bounce.In</option>
+                                <option value="Bounce.Out">Bounce.Out</option>
+                                <option value="Bounce.InOut">Bounce.InOut</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            Animation #4:
+                            <input type="text" id="animation4x" name="animation4x" size="5" value=""> <label for="animation4x">X</label>
+                            <input type="text" id="animation4y" name="animation4y" size="5" value="39"> <label for="animation4y">Y</label>
+                            <input type="text" id="animation4z" name="animation4z" size="5" value=""> <label for="animation4z">Z</label>
+                            <input type="text" id="animation4duration" name="animation4duration" size="10" value="2200"> <label for="animation4duration">Duration (ms)</label>
+                            <select name="animation4easing" id="animation4easing">
+                                <option value="">Select easing</option>
+                                <option value="Linear.None" SELECTED>Linear.None</option>
+                                <option value="Quadratic.In">Quadratic.In</option>
+                                <option value="Quadratic.Out">Quadratic.Out</option>
+                                <option value="Quadratic.InOut">Quadratic.InOut</option>
+                                <option value="Cubic.In">Cubic.In</option>
+                                <option value="Cubic.Out">Cubic.Out</option>
+                                <option value="Cubic.InOut">Cubic.InOut</option>
+                                <option value="Quartic.In">Quartic.In</option>
+                                <option value="Quartic.Out">Quartic.Out</option>
+                                <option value="Quartic.InOut">Quartic.InOut</option>
+                                <option value="Quintic.In">Quintic.In</option>
+                                <option value="Quintic.Out">Quintic.Out</option>
+                                <option value="Quintic.InOut">Quintic.InOut</option>
+                                <option value="Sinusoidal.In">Sinusoidal.In</option>
+                                <option value="Sinusoidal.Out">Sinusoidal.Out</option>
+                                <option value="Sinusoidal.InOut">Sinusoidal.InOut</option>
+                                <option value="Exponential.In">Exponential.In</option>
+                                <option value="Exponential.Out">Exponential.Out</option>
+                                <option value="Exponential.InOut">Exponential.InOut</option>
+                                <option value="Circular.In">Circular.In</option>
+                                <option value="Circular.Out">Circular.Out</option>
+                                <option value="Circular.InOut">Circular.InOut</option>
+                                <option value="Elastic.In">Elastic.In</option>
+                                <option value="Elastic.Out">Elastic.Out</option>
+                                <option value="Elastic.InOut">Elastic.InOut</option>
+                                <option value="Back.In">Back.In</option>
+                                <option value="Back.Out">Back.Out</option>
+                                <option value="Back.InOut">Back.InOut</option>
+                                <option value="Bounce.In">Bounce.In</option>
+                                <option value="Bounce.Out">Bounce.Out</option>
+                                <option value="Bounce.InOut">Bounce.InOut</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            <i>Leave any x-as empty to ignore the animation. <a href="http://sole.github.io/tween.js/examples/03_graphs.html" target="_blank">Different easings</a>.</i><br />
+                            <input type="submit" value="add" id="add">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6" id="json-output">
+
+                </div>
             </div>
             <div class="row"><div class="col-xs-12" id="map"></div></div>
         </div>

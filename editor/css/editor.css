@@ -14,7 +14,7 @@ body {
     text-align: center;
     cursor: default;
 }
-.obj:hover {
+.obj:hover, .active {
     border: 1px dashed #ff9900;
 }
 #map .row:last-child .obj {
