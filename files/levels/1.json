@@ -119,6 +119,9 @@
             },
             "texture": "texture-grass"
         },
-        {"ref":"enemy-ufo","texture":"ufo-glow-pink","position":{"x":23,"y":39,"z":-112},"spawn":true,"destroyable":true,"spawn":true,"collisionable":true,"stats":{"hp":5,"color":"0xff9900","score":1000},"movement":[{"x":23,"y":39,"z":-119,"duration":2200,"easing":"Linear.None"},{"x":23,"y":39,"z":-126,"duration":2200,"easing":"Linear.None"},{"x":23,"y":39,"z":-133,"duration":2200,"easing":"Linear.None"}]}
+        {"ref":"enemy-ufo","texture":"ufo-glow-pink","position":{"x":23,"y":39,"z":-112},"spawn":true,"destroyable":true,"spawn":true,"collisionable":true,"stats":{"hp":5,"color":"0xff9900","score":1000},"movement":[{"x":23,"y":39,"z":-119,"duration":2200,"easing":"Linear.None"},{"x":23,"y":39,"z":-126,"duration":2200,"easing":"Linear.None"},{"x":23,"y":39,"z":-133,"duration":2200,"easing":"Linear.None"}]},
+
+        {"ref":"enemy-ufo","texture":"ufo-glow-orange","position":{"x":-11,"y":39,"z":-113},"spawn":true,"destroyable":true,"spawn":true,"collisionable":true,"stats":{"hp":5,"color":"0xff9900","score":1000},"movement":[{"x":0,"y":39,"z":-120,"duration":2200,"easing":"Linear.None"},{"x":-30,"y":39,"z":-127,"duration":2200,"easing":"Linear.None"},{"x":0,"y":39,"z":-134,"duration":2200,"easing":"Linear.None"}]},
+        {"ref":"tower-bunker","texture":"tower-bunker","position":{"x":-1,"y":9,"z":-108},"spawn":true,"destroyable":true,"spawn":true,"collisionable":true,"stats":{"hp":15,"color":"0xff9900","score":2500}}
     ]
 }
