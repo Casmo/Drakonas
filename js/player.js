@@ -86,13 +86,13 @@ currentWeapons[2]       = {
         "z": 2.5
     },
     "offset":           {
-        x: -1.5,
+        x: -2.5,
         y: -1,
         z: 3.7
     },
     "animation":        [
         {
-            x: -1.5,
+            x: -2.5,
             y: -1,
             z: 60,
             "duration": 1250,
@@ -114,13 +114,13 @@ currentWeapons[3]       = {
         "z": 2.5
     },
     "offset":           {
-        x: 0,
+        x: 1,
         y: -1,
         z: 3.7
     },
     "animation":        [
         {
-            x: 0,
+            x: 1,
             y: -1,
             z: 60,
             "duration": 1250,
