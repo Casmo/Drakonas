@@ -8,14 +8,14 @@
             "position": {
                 "x": 0,
                 "y": 100,
-                "z": -155
+                "z": -175
             }
         },
         "player": {
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": -155
+                "z": -175
             },
             "ref": "player",
             "texture": "player"
@@ -40,11 +40,11 @@
         },
         {
             "ref": "tiles-001",
-            "file": "files/objects/tiles/tile-island-001.obj"
+            "file": "files/objects/tiles/tile-water-s-grass-n-001.obj"
         },
         {
             "ref": "tiles-002",
-            "file": "files/objects/tiles/tile-island-001.obj"
+            "file": "files/objects/tiles/tile-water-s-grass-n-001.obj"
         },
         {
             "ref": "enemy-ufo",
@@ -66,7 +66,7 @@
         },
         {
             "ref": "texture-grass",
-            "file": "files/objects/tiles/tile-island-001.jpg"
+            "file": "files/objects/tiles/tile-water-s-grass-n-001.jpg"
         },
         {
             "ref": "ufo-glow-orange",
@@ -105,7 +105,7 @@
             "ref": "tiles-002",
             "position": {
                 "x": 0,
-                "y": 0,
+                "y": -2,
                 "z": 200
             },
             "texture": "texture-grass"
