@@ -27,6 +27,20 @@ var defaultSounds = [
     }
 ]
 
+var defaultObjects = [
+    {
+        "ref": "missle-basic-001",
+        "file": "files/objects/weapons/missle-basic-001.obj"
+    }
+]
+
+var defaultTextures = [
+    {
+        "ref": "missle-basic-001",
+        "file": "files/objects/weapons/missle-basic-001.jpg"
+    }
+]
+
 /**
  * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
  * @type {Object}

@@ -145,6 +145,29 @@ function loadMission(missionCode) {
             });
         }
     });
+
+    defaultObjects.forEach(function(object, i) {
+        loadingManager.totalObjects++;
+        gameObjects[object.ref] = new Object();
+        // load file
+        loader = new THREE.OBJLoader(manager);
+        loader.load(object.file, function (newObject) {
+            gameObjects[object.ref] = newObject.children[0];
+            loadingManager.objectLoaded();
+        });
+    });
+
+    defaultTextures.forEach(function(texture, i) {
+        gameObjects['texture-' + texture.ref] = new THREE.Texture();
+        loader = new THREE.ImageLoader(manager);
+        loader.load(texture.file, function (image) {
+            gameObjects['texture-' + texture.ref].image = image;
+            gameObjects['texture-' + texture.ref].needsUpdate = true;
+            loadingManager.objectLoaded();
+        });
+
+    });
+
     // http://www.html5rocks.com/en/tutorials/webaudio/intro/js/rhythm-sample.js
     var context = false;
     if (typeof AudioContext == 'function') {

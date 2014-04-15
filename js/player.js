@@ -52,6 +52,7 @@ currentWeapons[0]       = {
 //        }
 //    ]
 }
+
 currentWeapons[1]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.8),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
@@ -74,11 +75,16 @@ currentWeapons[1]       = {
     ]
 }
 currentWeapons[2]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+    "ref":              "missle-basic-001",
+    "texture_ref":      "missle-basic-001",
     "interval":         350,
     "lastShot":         new Date().getTime(),
     "damage":           10,
+    "scale":            {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 2.5
+    },
     "offset":           {
         x: -1.5,
         y: -1,
@@ -95,13 +101,18 @@ currentWeapons[2]       = {
     ]
 }
 currentWeapons[3]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.9),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
+    "ref":              "missle-basic-001",
+    "texture_ref":      "missle-basic-001",
     "interval":         350,
     "lastShot":         new Date().getTime(),
     "easing":           "Quintic.In",
     "duration":         1250,
     "damage":           10,
+    "scale":            {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 2.5
+    },
     "offset":           {
         x: 0,
         y: -1,
@@ -140,9 +151,35 @@ function shoot() {
  */
 function spawnBullet(currentWeapon) {
     var refObject = currentWeapon;
-    var material = refObject.texture;
+    var material = '';
+    if (refObject.texture != null) {
+        material = refObject.texture;
+    }
+    else if (refObject.texture_ref != null) {
+        material = new THREE.MeshLambertMaterial (
+            {
+                map: gameObjects['texture-' + refObject.texture_ref]
+            }
+        );
+    }
     var currentIndex = bulletIndex;
-    var bullet = new THREE.Mesh(refObject.geometry, material);
+    var geometry = '';
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    else if(refObject.ref != null) {
+        geometry = gameObjects[currentWeapon.ref].geometry;
+    }
+    var bullet = new THREE.Mesh(geometry, material);
+    if (currentWeapon.scale != null && currentWeapon.scale.x != null) {
+        bullet.scale.x = currentWeapon.scale.x;
+    }
+    if (currentWeapon.scale != null && currentWeapon.scale.y != null) {
+        bullet.scale.y = currentWeapon.scale.y;
+    }
+    if (currentWeapon.scale != null && currentWeapon.scale.z != null) {
+        bullet.scale.z = currentWeapon.scale.z;
+    }
     bullet.index = currentIndex;
     bullet.damage = currentWeapon.damage;
 
