@@ -245,29 +245,31 @@ function getOptions() {
         $('#window-options').innerHTML = data;
         $('#window-options').className = 'info-window animated fadeIn';
         if (gameSettings.quality == 'high') {
-            document.getElementById('SettingsQualityHigh').checked = true;
+            $('#SettingsQualityHigh').checked = true;
         }
         else {
-            document.getElementById('SettingsQualityLow').checked = true;
+            $('#SettingsQualityLow').checked = true;
         }
         if (gameSettings.music == "true" || gameSettings.music == true) {
-            document.getElementById('SettingsMusicOn').checked = true;
+            $('#SettingsMusicOn').checked = true;
         }
         else {
-            document.getElementById('SettingsMusicOff').checked = true;
+            $('#SettingsMusicOff').checked = true;
         }
         if (gameSettings.effects == "true" || gameSettings.effects == true) {
-            document.getElementById('SettingsEffectsOn').checked = true;
+            $('#SettingsEffectsOn').checked = true;
         }
         else {
-            document.getElementById('SettingsEffectsOff').checked = true;
+            $('#SettingsEffectsOff').checked = true;
         }
         if (gameSettings.controls == "keyboard") {
-            document.getElementById('SettingsControlsKeyboard').checked = true;
+            $('#SettingsControlsKeyboard').checked = true;
         }
         else {
-            document.getElementById('SettingsControlsMouse').checked = true;
+            $('#SettingsControlsMouse').checked = true;
         }
+        $('#SaveSettings').removeEventListener('click');
+        $('#SaveSettings').addEventListener('click', saveSettings, false);
     });
     return true;
 }

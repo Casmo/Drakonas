@@ -250,7 +250,7 @@ function removeObject(objectIndex) {
     }
     // Add score
     if (objectElement.stats.score != null) {
-        addScore(objectElement.stats.score);
+        addScore(objectElement.stats.score, true);
     }
     scene.remove(objects[objectIndex]);
     delete(objects[objectIndex]);
@@ -269,45 +269,25 @@ function removeObject(objectIndex) {
  * add to the normal score and stored in the localStorage.
  * @param score
  */
-function addScore(score) {
-    currentScore = parseInt(document.getElementById('score').innerHTML);
-    if (score > 1000) {
-        newScore = currentScore + 500;
-        score -= 500;
-        setTimeout(function () { addScore(score) }, 20);
+function addScore(score, firstTime) {
+    score = Math.round(parseInt(score));
+    console.log('score added: ' + score);
+    score = parseInt(score);
+    if (typeof firstTime != 'undefined' && firstTime == true) {
+        gameSettings.score = parseInt(gameSettings.score) + score;
+        console.log('updated score: ' + score);
     }
-    else if (score > 500) {
-        newScore = currentScore + 250;
-        score -= 250;
-        setTimeout(function() { addScore(score) }, 30);
+    if ($('#score') == null) {
+        return false;
     }
-    else if (score > 250) {
-        newScore = currentScore + 125;
-        score -= 125;
-        setTimeout(function() { addScore(score) }, 40);
+    currentScore = parseInt($('#score').innerHTML);
+    if (score > 10) {
+        newScore = currentScore + Math.ceil(score / 10);
+        score = score - Math.ceil(score / 10);
+        setTimeout(function () { addScore(score) }, 30);
     }
-    else if (score > 100) {
-        newScore = currentScore + 50;
-        score -= 50;
-        setTimeout(function() { addScore(score) }, 50);
-    }
-    else if (score > 50) {
-        newScore = currentScore + 25;
-        score -= 25;
-        setTimeout(function() { addScore(score) }, 60);
+    else {
         newScore = currentScore + score;
     }
-    else if (score > 10) {
-        newScore = currentScore + 5;
-        score -= 5;
-        setTimeout(function() { addScore(score) }, 70);
-        newScore = currentScore + score;
-    }
-    else if (score > 0) {
-        newScore = currentScore + 1;
-        score -= 1;
-        setTimeout(function() { addScore(score) }, 125);
-        newScore = currentScore + score;
-    }
-    document.getElementById('score').innerHTML = newScore;
+    $('#score').innerHTML = newScore;
 }

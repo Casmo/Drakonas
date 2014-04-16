@@ -474,10 +474,7 @@ function spawnObject(index) {
  * Logic after loading files/content/ui.html
  */
 function setUi() {
-    elScore = document.getElementById('score');
-    if (elScore != null) {
-        elScore.innerHTML = gameSettings.score;
-    }
+    $('#score').innerHTML = gameSettings.score;
     hp = Math.round(gameSettings.hp);
     document.getElementById('hp').style.height = hp + '%';
 }
@@ -510,7 +507,7 @@ function gameOver() {
     if (typeof player == 'undefined') {
         return;
     }
-    console.log(gameObjects);
+    window.localStorage.setItem('gameSettings.score', gameSettings.score);
     gameObjects['sound-dieing-player'].play();
     var toPosition = { x: 0, y: 20, z: sunTarget.position.z + 25 }
     gameOptions.playable = false;
