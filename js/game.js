@@ -42,6 +42,15 @@ var defaultTextures = [
 ]
 
 /**
+ * List with current equiped weapons. Interval is based on time but might need to base it
+ * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
+ * Weapons that are available can be found in availableWeapons array.
+ * @see js/weapons.js
+ * @type {Array}
+ */
+var currentWeapons      = new Array();
+
+/**
  * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
  * @type {Object}
  */
@@ -78,6 +87,13 @@ if (window.localStorage) {
         window.localStorage.setItem('gameSettings.hp', hp);
     }
     gameSettings.hp = hp;
+    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
+    if (currentWeapons == null) {
+        currentWeapons = [{"weaponIndex": 0}];
+        currentWeapons = JSON.stringify(currentWeapons);
+        window.localStorage.setItem('gameSettings.currentWeapons', currentWeapons);
+    }
+    currentWeapons = JSON.parse(currentWeapons);
 }
 
 /**

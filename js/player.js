@@ -8,16 +8,6 @@ var bulletIndex         = 0;
 var explosions          = new Array();
 var explosionIndex      = 0;
 
-/**
- * List with current equiped weapons. Interval is based on time but might need to base it
- * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
- * Weapons that are available can be found in availableWeapons array.
- * @see js/weapons.js
- * @type {Array}
- */
-var currentWeapons      = new Array();
-currentWeapons.push({"weaponIndex": 0});
-currentWeapons.push({"weaponIndex": 1});
 function shoot() {
     if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true || gameOptions.playable == false) {
         return;
@@ -271,11 +261,9 @@ function removeObject(objectIndex) {
  */
 function addScore(score, firstTime) {
     score = Math.round(parseInt(score));
-    console.log('score added: ' + score);
     score = parseInt(score);
     if (typeof firstTime != 'undefined' && firstTime == true) {
         gameSettings.score = parseInt(gameSettings.score) + score;
-        console.log('updated score: ' + score);
     }
     if ($('#score') == null) {
         return false;
@@ -284,7 +272,7 @@ function addScore(score, firstTime) {
     if (score > 10) {
         newScore = currentScore + Math.ceil(score / 10);
         score = score - Math.ceil(score / 10);
-        setTimeout(function () { addScore(score) }, 30);
+        setTimeout(function () { addScore(score) }, (Math.random() * 30 + 30));
     }
     else {
         newScore = currentScore + score;
