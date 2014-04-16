@@ -9,136 +9,27 @@ var explosions          = new Array();
 var explosionIndex      = 0;
 
 /**
- * List with current equiped weapons. Intervall is based on time but might need to base it
+ * List with current equiped weapons. Interval is based on time but might need to base it
  * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
+ * Weapons that are available can be found in availableWeapons array.
+ * @see js/weapons.js
  * @type {Array}
  */
 var currentWeapons      = new Array();
-currentWeapons[0]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.2),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         75,
-    "sound":            "sound-weapon-default",
-    "lastShot":         new Date().getTime(),
-    "damage":           1,
-    "offset":           {
-        x: -.75,
-        y: -1,
-        z: 2
-    },
-    "animation":        [
-    {
-        x: -.75,
-        y: -1,
-        z: 60,
-        "duration": 750,
-        "easing": "Linear.None"
-    }
-    ]
-//    "animation":        [
-//        {
-//            x: 0,
-//            y: -20,
-//            z: 15,
-//            "duration": 350,
-//            "easing": "Sinusoidal.In"
-//        },
-//        {
-//            x: 0,
-//            y: -20,
-//            z: 60,
-//            "duration": 750,
-//            "easing": "Sinusoidal.Out"
-//        }
-//    ]
-}
-
-currentWeapons[1]       = {
-    "geometry":         new THREE.CubeGeometry(.2,.2,.8),
-    "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
-    "interval":         1000,
-    "lastShot":         new Date().getTime(),
-    "damage":           5,
-    "offset":           {
-        x: -.75,
-        y: -1,
-        z: 2
-    },
-    "animation":        [
-        {
-            x: -.75,
-            y: -1,
-            z: 60,
-            "duration": 1500,
-            "easing": "Linear.None"
-        }
-    ]
-}
-currentWeapons[2]       = {
-    "ref":              "missle-basic-001",
-    "texture_ref":      "missle-basic-001",
-    "interval":         350,
-    "lastShot":         new Date().getTime(),
-    "damage":           10,
-    "scale":            {
-        "x": 2.5,
-        "y": 2.5,
-        "z": 2.5
-    },
-    "offset":           {
-        x: -2.5,
-        y: -1,
-        z: 3.7
-    },
-    "animation":        [
-        {
-            x: -2.5,
-            y: -1,
-            z: 60,
-            "duration": 1250,
-            "easing": "Quintic.In"
-        }
-    ]
-}
-currentWeapons[3]       = {
-    "ref":              "missle-basic-001",
-    "texture_ref":      "missle-basic-001",
-    "interval":         350,
-    "lastShot":         new Date().getTime(),
-    "easing":           "Quintic.In",
-    "duration":         1250,
-    "damage":           10,
-    "scale":            {
-        "x": 2.5,
-        "y": 2.5,
-        "z": 2.5
-    },
-    "offset":           {
-        x: 1,
-        y: -1,
-        z: 3.7
-    },
-    "animation":        [
-        {
-            x: 1,
-            y: -1,
-            z: 60,
-            "duration": 1250,
-            "easing": "Quintic.In"
-        }
-    ]
-}
+currentWeapons.push({"weaponIndex": 0});
+currentWeapons.push({"weaponIndex": 1});
 function shoot() {
     if (mouseDown == false || gameOptions == null || gameOptions.inGame == null || gameOptions.inGame == false || gameOptions.pause == null || gameOptions.pause == true || gameOptions.playable == false) {
         return;
     }
     var timeNow = new Date().getTime();
-    for (i = 0; i < currentWeapons.length; i++) {
-        if (currentWeapons[i].lastShot < (timeNow - currentWeapons[i].interval)) {
-            spawnBullet(currentWeapons[i]);
-            currentWeapons[i].lastShot = timeNow;
+    currentWeapons.forEach(function(weapon, index) {
+        weaponIndex = weapon.weaponIndex;
+        if (availableWeapons[weaponIndex].lastShot < (timeNow - availableWeapons[weaponIndex].interval)) {
+            spawnBullet(availableWeapons[weaponIndex]);
+            availableWeapons[weaponIndex].lastShot = timeNow;
         }
-    }
+    });
 
     if (mouseDown == true) {
         setTimeout(function() { shoot(); }, 50);
