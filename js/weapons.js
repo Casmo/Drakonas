@@ -5,6 +5,8 @@
  */
 var availableWeapons = new Array();
 availableWeapons[0]       = {
+    "name":             "Single Machine Gun",
+    "description":      "Very fast machine gun. Shooting both ground and air targets.",
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
     "interval":         75,
@@ -43,6 +45,8 @@ availableWeapons[0]       = {
 //    ]
 }
 availableWeapons[1]       = {
+    "name":             "Plasma cannon",
+    "description":      "",
     "geometry":         new THREE.CubeGeometry(.2,.2,.8),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xff0000}),
     "interval":         1000,
@@ -64,6 +68,8 @@ availableWeapons[1]       = {
     ]
 }
 availableWeapons[2]       = {
+    "name":             "Left air missle",
+    "description":      "",
     "ref":              "missle-basic-001",
     "texture_ref":      "missle-basic-001",
     "interval":         350,
@@ -97,6 +103,8 @@ availableWeapons[2]       = {
     ]
 }
 availableWeapons[3]       = {
+    "name":             "Right air missle",
+    "description":      "",
     "ref":              "missle-basic-001",
     "texture_ref":      "missle-basic-001",
     "interval":         350,

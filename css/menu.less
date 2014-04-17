@@ -78,6 +78,54 @@ a {
   animation-fill-mode: forwards;
   -webkit-animation-fill-mode: forwards;
 }
+
+/*
+ * Shop
+ */
+#shop-container {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#shop-container #shop-item {
+  height: 100%;
+  width: 25%;
+  float: left;
+  background-color: #000;
+}
+#shop-container #all-items {
+  float: left;
+  height: 100%;
+  width: 75%;
+  background-color: rgba(255,255,255,0.5);
+}
+#shop-container #all-items .item-container {
+  float: left;
+  margin: @spacing;
+  padding: @spacing;
+  width: 25%;
+  height: 100px;
+  background-color: rgba(255,255,255,0.5);
+}
+
+#full-container {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  animation-duration: @animation-speed;
+  -webkit-animation-duration: @animation-speed;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+
 /*
  * Forms
  */

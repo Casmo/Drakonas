@@ -23,6 +23,12 @@ function showMenu() {
     if (gameOptions != null && gameOptions.inGame != null) {
         gameOptions.inGame = false;
     }
+    if (gameOptions.spawnObjects != null) {
+        clearTimeout(gameOptions.spawnObjects);
+    }
+    if (gameOptions.requestId != null) {
+        cancelAnimationFrame(gameOptions.requestId);
+    }
     $('#container').className = 'background-menu animated fadeIn';
     $('#container').innerHTML = menuHtml;
 
@@ -30,6 +36,9 @@ function showMenu() {
     document.body.addEventListener('click', function(event) {
         hideInfoWindows();
     });
+
+    $('#shop').addEventListener('click', getShop, false);
+
     infoWindows = document.getElementsByClassName('info-window');
     for (i = 0; i < infoWindows.length; i++) {
         // Do not fire normal clicks on this div
@@ -58,6 +67,26 @@ function showMenu() {
     document.getElementById('exit').addEventListener('click', function() {
         exitFullscreen();
         exit();
+    });
+
+    manager = new THREE.LoadingManager();
+    defaultObjects.forEach(function(object, i) {
+        gameObjects[object.ref] = new Object();
+        // load file
+        loader = new THREE.OBJLoader(manager);
+        loader.load(object.file, function (newObject) {
+            gameObjects[object.ref] = newObject.children[0];
+        });
+    });
+
+    defaultTextures.forEach(function(texture, i) {
+        gameObjects['texture-' + texture.ref] = new THREE.Texture();
+        loader = new THREE.ImageLoader(manager);
+        loader.load(texture.file, function (image) {
+            gameObjects['texture-' + texture.ref].image = image;
+            gameObjects['texture-' + texture.ref].needsUpdate = true;
+        });
+
     });
 }
 
@@ -144,28 +173,6 @@ function loadMission(missionCode) {
                 loadingManager.objectLoaded();
             });
         }
-    });
-
-    defaultObjects.forEach(function(object, i) {
-        loadingManager.totalObjects++;
-        gameObjects[object.ref] = new Object();
-        // load file
-        loader = new THREE.OBJLoader(manager);
-        loader.load(object.file, function (newObject) {
-            gameObjects[object.ref] = newObject.children[0];
-            loadingManager.objectLoaded();
-        });
-    });
-
-    defaultTextures.forEach(function(texture, i) {
-        gameObjects['texture-' + texture.ref] = new THREE.Texture();
-        loader = new THREE.ImageLoader(manager);
-        loader.load(texture.file, function (image) {
-            gameObjects['texture-' + texture.ref].image = image;
-            gameObjects['texture-' + texture.ref].needsUpdate = true;
-            loadingManager.objectLoaded();
-        });
-
     });
 
     // http://www.html5rocks.com/en/tutorials/webaudio/intro/js/rhythm-sample.js
@@ -272,6 +279,109 @@ function getOptions() {
         $('#SaveSettings').addEventListener('click', saveSettings, false);
     });
     return true;
+}
+
+var currentShopBullet;
+function getShop() {
+    cancelAnimationFrame(gameOptions.requestId);
+    ajax('files/content/shop.html', function(data) {
+        $('#full-container').innerHTML = data;
+        $('#full-container').style.display = 'block';
+        $('#full-container').className = 'fadeIn';
+        $('#full-container').removeEventListener('click', function() {});
+        $('#full-container').addEventListener('click', function() {
+            $('#full-container').className = 'fadeOut';
+            setTimeout(function() {
+                $('#full-container').style.display = 'none';
+                scene.remove(currentShopBullet);
+                cancelAnimationFrame(gameOptions.requestId);
+            }, 500);
+        }, false);
+        itemsHtml = '';
+        availableWeapons.forEach(function(weapon, index) {
+            itemsHtml += '<div class="item-container" id="weapon-'+ index +'">';
+            itemsHtml += '<h2>';
+            itemsHtml += weapon.name;
+            itemsHtml += '</h2>';
+            itemsHtml += '<p>'+ weapon.description +'</p>';
+            itemsHtml += '</div>';
+        });
+        $('#all-items').innerHTML = itemsHtml;
+
+        availableWeapons.forEach(function(weapon, index) {
+            $('#weapon-'+ index).removeEventListener('click', function() {});
+            $('#weapon-'+ index).addEventListener('click', function(e) {
+                scene.remove(currentShopBullet);
+                e.preventDefault();
+                e.stopPropagation();
+                thisIndex = this.id.replace(/[^0-9]+/, '');
+                var refObject = availableWeapons[thisIndex];
+                var material = '';
+                if (refObject.texture != null) {
+                    material = refObject.texture;
+                }
+                else if (refObject.texture_ref != null) {
+                    material = new THREE.MeshLambertMaterial (
+                        {
+                            map: gameObjects['texture-' + refObject.texture_ref]
+                        }
+                    );
+                }
+
+                var geometry = '';
+                if (refObject.geometry != null) {
+                    geometry = refObject.geometry;
+                }
+                else if(refObject.ref != null) {
+                    geometry = gameObjects[refObject.ref].geometry;
+                }
+                currentShopBullet = new THREE.Mesh(geometry, material);
+                currentShopBullet.scale.x *= 5;
+                currentShopBullet.scale.y *= 5;
+                currentShopBullet.scale.z *= 5;
+                scene.add(currentShopBullet);
+            }, false);
+        });
+
+        // Set scene for shop
+        currentShopBullet = '';
+        height = Math.round(parseInt($('#shop-item').clientWidth) / 16 * 9);
+
+        for(var i = scene.children.length-1;i>=0;i--){
+            scene.remove(scene.children[i]);
+        }
+        renderer.setSize($('#shop-item').clientWidth, height);
+        // Light
+        sun = new THREE.SpotLight(0xffffff, 0.7);
+        sun.position.x = 10;
+        sun.position.y = 10;
+        sun.position.z = 10;
+        scene.add(sun);
+
+        AmbientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(AmbientLight);
+
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.position.z = 5;
+
+        camera.lookAt(new THREE.Vector3(0,0,0));
+        camera.rotation.z = 0;
+
+        $('#shop-item').appendChild(renderer.domElement);
+        shopAnimation();
+    });
+    return true;
+}
+
+function shopAnimation() {
+    gameOptions.requestId = requestAnimationFrame(shopAnimation);
+    if (currentShopBullet != null && currentShopBullet != '') {
+        currentShopBullet.rotation.x += 0.01;
+        currentShopBullet.rotation.y += 0.02;
+        currentShopBullet.rotation.z += 0.008;
+    }
+    renderer.render(scene, camera);
 }
 
 function saveSettings() {

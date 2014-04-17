@@ -102,9 +102,12 @@ if (window.localStorage) {
  * @type {Object}
  */
 var gameObjects                 = new Object();
-var scene 					    = new THREE.Scene();
-var camera;
-var renderer 				    = new THREE.WebGLRenderer({antialias:false});
+var scene = new THREE.Scene();
+var renderer = new THREE.WebGLRenderer();
+var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 170); // 170); // window.innerWidth / window.innerHeight
+if (gameSettings.quality == 'high') {
+    renderer.shadowMapEnabled = true;
+}
 
 /**
  * Holds the objects and information about the current mission. Information is loaded from
@@ -128,6 +131,7 @@ var sunTarget;
  */
 var gameOptions                 = new Object();
 gameOptions.requestId           = 0; // window.requestAnimationFrame id.
+gameOptions.shopRequestId       = 0;
 
 /**
  * Array with all the game tweens.
@@ -153,9 +157,11 @@ var veryBasicMaterial = new THREE.MeshBasicMaterial({
  * Function to reset all data and starting a new game.
  */
 function newGame() {
-    scene 					    = new THREE.Scene();
-    camera 					    = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 870); // 170); // window.innerWidth / window.innerHeight
-//    camera                      = new THREE.OrthographicCamera(-60,60, 25, -25, 1, 170 ); // OrthographicCamera( left, right, top, bottom, near, far )
+    for(var i = scene.children.length-1;i>=0;i--){
+        scene.remove(scene.children[i]);
+    }
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
     gameOptions.size            = {x: 120, y: 50, startX: 60, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
     gameOptions.buildFor        = {x: window.innerWidth, y: window.innerHeight } // We might need to do something with this. I build this game on a fullscreen resolution of 1920x1080. In some 4:3 situations the player can move out of the screen.
     gameOptions.player          = {delta: 0.06, newPosition: {x: 0, y: 0} }
@@ -172,12 +178,6 @@ function playMission(missionCode) {
     newGame();
     mission = missions[missionCode];
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    if (gameSettings.quality == 'high') {
-        renderer.shadowMapEnabled = true;
-        //renderer.shadowMapType = THREE.PCFShadowMap; // options are THREE.BasicShadowMap | THREE.PCFShadowMap | THREE.PCFSoftShadowMap
-
-    }
     $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div><div class="overlay" id="overlay"></div><div class="ui" id="ui"></div>';
 
     ajax('files/content/pause.html', function(data) {
@@ -222,7 +222,10 @@ function playMission(missionCode) {
     }
     scene.add(player);
 
-    setTimeout(spawnObjects, 250);
+    if (gameOptions.spawnObjects != null) {
+        clearTimeout(gameOptions.spawnObjects);
+    }
+    gameOptions.spawnObjects = setTimeout(spawnObjects, 250);
 
     camera.position.x = mission.settings.camera.position.x;
     camera.position.y = mission.settings.camera.position.y;
@@ -380,6 +383,9 @@ function calcDistance (v1, v2) {
  * Loop through the current objects and spawn objects/monsters that are in the viewport.
  */
 function spawnObjects() {
+    if (gameOptions.spawnObjects != null) {
+        clearTimeout(gameOptions.spawnObjects);
+    }
     for (i = 0; i < mission.elements.length; i++) {
         if (mission.elements[i].spawned != null) {
             continue;
@@ -393,7 +399,7 @@ function spawnObjects() {
     }
     // This should be higher in combination with the delay on animation of an object.
     if (gameOptions.inGame == true) {
-        setTimeout(spawnObjects, 250);
+        gameOptions.spawnObjects = setTimeout(spawnObjects, 250);
     }
 }
 
