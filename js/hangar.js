@@ -5,7 +5,7 @@ var hangarObjects = new Array();
 
 controls = new THREE.OrbitControls(camera);
 controls.minDistance = 2;
-controls.maxDistance = 15;
+controls.maxDistance = 35;
 
 function hangar() {
     cancelAnimationFrame(gameOptions.requestId);
@@ -48,9 +48,9 @@ function hangar() {
         material = refObject.material;
     }
     else {
-        material = new THREE.MeshLambertMaterial ({color: 0xaaaaaa});
+        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
     }
-
+    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
     var geometry = '';
     if (refObject.geometry != null) {
         geometry = refObject.geometry;
@@ -60,6 +60,41 @@ function hangar() {
     }
     hangarObjects['skelet'] = new THREE.Mesh(geometry, material);
     scene.add(hangarObjects['skelet']);
+
+    var refObject = gameObjects['hangar-building'];
+    if (refObject.material != null) {
+        material = refObject.material;
+    }
+    else {
+        material = new THREE.MeshLambertMaterial ({color: 0xcccccc});
+    }
+    var geometry = '';
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    else if(refObject.ref != null) {
+        geometry = gameObjects[refObject.ref].geometry;
+    }
+    hangarObjects['buiding'] = new THREE.Mesh(geometry, material);
+    scene.add(hangarObjects['buiding']);
+
+    var refObject = gameObjects['hangar-door-frames'];
+
+
+    material = new THREE.MeshLambertMaterial (
+        {
+            map: gameObjects['texture-hangar-door-frames']
+        }
+    );
+    var geometry = '';
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    else if(refObject.ref != null) {
+        geometry = gameObjects[refObject.ref].geometry;
+    }
+    hangarObjects['door-frames'] = new THREE.Mesh(geometry, material);
+    scene.add(hangarObjects['door-frames']);
 
     // Player
     var refObject = gameObjects['player-hangar'];
@@ -77,7 +112,7 @@ function hangar() {
         geometry = gameObjects[refObject.ref].geometry;
     }
     hangarObjects['hangarPlayer'] = new THREE.Mesh(geometry, material);
-    hangarObjects['hangarPlayer'].rotation.y = Math.PI / 2;
+    hangarObjects['hangarPlayer'].rotation.y = -(Math.PI / 2);
 
     camera.lookAt(hangarObjects['hangarPlayer'].position);
 

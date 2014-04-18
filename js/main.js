@@ -25,6 +25,14 @@ var defaultObjects = [
         "file": "files/objects/buildings/hangar-skelet.obj"
     },
     {
+        "ref": "hangar-building",
+        "file": "files/objects/buildings/hangar-building.obj"
+    },
+    {
+        "ref": "hangar-door-frames",
+        "file": "files/objects/buildings/hangar-door-frames.obj"
+    },
+    {
         "ref": "player-hangar",
         "file": "files/objects/player/default.obj"
     }
@@ -38,5 +46,10 @@ var defaultTextures = [
     {
         "ref": "player-hangar",
         "file": "files/objects/player/default.jpg"
+    },
+    {
+        "ref": "hangar-door-frames",
+        "file": "files/objects/buildings/hangar-door-frames.jpg"
     }
+
 ]
