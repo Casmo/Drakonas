@@ -162,7 +162,18 @@ function loadMission(missionCode) {
     manager = new THREE.LoadingManager();
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
-    loadingManager.loadedCallback = function() { playMission(missionCode); }
+    loadingManager.loadedCallback = function() {
+        setTimeout(function() { playMission(missionCode); }, 5000);
+        tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )
+            .to( {x: 250, y: 15, z: 0}, 5000 )
+            .easing( TWEEN.Easing.Quartic.In )
+            .onUpdate( function () {
+                hangarObjects['hangarPlayer'].position.x = this.x;
+                hangarObjects['hangarPlayer'].position.y = this.y;
+                hangarObjects['hangarPlayer'].position.z = this.z;
+            } )
+            .start();
+    }
     missions[missionCode].objects.forEach(function(object, i) {
         if (object.file != null) {
             loadingManager.totalObjects++;
@@ -369,7 +380,6 @@ function getShop() {
                 currentShopBullet.scale.x *= 5;
                 currentShopBullet.scale.y *= 5;
                 currentShopBullet.scale.z *= 5;
-                currentShopBullet.rotation.x = -1.57;
                 scene.add(currentShopBullet);
 
                 buyShopItem(thisIndex);
@@ -402,6 +412,12 @@ function getShop() {
         camera.rotation.z = 0;
 
         $('#shop-canvas').appendChild(renderer.domElement);
+
+        $('#shop-canvas').removeEventListener('click', function(e) {});
+        $('#shop-canvas').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
         shopAnimation();
     });
     return true;
@@ -476,11 +492,6 @@ function buyShopItem(weaponIndex) {
 
 function shopAnimation() {
     gameOptions.requestId = requestAnimationFrame(shopAnimation);
-    if (currentShopBullet != null && currentShopBullet != '') {
-        currentShopBullet.rotation.x += 0.01;
-        //currentShopBullet.rotation.y += 0.02;
-        currentShopBullet.rotation.z += 0.03;
-    }
     renderer.render(scene, camera);
 }
 

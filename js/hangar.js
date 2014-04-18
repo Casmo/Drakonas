@@ -4,8 +4,8 @@
 var hangarObjects = new Array();
 
 controls = new THREE.OrbitControls(camera);
-controls.minDistance = 5;
-controls.maxDistance = 12;
+controls.minDistance = 2;
+controls.maxDistance = 15;
 
 function hangar() {
     cancelAnimationFrame(gameOptions.requestId);
@@ -88,5 +88,6 @@ function hangar() {
 
 function hangarAnimation() {
     gameOptions.requestId = requestAnimationFrame(hangarAnimation);
+    TWEEN.update();
     renderer.render(scene, camera);
 }
