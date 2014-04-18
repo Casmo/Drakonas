@@ -171,7 +171,7 @@ function addPauseListeners() {
  * Callback when the player resizes the current browser window.
  */
 function onWindowResize() {
-    if (camera != null) {
+    if (camera != null && gameOptions.inGame == true) {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);

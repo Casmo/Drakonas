@@ -83,23 +83,51 @@ a {
 }
 #shop-container #shop-item {
   height: 100%;
-  width: 25%;
+  width: 40%;
   float: left;
   background-color: #000;
 }
 #shop-container #all-items {
   float: left;
   height: 100%;
-  width: 75%;
+  width: 60%;
   background-color: rgba(255, 255, 255, 0.5);
 }
 #shop-container #all-items .item-container {
+  position: relative;
   float: left;
-  margin: 10px;
   padding: 10px;
-  width: 25%;
+  margin: 2.5%;
+  width: 40%;
   height: 100px;
   background-color: rgba(255, 255, 255, 0.5);
+}
+#shop-container #all-items .item-container .price {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  height: 28px;
+  width: 120px;
+  background-color: #ff0000;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  line-height: 28px;
+  text-align: center;
+}
+#shop-container #all-items .item-container:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #000;
+}
+#current-score {
+  padding: 10px;
+  text-align: left;
+  display: block;
+  font-size: 32px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+#current-score:before {
+  content: "$ ";
 }
 #full-container {
   display: none;

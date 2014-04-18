@@ -6,6 +6,7 @@ if ( document.addEventListener ) {
     }, false );
 }
 var menuHtml = '';
+
 function gotoMenu() {
     $('#container').className = 'animated fadeOut';
     loadingManager.totalObjects = 1;
@@ -282,10 +283,12 @@ function getOptions() {
 }
 
 var currentShopBullet;
+var shopPlatform;
 function getShop() {
     cancelAnimationFrame(gameOptions.requestId);
     ajax('files/content/shop.html', function(data) {
         $('#full-container').innerHTML = data;
+        $('#current-score').innerHTML = gameSettings.score;
         $('#full-container').style.display = 'block';
         $('#full-container').className = 'fadeIn';
         $('#full-container').removeEventListener('click', function() {});
@@ -294,12 +297,25 @@ function getShop() {
             setTimeout(function() {
                 $('#full-container').style.display = 'none';
                 scene.remove(currentShopBullet);
+                scene.remove(shopPlatform);
                 cancelAnimationFrame(gameOptions.requestId);
             }, 500);
         }, false);
         itemsHtml = '';
         availableWeapons.forEach(function(weapon, index) {
             itemsHtml += '<div class="item-container" id="weapon-'+ index +'">';
+
+            sold = false;
+            currentWeapons.forEach(function(currentWeapon) {
+                if (currentWeapon.weaponIndex == index) {
+                    itemsHtml += '<div class="price" id="sold_'+ index +'">Owned</div>';
+                    sold = true;
+                }
+            });
+            if (sold == false) {
+                itemsHtml += '<div class="price" id="sold_'+ index +'">$ '+ weapon.price +'</div>';
+            }
+
             itemsHtml += '<h2>';
             itemsHtml += weapon.name;
             itemsHtml += '</h2>';
@@ -339,6 +355,7 @@ function getShop() {
                 currentShopBullet.scale.x *= 5;
                 currentShopBullet.scale.y *= 5;
                 currentShopBullet.scale.z *= 5;
+                currentShopBullet.rotation.x = -1.57;
                 scene.add(currentShopBullet);
             }, false);
         });
@@ -352,23 +369,23 @@ function getShop() {
         }
         renderer.setSize($('#shop-item').clientWidth, height);
         // Light
-        sun = new THREE.SpotLight(0xffffff, 0.7);
+        sun = new THREE.SpotLight(0xffffff, 1);
         sun.position.x = 10;
         sun.position.y = 10;
         sun.position.z = 10;
         scene.add(sun);
 
-        AmbientLight = new THREE.AmbientLight(0xffffff);
+        AmbientLight = new THREE.AmbientLight(0xcccccc);
         scene.add(AmbientLight);
 
         camera.position.x = 0;
-        camera.position.y = 0;
+        camera.position.y = -0.5;
         camera.position.z = 5;
 
         camera.lookAt(new THREE.Vector3(0,0,0));
         camera.rotation.z = 0;
 
-        $('#shop-item').appendChild(renderer.domElement);
+        $('#shop-canvas').appendChild(renderer.domElement);
         shopAnimation();
     });
     return true;
@@ -378,8 +395,8 @@ function shopAnimation() {
     gameOptions.requestId = requestAnimationFrame(shopAnimation);
     if (currentShopBullet != null && currentShopBullet != '') {
         currentShopBullet.rotation.x += 0.01;
-        currentShopBullet.rotation.y += 0.02;
-        currentShopBullet.rotation.z += 0.008;
+        //currentShopBullet.rotation.y += 0.02;
+        currentShopBullet.rotation.z += 0.03;
     }
     renderer.render(scene, camera);
 }

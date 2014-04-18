@@ -169,6 +169,7 @@ function newGame() {
     gameOptions.pause           = false;
     gameOptions.inGame          = true;
     gameOptions.playable        = true; // Turn false to prevent player from interacting with game
+    gameSettings.score          = window.localStorage.getItem('gameSettings.score');
     gameTweens                  = new Array();
     bullets                     = new Array();
     cancelAnimationFrame(gameOptions.requestId);
