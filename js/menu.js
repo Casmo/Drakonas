@@ -6,14 +6,35 @@ if ( document.addEventListener ) {
     }, false );
 }
 var menuHtml = '';
-
+var inHangar = false;
 function gotoMenu() {
-    $('#container').className = 'animated fadeOut';
     loadingManager.totalObjects = 1;
     loadingManager.loadedCallback = showMenu;
     ajax('files/content/menu.html', function(data) {
         menuHtml = data;
         loadingManager.objectLoaded();
+    });
+    manager = new THREE.LoadingManager();
+    defaultObjects.forEach(function(object, i) {
+        loadingManager.totalObjects++;
+        gameObjects[object.ref] = new Object();
+        // load file
+        loader = new THREE.OBJLoader(manager);
+        loader.load(object.file, function (newObject) {
+            gameObjects[object.ref] = newObject.children[0];
+            loadingManager.objectLoaded();
+        });
+    });
+
+    defaultTextures.forEach(function(texture, i) {
+        loadingManager.totalObjects++;
+        gameObjects['texture-' + texture.ref] = new THREE.Texture();
+        loader = new THREE.ImageLoader(manager);
+        loader.load(texture.file, function (image) {
+            gameObjects['texture-' + texture.ref].image = image;
+            gameObjects['texture-' + texture.ref].needsUpdate = true;
+            loadingManager.objectLoaded();
+        });
     });
 }
 
@@ -30,7 +51,6 @@ function showMenu() {
     if (gameOptions.requestId != null) {
         cancelAnimationFrame(gameOptions.requestId);
     }
-    $('#container').className = 'background-menu animated fadeIn';
     $('#container').innerHTML = menuHtml;
 
     // Menu items
@@ -60,6 +80,10 @@ function showMenu() {
         });
     }
 
+    $('#window-credits').addEventListener('click', function() {
+        hideInfoWindows();
+    }, false);
+
     document.getElementById('start').addEventListener('click', function() {
         launchFullscreen();
         gotoMissions();
@@ -70,25 +94,15 @@ function showMenu() {
         exit();
     });
 
-    manager = new THREE.LoadingManager();
-    defaultObjects.forEach(function(object, i) {
-        gameObjects[object.ref] = new Object();
-        // load file
-        loader = new THREE.OBJLoader(manager);
-        loader.load(object.file, function (newObject) {
-            gameObjects[object.ref] = newObject.children[0];
-        });
-    });
-
-    defaultTextures.forEach(function(texture, i) {
-        gameObjects['texture-' + texture.ref] = new THREE.Texture();
-        loader = new THREE.ImageLoader(manager);
-        loader.load(texture.file, function (image) {
-            gameObjects['texture-' + texture.ref].image = image;
-            gameObjects['texture-' + texture.ref].needsUpdate = true;
-        });
-
-    });
+    if (inHangar == false) {
+        // Enable hangar
+        hangar();
+        inHangar = true;
+    }
+    else {
+        hangarAnimation();
+    }
+    controls.enabled = true;
 }
 
 /**
@@ -282,7 +296,6 @@ function getOptions() {
 }
 
 var currentShopBullet;
-var shopPlatform;
 function getShop() {
     cancelAnimationFrame(gameOptions.requestId);
     gameSettings.score = parseInt(window.localStorage.getItem('gameSettings.score'));
@@ -299,7 +312,6 @@ function getShop() {
             setTimeout(function() {
                 $('#full-container').style.display = 'none';
                 scene.remove(currentShopBullet);
-                scene.remove(shopPlatform);
                 cancelAnimationFrame(gameOptions.requestId);
             }, 500);
         }, false);

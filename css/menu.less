@@ -3,10 +3,20 @@
 @animation-speed: .2s;
 
 #container {
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+}
+#background-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+#missions {
+  display: inline-block;
 }
 
 .info-window {
@@ -26,11 +36,35 @@
   letter-spacing: 2px;
 }
 
-.background-menu {
-  background-image: url(../img/ui/background.jpg);
+#window-credits {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(0,0,0,0.9);
+  width: 100%;
+  height: 100%;
+  left: 0%;
+  top: 0%;
+  text-align: center;
 }
-.background-mission {
-  background-image: url(../img/ui/background-mission.jpg);
+.credits-left {
+  font-weight: bold;
+  color: #fff;
+  text-align: right;
+  display: inline-block;
+  width: 40%;
+  padding: 0;
+  margin: 0;
+  margin-left: @spacing;
+}
+.credits-right {
+  color: #eee;
+  display: inline-block;
+  text-align: left;
+  width: 40%;
+  padding: 0;
+  margin: 0;
+  margin-left: @spacing;
+  font-style: normal;
 }
 
 a {
@@ -52,21 +86,17 @@ a {
  */
 .menu {
   font-size: 120%;
-  width: 300px;
-  height: 200px;
   position: absolute;
-  left: 50%;
-  top: 120px;
-  margin-left: -150px;
+  bottom: @spacing;
 }
 .menu a {
   text-align: center;
-  display: block;
+  display: inline-block;
   padding: @spacing;
   background-color: rgba(0,0,0,0.7);
   border-radius: 3px;
   color: #fff;
-  margin-bottom: @spacing;
+  margin-right: @spacing;
 }
 .menu a:hover:not(.disabled) {
   background-color: rgba(0,0,0,0.9);
@@ -195,7 +225,7 @@ a {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 100;
+  z-index: 11;
   left: 0;
   top: 0;
   animation-duration: @animation-speed;

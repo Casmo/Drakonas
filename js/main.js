@@ -1,12 +1,42 @@
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-}, false);
-
 window.AudioContext = window.AudioContext||window.webkitAudioContext||false;
 
-function exit() {
-    if (!window.close()) {
-        $('#container').innerHTML = '<div class="title text-center">Drakonas</div>';
-        $('#container').innerHTML += '<div class="text-center"><p>Thanks for playing! Close the window by pressing "ctrl + w" or "alt + F4".</p><p>Check <a href="http://games.fellicht.nl/">games.fellicht.nl</a> for more amazing games!</p></div>';
+var defaultSounds = [
+    {
+        "ref": "weapon-default",
+        "file": "files/sounds/effects/weapon-default.wav"
+    },
+    {
+        "ref": "dieing-player",
+        "file": "files/sounds/effects/dieing-player.wav"
+    },
+    {
+        "ref": "explosion-phaser",
+        "file": "files/sounds/effects/explosion-phaser.wav"
     }
-}
+]
+
+var defaultObjects = [
+    {
+        "ref": "missle-basic-001",
+        "file": "files/objects/weapons/missle-basic-001.obj"
+    },
+    {
+        "ref": "hangar-skelet",
+        "file": "files/objects/buildings/hangar-skelet.obj"
+    },
+    {
+        "ref": "player-hangar",
+        "file": "files/objects/player/default.obj"
+    }
+]
+
+var defaultTextures = [
+    {
+        "ref": "missle-basic-001",
+        "file": "files/objects/weapons/missle-basic-001.jpg"
+    },
+    {
+        "ref": "player-hangar",
+        "file": "files/objects/player/default.jpg"
+    }
+]

@@ -12,35 +12,6 @@ gameSettings.music = true;
 gameSettings.effects = true;
 gameSettings.controls = 'mouse';
 
-var defaultSounds = [
-    {
-        "ref": "weapon-default",
-        "file": "files/sounds/effects/weapon-default.wav"
-    },
-    {
-        "ref": "dieing-player",
-        "file": "files/sounds/effects/dieing-player.wav"
-    },
-    {
-        "ref": "explosion-phaser",
-        "file": "files/sounds/effects/explosion-phaser.wav"
-    }
-]
-
-var defaultObjects = [
-    {
-        "ref": "missle-basic-001",
-        "file": "files/objects/weapons/missle-basic-001.obj"
-    }
-]
-
-var defaultTextures = [
-    {
-        "ref": "missle-basic-001",
-        "file": "files/objects/weapons/missle-basic-001.jpg"
-    }
-]
-
 /**
  * List with current equiped weapons. Interval is based on time but might need to base it
  * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
@@ -161,6 +132,8 @@ function newGame() {
     for(var i = scene.children.length-1;i>=0;i--){
         scene.remove(scene.children[i]);
     }
+    inHangar = false;
+    controls.enabled = false;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
