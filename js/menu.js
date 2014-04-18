@@ -145,7 +145,6 @@ function showMissions() {
 
 // Loads all objects and textures for the selected mission and stats the mission after.
 function loadMission(missionCode) {
-    gameObjects = new Object();
     manager = new THREE.LoadingManager();
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
@@ -286,9 +285,12 @@ var currentShopBullet;
 var shopPlatform;
 function getShop() {
     cancelAnimationFrame(gameOptions.requestId);
+    gameSettings.score = parseInt(window.localStorage.getItem('gameSettings.score'));
+    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
+    currentWeapons = JSON.parse(currentWeapons);
     ajax('files/content/shop.html', function(data) {
         $('#full-container').innerHTML = data;
-        $('#current-score').innerHTML = gameSettings.score;
+        $('#score').innerHTML = gameSettings.score;
         $('#full-container').style.display = 'block';
         $('#full-container').className = 'fadeIn';
         $('#full-container').removeEventListener('click', function() {});
@@ -308,7 +310,7 @@ function getShop() {
             sold = false;
             currentWeapons.forEach(function(currentWeapon) {
                 if (currentWeapon.weaponIndex == index) {
-                    itemsHtml += '<div class="price" id="sold_'+ index +'">Owned</div>';
+                    itemsHtml += '<div class="owned" id="sold_'+ index +'">Owned</div>';
                     sold = true;
                 }
             });
@@ -357,6 +359,8 @@ function getShop() {
                 currentShopBullet.scale.z *= 5;
                 currentShopBullet.rotation.x = -1.57;
                 scene.add(currentShopBullet);
+
+                buyShopItem(thisIndex);
             }, false);
         });
 
@@ -389,6 +393,73 @@ function getShop() {
         shopAnimation();
     });
     return true;
+}
+
+/**
+ * Display price and buy/sell button for the selected weapon/item
+ * @param weaponIndex
+ */
+function buyShopItem(weaponIndex) {
+    buy = true;
+    currentWeapons.forEach(function(weapon) {
+        if (weapon.weaponIndex == weaponIndex) {
+            buy = false;
+        }
+    });
+    if (buy == true) {
+        if (availableWeapons[weaponIndex].price <= gameSettings.score) {
+            $('#buy-options').innerHTML = '<a id="buy-'+ weaponIndex +'" class="buy">Buy for $ '+ availableWeapons[weaponIndex].price +' now!</a>';
+        }
+        else {
+            $('#buy-options').innerHTML = '<a class="cannot-buy">$ '+ availableWeapons[weaponIndex].price +'</a>';
+        }
+    }
+    else {
+        sellPrice = Math.round(availableWeapons[weaponIndex].price * 0.8);
+        if (availableWeapons[weaponIndex].sellPrice != null) {
+            sellPrice = availableWeapons[weaponIndex].sellPrice;
+        }
+        $('#buy-options').innerHTML = '<a id="sell-'+ weaponIndex +'"  class="sell">Sell for $ '+ sellPrice +'</a>';
+    }
+    if ($('#buy-' + weaponIndex) != null) {
+        $('#buy-' + weaponIndex).removeEventListener('click', function() {}, false);
+        $('#buy-' + weaponIndex).addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            addScore(-parseInt(availableWeapons[weaponIndex].price), true);
+            window.localStorage.setItem('gameSettings.score', parseInt(gameSettings.score));
+            currentWeapons.push({"weaponIndex": weaponIndex});
+            currentWeapons = JSON.stringify(currentWeapons);
+            window.localStorage.setItem('gameSettings.currentWeapons', currentWeapons);
+            getShop();
+        }, false);
+    }
+    if ($('#sell-' + weaponIndex) != null) {
+        $('#sell-' + weaponIndex).removeEventListener('click', function() {}, false);
+        $('#sell-' + weaponIndex).addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            sellPrice = Math.round(availableWeapons[weaponIndex].price * 0.8);
+            if (availableWeapons[weaponIndex].sellPrice != null) {
+                sellPrice = availableWeapons[weaponIndex].sellPrice;
+            }
+            sellPrice = parseInt(Math.round(sellPrice));
+            addScore(sellPrice, true);
+            window.localStorage.setItem('gameSettings.score', parseInt(gameSettings.score));
+            currentWeapons.forEach(function(weapon, index) {
+                if (weapon.weaponIndex == weaponIndex) {
+                    delete(currentWeapons[index]);
+                }
+            });
+            newCurrentWeapons = new Array();
+            currentWeapons.forEach(function(weapon, index) {
+                newCurrentWeapons.push(weapon);
+            });
+            currentWeapons = JSON.stringify(newCurrentWeapons);
+            window.localStorage.setItem('gameSettings.currentWeapons', currentWeapons);
+            getShop();
+        }, false);
+    }
 }
 
 function shopAnimation() {

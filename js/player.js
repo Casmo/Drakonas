@@ -14,7 +14,7 @@ function shoot() {
     }
     var timeNow = new Date().getTime();
     currentWeapons.forEach(function(weapon, index) {
-        weaponIndex = weapon.weaponIndex;
+        weaponIndex = parseInt(weapon.weaponIndex);
         if (availableWeapons[weaponIndex].lastShot < (timeNow - availableWeapons[weaponIndex].interval)) {
             spawnBullet(availableWeapons[weaponIndex]);
             availableWeapons[weaponIndex].lastShot = timeNow;
@@ -259,23 +259,50 @@ function removeObject(objectIndex) {
  * add to the normal score and stored in the localStorage.
  * @param score
  */
-function addScore(score, firstTime) {
-    score = Math.round(parseInt(score));
-    score = parseInt(score);
-    if (typeof firstTime != 'undefined' && firstTime == true) {
-        gameSettings.score = parseInt(gameSettings.score) + score;
-    }
+function addScore(amountToAdd, firstTime) {
     if ($('#score') == null) {
         return false;
     }
-    currentScore = parseInt($('#score').innerHTML);
-    if (score > 10) {
-        newScore = currentScore + Math.ceil(score / 10);
-        score = score - Math.ceil(score / 10);
-        setTimeout(function () { addScore(score) }, (Math.random() * 30 + 30));
+    if (amountToAdd <= 0) {
+        gameSettings.score = parseInt(gameSettings.score) + amountToAdd;
+        $('#score').innerHTML = gameSettings.score;
+        return true;
     }
-    else {
+    score = parseInt(amountToAdd);
+    currentScore = parseInt(gameSettings.score);
+    newScore = currentScore + score;
+    if (typeof firstTime != 'undefined' && firstTime == true) {
+        gameSettings.score = parseInt(gameSettings.score) + score;
+    }
+
+    if (score > 99999) {
+        newScore = currentScore + 100000;
+        score -= 100000;
+        setTimeout(function () { addScore(score) }, 20);
+    }
+    else if (score > 9999) {
+        newScore = currentScore + 10000;
+        score -= 10000;
+        setTimeout(function () { addScore(score) }, 20);
+    }
+    else if (score > 999) {
+        newScore = currentScore + 1000;
+        score -= 1000;
+        setTimeout(function () { addScore(score) }, 20);
+    }
+    else if (score > 99) {
+        newScore = currentScore + 100;
+        score -= 100;
+        setTimeout(function () { addScore(score) }, 20);
+    }
+    else if (score > 9) {
+        newScore = currentScore + 10;
+        score -= 10;
+        setTimeout(function () { addScore(score) }, 20);
+    }
+    else if (score > 0) {
         newScore = currentScore + score;
+        //currentScore = $('#score').innerHTML = newScore;
     }
     $('#score').innerHTML = newScore;
 }

@@ -157,9 +157,12 @@ var veryBasicMaterial = new THREE.MeshBasicMaterial({
  * Function to reset all data and starting a new game.
  */
 function newGame() {
+    // This is not removing all children that have been spawned.
     for(var i = scene.children.length-1;i>=0;i--){
         scene.remove(scene.children[i]);
     }
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     gameOptions.size            = {x: 120, y: 50, startX: 60, startY: 25 } // StartX: (0 - (gameOptions.size.x / 2))
@@ -172,6 +175,8 @@ function newGame() {
     gameSettings.score          = window.localStorage.getItem('gameSettings.score');
     gameTweens                  = new Array();
     bullets                     = new Array();
+    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
+    currentWeapons = JSON.parse(currentWeapons);
     cancelAnimationFrame(gameOptions.requestId);
 }
 
@@ -484,6 +489,10 @@ function spawnObject(index) {
         }
         if (delay > 0) {
             setTimeout(function() { scene.remove(objects[thisIndex]) }, delay);
+        }
+        else {
+            // Delete it anyways after 10 seconds.
+            setTimeout(function() { scene.remove(objects[thisIndex]) }, 10000);
         }
     }
     objects[objectIndex] = newObject;

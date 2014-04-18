@@ -8,7 +8,8 @@ availableWeapons[0]       = {
     "name":             "Single Machine Gun",
     "description":      "Very fast machine gun. Shooting both ground and air targets.",
     "longDescription":  "Very fast machine gun. Shooting both ground and air targets.",
-    "price":            10000,
+    "price":            5000,
+    "sellPrice":        5000, // Make sure that the player can not sell himself bankrupt.
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
     "interval":         75,

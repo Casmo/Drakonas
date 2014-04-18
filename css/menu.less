@@ -124,12 +124,24 @@ a {
   line-height: 28px;
   text-align: center;
 }
+#shop-container #all-items .item-container .owned {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  height: 28px;
+  width: 120px;
+  background-color: #00a504;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  line-height: 28px;
+  text-align: center;
+}
 #shop-container #all-items .item-container:hover {
   background-color: rgba(255,255,255,0.3);
   color: #000;
 }
 
-#current-score {
+#shop-container #shop-item #score {
   padding: @spacing;
   text-align: left;
   display: block;
@@ -137,8 +149,45 @@ a {
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
-#current-score:before {
+#shop-container #shop-item #score:before {
   content: "$ ";
+}
+#buy-options {
+  padding: @spacing;
+  text-align: center;
+  display: block;
+}
+
+#buy-options a.buy {
+  background-color: #f90;
+  padding: @spacing;
+  display: inline-block;
+  color: #eee;
+}
+#buy-options a.buy:hover {
+  color: #fff;
+  background-color: #CD6D00;
+}
+
+#buy-options a.cannot-buy {
+  background-color: #ccc;
+  padding: @spacing;
+  display: inline-block;
+  color: #555;
+  cursor: default;
+}
+
+
+
+#buy-options a.sell {
+  background-color: #c60004;
+  padding: @spacing;
+  display: inline-block;
+  color: #eee;
+}
+#buy-options a.sell:hover {
+  color: #fff;
+  background-color: #5d0004;
 }
 
 #full-container {
