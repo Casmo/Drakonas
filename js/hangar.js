@@ -4,9 +4,10 @@
 var hangarObjects = new Array();
 
 controls = new THREE.OrbitControls(camera);
-controls.minDistance = 2;
-controls.maxDistance = 35;
+controls.minDistance = 13;
+controls.maxDistance = 13;
 
+// @todo refactor.
 function hangar() {
     cancelAnimationFrame(gameOptions.requestId);
     hangarObjects.forEach(function(obj, index) {
@@ -61,6 +62,63 @@ function hangar() {
     hangarObjects['skelet'] = new THREE.Mesh(geometry, material);
     scene.add(hangarObjects['skelet']);
 
+    // door
+    var refObject = gameObjects['hangar-door-left'];
+    if (refObject.material != null) {
+        material = refObject.material;
+    }
+    else {
+        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
+    }
+    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
+    var geometry = '';
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    else if(refObject.ref != null) {
+        geometry = gameObjects[refObject.ref].geometry;
+    }
+    hangarObjects['door-left'] = new THREE.Mesh(geometry, material);
+    hangarObjects['door-left'].position.x = -20.67;
+    scene.add(hangarObjects['door-left']);
+
+    var refObject = gameObjects['hangar-door-right'];
+    if (refObject.material != null) {
+        material = refObject.material;
+    }
+    else {
+        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
+    }
+    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
+    var geometry = '';
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    else if(refObject.ref != null) {
+        geometry = gameObjects[refObject.ref].geometry;
+    }
+    hangarObjects['door-right'] = new THREE.Mesh(geometry, material);
+    hangarObjects['door-right'].position.x = -20.67;
+    scene.add(hangarObjects['door-right']);
+
+    var refObject = gameObjects['hangar-skelet'];
+    if (refObject.material != null) {
+        material = refObject.material;
+    }
+    else {
+        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
+    }
+    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
+    var geometry = '';
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    else if(refObject.ref != null) {
+        geometry = gameObjects[refObject.ref].geometry;
+    }
+    hangarObjects['skelet'] = new THREE.Mesh(geometry, material);
+    scene.add(hangarObjects['skelet']);
+
     var refObject = gameObjects['hangar-building'];
     if (refObject.material != null) {
         material = refObject.material;
@@ -79,7 +137,6 @@ function hangar() {
     scene.add(hangarObjects['buiding']);
 
     var refObject = gameObjects['hangar-door-frames'];
-
 
     material = new THREE.MeshLambertMaterial (
         {

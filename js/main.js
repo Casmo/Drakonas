@@ -33,6 +33,14 @@ var defaultObjects = [
         "file": "files/objects/buildings/hangar-door-frames.obj"
     },
     {
+        "ref": "hangar-door-right", // position should be on the ?-as 20.67
+        "file": "files/objects/buildings/hangar-door-right.obj"
+    },
+    {
+        "ref": "hangar-door-left", // position should be on the ?-as 20.67
+        "file": "files/objects/buildings/hangar-door-left.obj"
+    },
+    {
         "ref": "player-hangar",
         "file": "files/objects/player/default.obj"
     }

@@ -163,38 +163,74 @@ function loadMission(missionCode) {
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
     loadingManager.loadedCallback = function() {
-        setTimeout(function() { playMission(missionCode); }, 5000);
+        setTimeout(function() { playMission(missionCode); }, 9000);
+        controls.enabled = false;
         tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )
-            .to( {x: -30, y: 0, z: 0}, 2000 )
-            .easing( TWEEN.Easing.Bounce.Out )
+            .to( {x: -30, y: 0, z: 0}, 4000 )
+            .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
                 hangarObjects['hangarPlayer'].position.x = this.x;
                 hangarObjects['hangarPlayer'].position.y = this.y;
                 hangarObjects['hangarPlayer'].position.z = this.z;
+                camera.lookAt(hangarObjects['hangarPlayer'].position);
             } )
             .start();
 
-        tweenPlayer = new TWEEN.Tween( {x: -30, y: 0, z: 0} )
-            .to( {x: -31, y: 0, z: -10}, 1000 )
-            .easing( TWEEN.Easing.Bounce.Out )
+        tweenPlayer = new TWEEN.Tween( {x: -30, y: 0, z: 0, r: -(Math.PI / 2)} )
+            .to( {x: -30, y: 0, z: -2, r: -Math.PI}, 1500 )
+            .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
                 hangarObjects['hangarPlayer'].position.x = this.x;
                 hangarObjects['hangarPlayer'].position.y = this.y;
                 hangarObjects['hangarPlayer'].position.z = this.z;
-                hangarObjects['hangarPlayer'].rotation.y -= 0.01;
+                hangarObjects['hangarPlayer'].rotation.y = this.r;
+                camera.lookAt(hangarObjects['hangarPlayer'].position);
             } )
-            .delay(2000)
+            .delay(4000)
             .start();
 
-        tweenPlayer = new TWEEN.Tween( {x: -31, y: 0, z: -10} )
-            .to( {x: -31, y: 40, z: -50}, 1500 )
-            .easing( TWEEN.Easing.Bounce.Out )
+        tweenPlayer = new TWEEN.Tween( {x: -30, y: 0, z: -2} )
+            .to( {x: -30, y: 25, z: -270}, 2500 )
+            .easing( TWEEN.Easing.Exponential.In )
             .onUpdate( function () {
                 hangarObjects['hangarPlayer'].position.x = this.x;
                 hangarObjects['hangarPlayer'].position.y = this.y;
                 hangarObjects['hangarPlayer'].position.z = this.z;
+                camera.lookAt(hangarObjects['hangarPlayer'].position);
             } )
-            .delay(3000)
+            .delay(5500)
+            .start();
+
+        // Move camera
+        tweenCamera = new TWEEN.Tween(camera.position )
+            .to( {x: -9, y: 8, z: camera.position.z}, 3000 )
+            .easing( TWEEN.Easing.Sinusoidal.InOut )
+            .onUpdate( function () {
+                camera.position.x = this.x;
+                camera.position.y = this.y;
+                camera.position.z = this.z;
+            } )
+            .start();
+
+        // Open doors
+        tweenDoorRight = new TWEEN.Tween( {x: -20.67, y: 0, z: 0} )
+            .to( {x: -20.67, y: 0, z: -6}, 1500 )
+            .easing( TWEEN.Easing.Sinusoidal.InOut )
+            .onUpdate( function () {
+                hangarObjects['door-right'].position.x = this.x;
+                hangarObjects['door-right'].position.y = this.y;
+                hangarObjects['door-right'].position.z = this.z;
+            } )
+            .start();
+
+        tweenDoorLeft = new TWEEN.Tween( {x: -20.67, y: 0, z: 0} )
+            .to( {x: -20.67, y: 0, z: 6}, 1500 )
+            .easing( TWEEN.Easing.Sinusoidal.InOut )
+            .onUpdate( function () {
+                hangarObjects['door-left'].position.x = this.x;
+                hangarObjects['door-left'].position.y = this.y;
+                hangarObjects['door-left'].position.z = this.z;
+            } )
             .start();
     }
     missions[missionCode].objects.forEach(function(object, i) {
