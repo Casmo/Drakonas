@@ -155,6 +155,8 @@ function loadMission(missionCode) {
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
     loadingManager.loadedCallback = function() {
+        playMission(missionCode);
+        return;
         setTimeout(function() { playMission(missionCode); }, 9000);
         controls.enabled = false;
         tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )

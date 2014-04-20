@@ -73,7 +73,7 @@ availableWeapons[1]       = {
     ]
 }
 availableWeapons[2]       = {
-    "name":             "Left air missle",
+    "name":             "Right air missle",
     "description":      "",
     "longDescription":  "",
     "price":            35000,
@@ -88,29 +88,29 @@ availableWeapons[2]       = {
         "z": 2.5
     },
     "offset":           {
-        x: -1.8,
+        x: -1,
         y: -1,
-        z: 1.7
+        z: .2
     },
     "animation":        [
         {
-            x: -1.83,
-            y: -1,
-            z: 1.7,
-            "duration": 500,
-            "easing": "Bounce.In"
+            x: 0,
+            y: -.5,
+            z: 2,
+            "duration": 350,
+            "easing": "Back.Out"
         },
         {
-            x: -1.83,
-            y: -1,
+            x: 0,
+            y: 0,
             z: 60,
-            "duration": 1250,
-            "easing": "Sinusoidal.In"
+            "duration": 750,
+            "easing": "Quadratic.In"
         }
     ]
 }
 availableWeapons[3]       = {
-    "name":             "Right air missle",
+    "name":             "Left air missle",
     "description":      "",
     "longDescription":  "",
     "price":            35000,
@@ -127,24 +127,24 @@ availableWeapons[3]       = {
         "z": 2.5
     },
     "offset":           {
-        x: 1.8,
+        x: 1,
         y: -1,
-        z: 1.7
+        z:.2
     },
     "animation":        [
         {
-            x: 1.8,
-            y: -1,
-            z: 1.7,
-            "duration": 800,
-            "easing": "Bounce.In"
+            x: 0,
+            y: -.5,
+            z: 2,
+            "duration": 350,
+            "easing": "Back.Out"
         },
         {
-            x: 1.8,
-            y: -1,
+            x: 0,
+            y: 0,
             z: 60,
-            "duration": 1250,
-            "easing": "Sinusoidal.In"
+            "duration": 750,
+            "easing": "Quadratic.In"
         }
     ]
 }

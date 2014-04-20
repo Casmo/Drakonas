@@ -5,7 +5,6 @@
 var bullets             = new Array();
 var bulletIndex         = 0;
 
-var explosions          = new Array();
 var explosionIndex      = 0;
 
 function shoot() {
@@ -182,22 +181,22 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
             .to( positionTo, duration )
             .easing( TWEEN.Easing.Quadratic.Out )
             .onUpdate( function () {
-                if (explosions[this.i] != null) {
-                    explosions[this.i].position.x = this.x;
-                    explosions[this.i].position.y = this.y;
-                    explosions[this.i].position.z = this.z;
-                    explosions[this.i].scale.x *= 0.96;
-                    explosions[this.i].scale.y *= 0.96;
-                    explosions[this.i].scale.z *= 0.96;
+                if (spawnedObjects.game['explosion_' + this.i] != null) {
+                    spawnedObjects.game['explosion_' + this.i].position.x = this.x;
+                    spawnedObjects.game['explosion_' + this.i].position.y = this.y;
+                    spawnedObjects.game['explosion_' + this.i].position.z = this.z;
+                    spawnedObjects.game['explosion_' + this.i].scale.x *= 0.96;
+                    spawnedObjects.game['explosion_' + this.i].scale.y *= 0.96;
+                    spawnedObjects.game['explosion_' + this.i].scale.z *= 0.96;
                 }
             } )
             .onComplete( function () {
                 delete(gameTweens['explosion' + this.i]);
-                scene.remove(explosions[this.i]);
+                scene.remove(spawnedObjects.game['explosion_' + this.i]);
             } )
             .start();
-        explosions[explosionIndex] = mesh;
-        scene.add(explosions[explosionIndex]);
+        spawnedObjects.game['explosion_' + explosionIndex] = mesh;
+        scene.add(spawnedObjects.game['explosion_' + explosionIndex]);
         explosionIndex++;
     }
 }
