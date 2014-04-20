@@ -1,38 +1,44 @@
 /**
  * Make scene for hanger/menu
  */
-var hangarObjects = new Array();
 
 controls = new THREE.OrbitControls(camera);
-controls.minDistance = 13;
+controls.minDistance = 2;
 controls.maxDistance = 13;
 
 // @todo refactor.
 function hangar() {
     cancelAnimationFrame(gameOptions.requestId);
-    hangarObjects.forEach(function(obj, index) {
-        scene.remove(hangarObjects[index]);
-    });
+    clearScene();
     gameSettings.score = parseInt(window.localStorage.getItem('gameSettings.score'));
     currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
     currentWeapons = JSON.parse(currentWeapons);
-    // Set scene for shop
-    currentShopBullet = '';
 
-    for(var i = scene.children.length-1;i>=0;i--){
-        scene.remove(scene.children[i]);
-    }
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Light
-    sun = new THREE.SpotLight(0xffffff, 1);
-    sun.position.x = 10;
-    sun.position.y = 10;
-    sun.position.z = 10;
-    scene.add(sun);
+    sun = new THREE.SpotLight(0xffffff,1);
+    sun.position.x = 0;
+    sun.position.y = 64;
+    sun.position.z = 0;
+    sun.castShadow = true;
+    sun.shadowMapWidth = 1024;
+    sun.shadowMapHeight = 1024;
+    sun.shadowCameraNear = 500;
+    sun.shadowCameraFar = 4000;
+    sun.shadowCameraFov = 30;
+    spawnedObjects.hangar['sun'] = sun;
+    scene.add(spawnedObjects.hangar['sun']);
 
-    AmbientLight = new THREE.AmbientLight(0xcccccc);
-    scene.add(AmbientLight);
+    geo = new THREE.CubeGeometry(2,2,2);
+    mat = new THREE.MeshBasicMaterial({color: 0xff9900});
+    cube = new THREE.Mesh(geo, mat);
+    cube.position = sun.position;
+    scene.add(cube);
+
+    AmbientLight = new THREE.AmbientLight(0x222222);
+    spawnedObjects.hangar['AmbientLight'] = AmbientLight;
+    scene.add(spawnedObjects.hangar['AmbientLight']);
 
     camera.position.x = 12;
     camera.position.y = 2;
@@ -45,135 +51,56 @@ function hangar() {
 
     // Hangar
     var refObject = gameObjects['hangar-skelet'];
-    if (refObject.material != null) {
-        material = refObject.material;
-    }
-    else {
-        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    }
-    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    var geometry = '';
+    material = new THREE.MeshLambertMaterial (
+        {
+            map: gameObjects['texture-hangar-skelet']
+        }
+    );
     if (refObject.geometry != null) {
         geometry = refObject.geometry;
     }
     else if(refObject.ref != null) {
         geometry = gameObjects[refObject.ref].geometry;
     }
-    hangarObjects['skelet'] = new THREE.Mesh(geometry, material);
-    scene.add(hangarObjects['skelet']);
+    spawnedObjects.hangar['skelet'] = new THREE.Mesh(geometry, material);
+    scene.add(spawnedObjects.hangar['skelet']);
 
     // door
     var refObject = gameObjects['hangar-door-left'];
-    if (refObject.material != null) {
-        material = refObject.material;
-    }
-    else {
-        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    }
-    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    var geometry = '';
-    if (refObject.geometry != null) {
-        geometry = refObject.geometry;
-    }
-    else if(refObject.ref != null) {
-        geometry = gameObjects[refObject.ref].geometry;
-    }
-    hangarObjects['door-left'] = new THREE.Mesh(geometry, material);
-    hangarObjects['door-left'].position.x = -20.67;
-    scene.add(hangarObjects['door-left']);
+    geometry = refObject.geometry;
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-door']});
+    spawnedObjects.hangar['door-left'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['door-left'].position.x = -20.67;
+    scene.add(spawnedObjects.hangar['door-left']);
 
     var refObject = gameObjects['hangar-door-right'];
-    if (refObject.material != null) {
-        material = refObject.material;
-    }
-    else {
-        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    }
-    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    var geometry = '';
-    if (refObject.geometry != null) {
-        geometry = refObject.geometry;
-    }
-    else if(refObject.ref != null) {
-        geometry = gameObjects[refObject.ref].geometry;
-    }
-    hangarObjects['door-right'] = new THREE.Mesh(geometry, material);
-    hangarObjects['door-right'].position.x = -20.67;
-    scene.add(hangarObjects['door-right']);
-
-    var refObject = gameObjects['hangar-skelet'];
-    if (refObject.material != null) {
-        material = refObject.material;
-    }
-    else {
-        material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    }
-    material = new THREE.MeshLambertMaterial ({color: 0xff9900});
-    var geometry = '';
-    if (refObject.geometry != null) {
-        geometry = refObject.geometry;
-    }
-    else if(refObject.ref != null) {
-        geometry = gameObjects[refObject.ref].geometry;
-    }
-    hangarObjects['skelet'] = new THREE.Mesh(geometry, material);
-    scene.add(hangarObjects['skelet']);
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-door']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['door-right'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['door-right'].position.x = -20.67;
+    scene.add(spawnedObjects.hangar['door-right']);
 
     var refObject = gameObjects['hangar-building'];
-    if (refObject.material != null) {
-        material = refObject.material;
-    }
-    else {
-        material = new THREE.MeshLambertMaterial ({color: 0xcccccc});
-    }
-    var geometry = '';
-    if (refObject.geometry != null) {
-        geometry = refObject.geometry;
-    }
-    else if(refObject.ref != null) {
-        geometry = gameObjects[refObject.ref].geometry;
-    }
-    hangarObjects['buiding'] = new THREE.Mesh(geometry, material);
-    scene.add(hangarObjects['buiding']);
+    geometry = refObject.geometry;
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-building']});
+    spawnedObjects.hangar['buiding'] = new THREE.Mesh(geometry, material);
+    scene.add(spawnedObjects.hangar['buiding']);
 
     var refObject = gameObjects['hangar-door-frames'];
-
-    material = new THREE.MeshLambertMaterial (
-        {
-            map: gameObjects['texture-hangar-door-frames']
-        }
-    );
-    var geometry = '';
-    if (refObject.geometry != null) {
-        geometry = refObject.geometry;
-    }
-    else if(refObject.ref != null) {
-        geometry = gameObjects[refObject.ref].geometry;
-    }
-    hangarObjects['door-frames'] = new THREE.Mesh(geometry, material);
-    scene.add(hangarObjects['door-frames']);
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-door-frames']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['door-frames'] = new THREE.Mesh(geometry, material);
+    scene.add(spawnedObjects.hangar['door-frames']);
 
     // Player
     var refObject = gameObjects['player-hangar'];
-    material = new THREE.MeshLambertMaterial (
-        {
-            map: gameObjects['texture-player-hangar']
-        }
-    );
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
+    scene.add(spawnedObjects.hangar['hangarPlayer']);
 
-    var geometry = '';
-    if (refObject.geometry != null) {
-        geometry = refObject.geometry;
-    }
-    else if(refObject.ref != null) {
-        geometry = gameObjects[refObject.ref].geometry;
-    }
-    hangarObjects['hangarPlayer'] = new THREE.Mesh(geometry, material);
-    hangarObjects['hangarPlayer'].rotation.y = -(Math.PI / 2);
-
-    camera.lookAt(hangarObjects['hangarPlayer'].position);
-
-    scene.add(hangarObjects['hangarPlayer']);
+    camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
 
     hangarAnimation();
 }
