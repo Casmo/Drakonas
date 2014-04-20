@@ -93,15 +93,7 @@ function showMenu() {
         exitFullscreen();
         exit();
     });
-
-    if (inHangar == false) {
-        // Enable hangar
-        hangar();
-        inHangar = true;
-    }
-    else {
-        hangarAnimation();
-    }
+    hangar();
     controls.enabled = true;
 }
 
@@ -169,10 +161,11 @@ function loadMission(missionCode) {
             .to( {x: -30, y: 0, z: 0}, 4000 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-                hangarObjects['hangarPlayer'].position.x = this.x;
-                hangarObjects['hangarPlayer'].position.y = this.y;
-                hangarObjects['hangarPlayer'].position.z = this.z;
-                camera.lookAt(hangarObjects['hangarPlayer'].position);
+
+                spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
+                spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
+                spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
+                camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
             } )
             .start();
 
@@ -180,11 +173,11 @@ function loadMission(missionCode) {
             .to( {x: -30, y: 0, z: -2, r: -Math.PI}, 1500 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-                hangarObjects['hangarPlayer'].position.x = this.x;
-                hangarObjects['hangarPlayer'].position.y = this.y;
-                hangarObjects['hangarPlayer'].position.z = this.z;
-                hangarObjects['hangarPlayer'].rotation.y = this.r;
-                camera.lookAt(hangarObjects['hangarPlayer'].position);
+                spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
+                spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
+                spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
+                spawnedObjects.hangar['hangarPlayer'].rotation.y = this.r;
+                camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
             } )
             .delay(4000)
             .start();
@@ -193,10 +186,10 @@ function loadMission(missionCode) {
             .to( {x: -30, y: 25, z: -270}, 2500 )
             .easing( TWEEN.Easing.Exponential.In )
             .onUpdate( function () {
-                hangarObjects['hangarPlayer'].position.x = this.x;
-                hangarObjects['hangarPlayer'].position.y = this.y;
-                hangarObjects['hangarPlayer'].position.z = this.z;
-                camera.lookAt(hangarObjects['hangarPlayer'].position);
+                spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
+                spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
+                spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
+                camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
             } )
             .delay(5500)
             .start();
@@ -217,9 +210,9 @@ function loadMission(missionCode) {
             .to( {x: -20.67, y: 0, z: -6}, 1500 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-                hangarObjects['door-right'].position.x = this.x;
-                hangarObjects['door-right'].position.y = this.y;
-                hangarObjects['door-right'].position.z = this.z;
+                spawnedObjects.hangar['door-right'].position.x = this.x;
+                spawnedObjects.hangar['door-right'].position.y = this.y;
+                spawnedObjects.hangar['door-right'].position.z = this.z;
             } )
             .start();
 
@@ -227,9 +220,9 @@ function loadMission(missionCode) {
             .to( {x: -20.67, y: 0, z: 6}, 1500 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-                hangarObjects['door-left'].position.x = this.x;
-                hangarObjects['door-left'].position.y = this.y;
-                hangarObjects['door-left'].position.z = this.z;
+                spawnedObjects.hangar['door-left'].position.x = this.x;
+                spawnedObjects.hangar['door-left'].position.y = this.y;
+                spawnedObjects.hangar['door-left'].position.z = this.z;
             } )
             .start();
     }
@@ -368,6 +361,7 @@ function getOptions() {
 var currentShopBullet;
 function getShop() {
     cancelAnimationFrame(gameOptions.requestId);
+    clearScene();
     gameSettings.score = parseInt(window.localStorage.getItem('gameSettings.score'));
     currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
     currentWeapons = JSON.parse(currentWeapons);
@@ -381,8 +375,8 @@ function getShop() {
             $('#full-container').className = 'fadeOut';
             setTimeout(function() {
                 $('#full-container').style.display = 'none';
-                scene.remove(currentShopBullet);
                 cancelAnimationFrame(gameOptions.requestId);
+                hangar();
             }, 500);
         }, false);
         itemsHtml = '';
@@ -411,7 +405,7 @@ function getShop() {
         availableWeapons.forEach(function(weapon, index) {
             $('#weapon-'+ index).removeEventListener('click', function() {});
             $('#weapon-'+ index).addEventListener('click', function(e) {
-                scene.remove(currentShopBullet);
+                scene.remove(spawnedObjects.shop['bullet']);
                 e.preventDefault();
                 e.stopPropagation();
                 thisIndex = this.id.replace(/[^0-9]+/, '');
@@ -439,7 +433,9 @@ function getShop() {
                 currentShopBullet.scale.x *= 5;
                 currentShopBullet.scale.y *= 5;
                 currentShopBullet.scale.z *= 5;
-                scene.add(currentShopBullet);
+
+                spawnedObjects.shop['bullet'] = currentShopBullet;
+                scene.add(spawnedObjects.shop['bullet']);
 
                 buyShopItem(thisIndex);
             }, false);
@@ -458,10 +454,12 @@ function getShop() {
         sun.position.x = 10;
         sun.position.y = 10;
         sun.position.z = 10;
-        scene.add(sun);
+        spawnedObjects.shop['sun'] = sun;
+        scene.add(spawnedObjects.shop['sun']);
 
         AmbientLight = new THREE.AmbientLight(0xcccccc);
-        scene.add(AmbientLight);
+        spawnedObjects.shop['AmbientLight'] = AmbientLight;
+        scene.add(spawnedObjects.shop['AmbientLight']);
 
         camera.position.x = 0;
         camera.position.y = -0.5;

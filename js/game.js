@@ -81,6 +81,17 @@ if (gameSettings.quality == 'high') {
 }
 
 /**
+ * List with spawned objects for shop, hangar and ingame. We will loop this array before
+ * generating a new scene in order to prevent double spawned objects.
+ * @type {Object}
+ * @see clearScene();
+ */
+var spawnedObjects = new Object();
+spawnedObjects.hangar = new Array();
+spawnedObjects.shop = new Array();
+spawnedObjects.game = new Array();
+
+/**
  * Holds the objects and information about the current mission. Information is loaded from
  * the json file.
  * @type {Array}
@@ -92,7 +103,6 @@ var mission                     = new Array();
  * file.
  */
 var sun;
-var sunTarget;
 
 /**
  * Global object with options and settings for the game. Like if the player is moving,
@@ -129,9 +139,7 @@ var veryBasicMaterial = new THREE.MeshBasicMaterial({
  */
 function newGame() {
     // This is not removing all children that have been spawned.
-    for(var i = scene.children.length-1;i>=0;i--){
-        scene.remove(scene.children[i]);
-    }
+    clearScene();
     inHangar = false;
     controls.enabled = false;
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -188,7 +196,8 @@ function playMission(missionCode) {
     }
     if (mission.settings.ambientLight != null) {
         AmbientLight = new THREE.AmbientLight(parseInt(mission.settings.ambientLight));
-        scene.add(AmbientLight);
+        spawnedObjects.game['AmbientLight'] = AmbientLight;
+        scene.add(spawnedObjects.game['AmbientLight']);
     }
 
     playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.texture];
@@ -199,7 +208,8 @@ function playMission(missionCode) {
     if (gameSettings.quality == 'high') {
         player.castShadow = true;
     }
-    scene.add(player);
+    spawnedObjects.game['player'] = player;
+    scene.add(spawnedObjects.game['player']);
 
     if (gameOptions.spawnObjects != null) {
         clearTimeout(gameOptions.spawnObjects);
@@ -218,16 +228,17 @@ function playMission(missionCode) {
 
     // Lights
     environmentLight = new THREE.HemisphereLight(parseInt(mission.settings.environment.sun.color), parseInt(mission.settings.environment.sun.ground), mission.settings.environment.sun.intensity);
-    scene.add(environmentLight);
-    sunTarget = new THREE.Mesh(new THREE.CubeGeometry(10,10,10), veryBasicMaterial);
-    sunTarget.position.x = camera.position.x;
-    sunTarget.position.y = -50;
-    sunTarget.position.z = camera.position.z;
+    spawnedObjects.game['environmentLight'] = environmentLight;
+    scene.add(spawnedObjects.game['environmentLight']);
+    spawnedObjects.game['sunTarget'] = new THREE.Mesh(new THREE.CubeGeometry(10,10,10), veryBasicMaterial);
+    spawnedObjects.game['sunTarget'].position.x = camera.position.x;
+    spawnedObjects.game['sunTarget'].position.y = -50;
+    spawnedObjects.game['sunTarget'].position.z = camera.position.z;
     sun = new THREE.SpotLight(parseInt(mission.settings.sun.color), mission.settings.sun.intensity );
     sun.position.x = camera.position.x;
     sun.position.y = camera.position.y * 2;
     sun.position.z = camera.position.z;
-    sun.target = sunTarget;
+    sun.target = spawnedObjects.game['sunTarget'];
 
     if (gameSettings.quality == 'high') {
         sun.castShadow = true;
@@ -246,8 +257,8 @@ function playMission(missionCode) {
     if (gameSettings.debug == true) {
         sun.shadowCameraVisible = true;
     }
-
-    scene.add(sun);
+    spawnedObjects.game['sun'] = sun;
+    scene.add(spawnedObjects.game['sun']);
 
     document.addEventListener("mousemove", onInGameDocumentMouseMove, false);
 
@@ -301,7 +312,7 @@ function render() {
     //sun.position.x = camera.position.x * 0.5;
     //sun.position.y = camera.position.y + 10;
     sun.position.z = camera.position.z;
-    sunTarget.position.z = camera.position.z;
+    spawnedObjects.game['sunTarget'].position.z = camera.position.z;
 
     // Collision detection between bullets and objects
     bullets.forEach(function(bullet, index) {
@@ -461,16 +472,17 @@ function spawnObject(index) {
             currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
         }
         if (delay > 0) {
-            setTimeout(function() { scene.remove(objects[thisIndex]) }, delay);
+            setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, delay);
         }
         else {
             // Delete it anyways after 10 seconds.
-            setTimeout(function() { scene.remove(objects[thisIndex]) }, 10000);
+            setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, 10000);
         }
     }
     objects[objectIndex] = newObject;
     objects[objectIndex].index = objectIndex;
-    scene.add(objects[objectIndex]);
+    spawnedObjects.game['object_' + objectIndex] = objects[objectIndex];
+    scene.add(spawnedObjects.game['object_' + objectIndex]);
 
     objectIndex++;
 }
@@ -514,7 +526,7 @@ function gameOver() {
     }
     window.localStorage.setItem('gameSettings.score', gameSettings.score);
     gameObjects['sound-dieing-player'].play();
-    var toPosition = { x: 0, y: 20, z: sunTarget.position.z + 25 }
+    var toPosition = { x: 0, y: 20, z: spawnedObjects.game['sunTarget'].position.z + 25 }
     gameOptions.playable = false;
     // Animate the player to the ground... :)
     currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
@@ -539,6 +551,24 @@ function gameOver() {
             gameObjects['sound-explosion-phaser'].play();
         } )
         .start();
+}
+
+/**
+ * clears a scene from objects that have been spawned (added) before..
+ */
+function clearScene() {
+    for (var key in spawnedObjects.hangar) {
+        var obj = spawnedObjects.hangar[key];
+        scene.remove(obj);
+    }
+    for (var key in spawnedObjects.shop) {
+        var obj = spawnedObjects.shop[key];
+        scene.remove(obj);
+    }
+    for (var key in spawnedObjects.game) {
+        var obj = spawnedObjects.game[key];
+        scene.remove(obj);
+    }
 }
 
 /**

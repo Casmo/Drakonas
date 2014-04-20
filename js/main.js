@@ -58,6 +58,17 @@ var defaultTextures = [
     {
         "ref": "hangar-door-frames",
         "file": "files/objects/buildings/hangar-door-frames.jpg"
+    },
+    {
+        "ref": "hangar-skelet",
+        "file": "files/objects/buildings/hangar-skelet.jpg"
+    },
+    {
+        "ref": "hangar-door",
+        "file": "files/objects/buildings/hangar-door.jpg"
+    },
+    {
+        "ref": "hangar-building",
+        "file": "files/objects/buildings/hangar-building.jpg"
     }
-
 ]
