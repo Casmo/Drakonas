@@ -342,7 +342,7 @@ function render() {
             v2 = {x: player.position.x, y: player.position.z};
             distance = calcDistance(v1, v2);
             if (distance < 2) {
-                createExplosion(player.position, 4, 8, 28, 0xff0000);
+                createExplosion(bullet, 4, 8, 28, 0xff0000);
                 removeHealth(1);
                 scene.remove(spawnedObjects.game['bullet_enemy_' + index]);
                 delete(enemyBullets[index]);
@@ -606,7 +606,7 @@ function gameOver() {
     }
     window.localStorage.setItem('gameSettings.score', gameSettings.score);
     gameObjects['sound-dieing-player'].play();
-    var toPosition = { x: 0, y: 20, z: spawnedObjects.game['sunTarget'].position.z + 25 }
+    var toPosition = { x: 0, y: 15, z: spawnedObjects.game['sunTarget'].position.z + 25 }
     gameOptions.playable = false;
     // Animate the player to the ground... :)
     currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
@@ -626,9 +626,10 @@ function gameOver() {
             }
         })
         .onComplete( function () {
-            delete(gameTweens['player_gameover']);
             createExplosion(toPosition, 40,25,25,0xff0000,2500);
+            delete(gameTweens['player_gameover']);
             gameObjects['sound-explosion-phaser'].play();
+            gameOptions.move = false;
         } )
         .start();
 }

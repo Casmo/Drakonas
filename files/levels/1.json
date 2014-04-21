@@ -141,6 +141,12 @@
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
+                },
+                {
+                    "timeout": 3000,
+                    "direction": "down",
+                    "ref": "bullet-yellow",
+                    "speed": 1500
                 }
             ],
             "stats": {
