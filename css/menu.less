@@ -85,21 +85,31 @@ a {
  * Main menu
  */
 .menu {
+  text-align: center;
   font-size: 120%;
   position: absolute;
-  bottom: @spacing;
+  bottom: 0;
+  width: 100%;
+  background-image: url(../img/ui/menu/background.png);
+  padding: 25px 0 5px 0;
+  height: 28px;
 }
 .menu a {
   text-align: center;
   display: inline-block;
-  padding: @spacing;
-  background-color: rgba(0,0,0,0.7);
-  border-radius: 3px;
-  color: #fff;
-  margin-right: @spacing;
+  padding: 0 @spacing;
+  font-size: 22px;
+  background-image: url(../img/ui/menu/button-background.png);
+  background-repeat: repeat-x;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 1px;
+  border: 1px solid rgba(0,0,0,0.5);
+  color: #000;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  margin-left: @spacing;
 }
 .menu a:hover:not(.disabled) {
-  background-color: rgba(0,0,0,0.9);
   color: @base;
   animation-duration: @animation-speed;
   -webkit-animation-duration: @animation-speed;
