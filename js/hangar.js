@@ -5,6 +5,8 @@
 controls = new THREE.OrbitControls(camera);
 controls.minDistance = 2;
 controls.maxDistance = 13;
+controls.minPolarAngle = 0.5;
+controls.maxPolarAngle = Math.PI / 2.1;
 
 // @todo refactor.
 function hangar() {
@@ -42,6 +44,16 @@ function hangar() {
     camera.rotation.z = 0;
 
     $('#background-container').appendChild(renderer.domElement);
+
+
+    // Player
+    var refObject = gameObjects['player-hangar'];
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
+    spawnedObjects.hangar['hangarPlayer'].position.y = .5;
+    scene.add(spawnedObjects.hangar['hangarPlayer']);
 
     // Hangar
     var refObject = gameObjects['hangar-skelet'];
@@ -86,13 +98,24 @@ function hangar() {
     spawnedObjects.hangar['door-frames'] = new THREE.Mesh(geometry, material);
     scene.add(spawnedObjects.hangar['door-frames']);
 
-    // Player
-    var refObject = gameObjects['player-hangar'];
-    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
-    geometry = refObject.geometry;
-    spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
-    spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
-    scene.add(spawnedObjects.hangar['hangarPlayer']);
+
+    geometryFloor = new THREE.PlaneGeometry(42,30);
+//    gameObjects['texture-hangar-floor'].wrapS = gameObjects['texture-hangar-floor'].wrapT = THREE.RepeatWrapping;
+//    gameObjects['texture-hangar-floor'].repeat.set(3, 3);
+    material = new THREE.MeshPhongMaterial(
+        {
+            map: gameObjects['texture-hangar-floor'],
+            color: 0xaaaaaa,
+            specular:0x555555,
+            shininess:.5,
+            combine: THREE.MixOperation,
+            reflectivity: 0.5
+        }
+    );
+    spawnedObjects.hangar['floor'] = new THREE.Mesh(geometryFloor, material);
+//    spawnedObjects.hangar['floor'].material.ambient = 0xffffff;
+    spawnedObjects.hangar['floor'].rotation.x = -1.57;
+    scene.add(spawnedObjects.hangar['floor']);
 
     camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
 
