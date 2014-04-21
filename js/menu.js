@@ -16,14 +16,19 @@ function gotoMenu() {
     });
     manager = new THREE.LoadingManager();
     defaultObjects.forEach(function(object, i) {
-        loadingManager.totalObjects++;
         gameObjects[object.ref] = new Object();
-        // load file
-        loader = new THREE.OBJLoader(manager);
-        loader.load(object.file, function (newObject) {
-            gameObjects[object.ref] = newObject.children[0];
-            loadingManager.objectLoaded();
-        });
+        if (object.file != null && object.file != '') {
+            loadingManager.totalObjects++;
+            // load file
+            loader = new THREE.OBJLoader(manager);
+            loader.load(object.file, function (newObject) {
+                gameObjects[object.ref] = newObject.children[0];
+                loadingManager.objectLoaded();
+            });
+        }
+        else if (object.geometry != null && object.geometry != '') {
+            gameObjects[object.ref] = object.geometry;
+        }
     });
 
     defaultTextures.forEach(function(texture, i) {

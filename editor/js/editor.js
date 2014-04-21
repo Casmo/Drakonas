@@ -77,7 +77,7 @@ function generateJson() {
         document.getElementById('z').focus();
         return false;
     }
-    jsonOutput = '<br />{';
+    jsonOutput = '{';
     jsonOutput += '"ref":"'+ document.getElementById('object').options[document.getElementById('object').selectedIndex].value +'",';
     jsonOutput += '"texture":"'+ document.getElementById('texture').options[document.getElementById('texture').selectedIndex].value +'",';
     jsonOutput += '"position":{';
@@ -152,8 +152,11 @@ function generateJson() {
         jsonOutput += ']';
     }
 
-    jsonOutput += '}<br />';
+    jsonOutput += '}';
 
+    output = JSON.parse(jsonOutput);
+    output = JSON.stringify(output, undefined, 2);
+    //output = JSON.stringify(jsonOutput, undefined, 2);
 
-    document.getElementById('json-output').innerHTML += jsonOutput;
+    document.getElementById('json-output').innerHTML += '<pre>' + output + '</pre>';
 }

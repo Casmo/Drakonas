@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/editor.css" />
         <script type="text/javascript" src="js/editor.js"></script>
+        <script type="text/javascript" src="../js/lib/json.js"></script>
     </head>
     <body>
         <div class="container-fluid">
@@ -13,7 +14,7 @@
                 <div class="col-sm-1">
                     <a href="#" onclick="addRow();">Add row</a>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-12">
                     <div class="row">
                         <div class="col-xs-12">
                             <label for="object" id="info-object"></label>
@@ -212,11 +213,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6" id="json-output">
-
-                </div>
             </div>
             <div class="row"><div class="col-xs-12" id="map"></div></div>
+            <div class="row">
+                <div class="col-sm-12" id="json-output">
+                </div>
+            </div>
         </div>
     </body>
 </html>

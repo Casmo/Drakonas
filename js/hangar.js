@@ -4,11 +4,10 @@
 
 controls = new THREE.OrbitControls(camera);
 controls.minDistance = 2;
-controls.maxDistance = 13;
+controls.maxDistance = 18;
 controls.minPolarAngle = 0.5;
 controls.maxPolarAngle = Math.PI / 2.1;
 
-// @todo refactor.
 function hangar() {
     cancelAnimationFrame(gameOptions.requestId);
     clearScene();
@@ -98,6 +97,94 @@ function hangar() {
     spawnedObjects.hangar['door-frames'] = new THREE.Mesh(geometry, material);
     scene.add(spawnedObjects.hangar['door-frames']);
 
+    var refObject = gameObjects['hangar-closet'];
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-door-frames']});
+    spawnedObjects.hangar['closet-1'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-1'].position = {
+        x: -13,
+        y: 0,
+        z: 11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-1']);
+    spawnedObjects.hangar['closet-2'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-2'].position = {
+        x: -6,
+        y: 0,
+        z: 11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-2']);
+    spawnedObjects.hangar['closet-3'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-3'].position = {
+        x: 6,
+        y: 0,
+        z: 11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-3']);
+    spawnedObjects.hangar['closet-4'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-4'].position = {
+        x: 13,
+        y: 0,
+        z: 11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-4']);
+    spawnedObjects.hangar['closet-5'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-5'].position = {
+        x: -6,
+        y: 0,
+        z: -11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-5']);
+    spawnedObjects.hangar['closet-6'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-6'].position = {
+        x: 6,
+        y: 0,
+        z: -11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-6']);
+    spawnedObjects.hangar['closet-7'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-7'].position = {
+        x: 13,
+        y: 0,
+        z: -11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-7']);
+    spawnedObjects.hangar['closet-8'] = new THREE.Mesh(refObject.geometry, material);
+    spawnedObjects.hangar['closet-8'].position = {
+        x: -13,
+        y: 0,
+        z: -11.4
+    }
+    scene.add(spawnedObjects.hangar['closet-8']);
+
+    // Toolbox and extra stuff
+    var refObject = gameObjects['hangar-toolbox-1'];
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['toolbox-1'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['toolbox-1'].position.x = 1;//3;
+    spawnedObjects.hangar['toolbox-1'].position.z = 2;//-11;
+    spawnedObjects.hangar['toolbox-1'].rotation.y = Math.random() * 10;
+    scene.add(spawnedObjects.hangar['toolbox-1']);
+
+    var refObject = gameObjects['hangar-toolbox-2'];
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['toolbox-2'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['toolbox-2'].position.x = -7;
+    spawnedObjects.hangar['toolbox-2'].position.z = 12;
+    spawnedObjects.hangar['toolbox-2'].rotation.y = Math.random() * 10;
+    scene.add(spawnedObjects.hangar['toolbox-2']);
+
+    var refObject = gameObjects['hangar-toolbox-1'];
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['toolbox-3'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['toolbox-3'].position.x = 6;
+    spawnedObjects.hangar['toolbox-3'].position.y = 2.9;
+    spawnedObjects.hangar['toolbox-3'].position.z = -9.4;
+    spawnedObjects.hangar['toolbox-3'].rotation.y = Math.random() * 10;
+    scene.add(spawnedObjects.hangar['toolbox-3']);
+
 
     geometryFloor = new THREE.PlaneGeometry(42,30);
 //    gameObjects['texture-hangar-floor'].wrapS = gameObjects['texture-hangar-floor'].wrapT = THREE.RepeatWrapping;
@@ -105,8 +192,8 @@ function hangar() {
     material = new THREE.MeshPhongMaterial(
         {
             map: gameObjects['texture-hangar-floor'],
-            color: 0xaaaaaa,
-            specular:0x555555,
+            color: 0xeeeeee,
+            specular:0xcccccc,
             shininess:.5,
             combine: THREE.MixOperation,
             reflectivity: 0.5

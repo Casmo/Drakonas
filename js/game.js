@@ -337,6 +337,18 @@ function render() {
                 removeObjectHp(mesh.missionIndex, 1);
             }
         });
+        enemyBullets.forEach(function(bullet, index) {
+            v1 = {x: bullet.x, y: bullet.z};
+            v2 = {x: player.position.x, y: player.position.z};
+            distance = calcDistance(v1, v2);
+            if (distance < 2) {
+                createExplosion(player.position, 4, 8, 28, 0xff0000);
+                removeHealth(1);
+                scene.remove(spawnedObjects.game['bullet_enemy_' + index]);
+                delete(enemyBullets[index]);
+                delete(spawnedObjects.game['bullet_enemy_' + index]);
+            }
+        });
     }
 
     // Animate game objects
@@ -365,8 +377,11 @@ function render() {
 function calcDistance (v1, v2) {
     dx = v1.x - v2.x;
     dy = v1.y - v2.y;
+    if (v1.z != null) {
     dz = v1.z - v2.z;
-    return Math.sqrt(dx*dx+dy*dy+dz*dz);
+        return Math.sqrt(dx*dx+dy*dy+dz*dz);
+    }
+    return Math.sqrt(dx*dx+dy*dy);
 }
 
 /**
@@ -380,7 +395,7 @@ function spawnObjects() {
         if (mission.elements[i].spawned != null) {
             continue;
         }
-        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 0.8))
+        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1))
             || (gameSettings.debug == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y * 2)))
             ) {
             mission.elements[i].spawned = true;
@@ -475,16 +490,81 @@ function spawnObject(index) {
             setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, delay);
         }
         else {
-            // Delete it anyways after 10 seconds.
-            setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, 10000);
+            // Delete it anyways after 15 seconds.
+            // @todo fix this with bosses perhaps? or with a loop option
+            setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, 15000);
         }
     }
-    objects[objectIndex] = newObject;
+
+    if (objectElement.shooting != null && objectElement.shooting != '') {
+        for (var shootingI = 0; shootingI < objectElement.shooting.length; shootingI++) {
+            var shootingObject = objectElement.shooting[shootingI];
+            setTimeout(function() {
+                if (objects[thisIndex] == null) {
+                    return;
+                }
+                spawnEnemyBullet(objects[thisIndex].position, shootingObject);
+            },
+            shootingObject.timeout);
+        }
+    }
+
+
+        objects[objectIndex] = newObject;
     objects[objectIndex].index = objectIndex;
     spawnedObjects.game['object_' + objectIndex] = objects[objectIndex];
     scene.add(spawnedObjects.game['object_' + objectIndex]);
 
     objectIndex++;
+}
+var enemyBulletIndex = 0;
+var enemyBullets = new Array();
+function spawnEnemyBullet(position, bulletObject) {
+    var refObject = bulletObject;
+    var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+    if (refObject.geometry != null) {
+        geometry = refObject.geometry;
+    }
+    var bullet = new THREE.Mesh(geometry, material);
+    bullet.position.x = position.x;
+    bullet.position.y = position.y;
+    bullet.position.z = position.z;
+
+    easing = TWEEN.Easing.Linear.None;
+    if (bulletObject.easing != null) {
+        easing = getEasingByString(bulletObject.easing);
+    }
+    var bulletIndex = enemyBulletIndex;
+    if (bulletObject.direction == 'down') {
+        gameTweens['bullet_enemy_' + enemyBulletIndex] = new TWEEN.Tween( {x: bullet.position.x, y: bullet.position.y, z: bullet.position.z, i: bulletIndex }  )
+            .to( { x:  bullet.position.x, y:  bullet.position.y, z: (bullet.position.z - 50), i: bulletIndex }, bulletObject.speed )
+            .easing( easing )
+            .onUpdate( function () {
+                if (spawnedObjects.game['bullet_enemy_' + this.i] != null) {
+                    spawnedObjects.game['bullet_enemy_' + this.i].position.x = this.x;
+                    spawnedObjects.game['bullet_enemy_' + this.i].position.y = this.y;
+                    spawnedObjects.game['bullet_enemy_' + this.i].position.z = this.z;
+                    enemyBullets[bulletIndex].x = this.x;
+                    enemyBullets[bulletIndex].y = this.y;
+                    enemyBullets[bulletIndex].z = this.z;
+
+                }
+            } )
+            .onComplete( function () {
+                delete(gameTweens['bullet_enemy_' + bulletIndex]);
+                scene.remove(spawnedObjects.game['bullet_enemy_' + bulletIndex]);
+                delete(enemyBullets[bulletIndex]);
+            } )
+            .start();
+    }
+
+    spawnedObjects.game['bullet_enemy_' + enemyBulletIndex] = bullet;
+    enemyBullets[bulletIndex] = new Object();
+    enemyBullets[bulletIndex].x = 0;
+    enemyBullets[bulletIndex].y = 0;
+    enemyBullets[bulletIndex].z = 0;
+    scene.add(spawnedObjects.game['bullet_enemy_' + enemyBulletIndex]);
+    enemyBulletIndex++;
 }
 
 /**

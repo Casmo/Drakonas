@@ -41,8 +41,24 @@ var defaultObjects = [
         "file": "files/objects/buildings/hangar-door-left.obj"
     },
     {
+        "ref": "hangar-closet",
+        "file": "files/objects/buildings/hangar-closet.obj"
+    },
+    {
+        "ref": "hangar-toolbox-1",
+        "file": "files/objects/buildings/hangar-toolbox-1.obj"
+    },
+    {
+        "ref": "hangar-toolbox-2",
+        "file": "files/objects/buildings/hangar-toolbox-2.obj"
+    },
+    {
         "ref": "player-hangar",
         "file": "files/objects/player/default.obj"
+    },
+    {
+        "ref": "bullet-yellow",
+        "geometry": new THREE.CubeGeometry(2,2,2)
     }
 ]
 
