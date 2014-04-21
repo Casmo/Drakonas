@@ -30,12 +30,6 @@ function hangar() {
     spawnedObjects.hangar['sun'] = sun;
     scene.add(spawnedObjects.hangar['sun']);
 
-    geo = new THREE.CubeGeometry(2,2,2);
-    mat = new THREE.MeshBasicMaterial({color: 0xff9900});
-    cube = new THREE.Mesh(geo, mat);
-    cube.position = sun.position;
-    scene.add(cube);
-
     AmbientLight = new THREE.AmbientLight(0x222222);
     spawnedObjects.hangar['AmbientLight'] = AmbientLight;
     scene.add(spawnedObjects.hangar['AmbientLight']);
