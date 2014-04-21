@@ -211,10 +211,22 @@
                             <i>Leave any x-as empty to ignore the animation. <a href="http://sole.github.io/tween.js/examples/03_graphs.html" target="_blank">Different easings</a>.</i><br />
                             <input type="submit" value="add" id="add">
                         </div>
+                        <div class="col-xs-12">
+                            <h2>Shooting</h2>
+                            <input type="text" value="2000" id="shooting1timeout"> Timeout (ms)
+                            <input type="text" value="down" id="shooting1direction"> direction: down/player
+                            <input type="text" value="bullet-yellow" id="shooting1ref"> geometry
+                            <input type="text" value="1500" id="shooting1speed"> speed (ms) <br />
+
+                            <input type="text" value="" id="shooting2timeout"> Timeout (ms)
+                            <input type="text" value="down" id="shooting2direction"> direction: down/player
+                            <input type="text" value="bullet-yellow" id="shooting2ref"> geometry
+                            <input type="text" value="1500" id="shooting2speed"> speed (ms) <br />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row"><div class="col-xs-12" id="map"></div></div>
+            <div class="row"><hr /><div class="col-xs-12" id="map"></div></div>
             <div class="row">
                 <div class="col-sm-12" id="json-output">
                 </div>

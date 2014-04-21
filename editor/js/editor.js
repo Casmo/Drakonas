@@ -151,12 +151,29 @@ function generateJson() {
     if (document.getElementById('animation1x').value != '') {
         jsonOutput += ']';
     }
+    if (document.getElementById('shooting1timeout').value != '') {
+        jsonOutput += ',"shooting": [';
+        jsonOutput += '{';
+        jsonOutput += '"timeout":' + document.getElementById('shooting1timeout').value +',';
+        jsonOutput += '"direction":"' + document.getElementById('shooting1direction').value +'",';
+        jsonOutput += '"ref":"' + document.getElementById('shooting1ref').value +'",';
+        jsonOutput += '"speed":' + document.getElementById('shooting1speed').value;
+        jsonOutput += '}';
 
+        if (document.getElementById('shooting2timeout').value != '') {
+            jsonOutput += ',{';
+            jsonOutput += '"timeout":' + document.getElementById('shooting2timeout').value +',';
+            jsonOutput += '"direction":"' + document.getElementById('shooting2direction').value +'",';
+            jsonOutput += '"ref":"' + document.getElementById('shooting2ref').value +'",';
+            jsonOutput += '"speed":' + document.getElementById('shooting2speed').value;
+            jsonOutput += '}';
+        }
+        jsonOutput += ']';
+    }
     jsonOutput += '}';
 
     output = JSON.parse(jsonOutput);
     output = JSON.stringify(output, undefined, 2);
-    //output = JSON.stringify(jsonOutput, undefined, 2);
 
     document.getElementById('json-output').innerHTML += '<pre>' + output + '</pre>';
 }
