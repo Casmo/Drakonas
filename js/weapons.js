@@ -65,7 +65,7 @@ availableWeapons[1]       = {
     },
     "animation":        [
         {
-            x: -.75,
+            x: 0,
             y: -1,
             z: 60,
             "duration": 1500,

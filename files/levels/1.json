@@ -22,9 +22,9 @@
         },
         "environment": {
             "sun": {
-                "color": "0xffffff",
+                "color": "0xcccccc",
                 "ground": "0xffff00",
-                "intensity": 0.7
+                "intensity": 0.5
             },
             "fog": {
                 "color": "0xcccccc",
