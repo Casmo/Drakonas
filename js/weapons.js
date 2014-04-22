@@ -13,7 +13,7 @@ availableWeapons[0]       = {
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
     "interval":         75,
-    "sound":            "sound-weapon-default",
+    //"sound":            "sound-weapon-default",
     "lastShot":         new Date().getTime(),
     "damage":           1,
     "offset":           {
@@ -57,6 +57,7 @@ availableWeapons[1]       = {
     "interval":         1000,
     "lastShot":         new Date().getTime(),
     "damage":           5,
+    "sound":            "sound-weapon-plasma",
     "offset":           {
         x: 0,
         y: -1,

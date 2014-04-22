@@ -44,6 +44,10 @@ var defaultSounds = [
         "file": "files/sounds/effects/weapon-default.wav"
     },
     {
+        "ref": "weapon-plasma",
+        "file": "files/sounds/effects/weapon-plasma.wav"
+    },
+    {
         "ref": "dieing-player",
         "file": "files/sounds/effects/dieing-player.wav"
     },

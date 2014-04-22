@@ -45,6 +45,7 @@ controls = storageGetItem('gameSettings.controls');
 if (controls != null) {
     gameSettings.controls = controls;
 }
+storageSetItem('gameSettings.score', 1000000);
 score = storageGetItem('gameSettings.score');
 if (score == null) {
     score = 0;
