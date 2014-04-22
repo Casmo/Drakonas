@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Hangar_deur_links.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Hangar_deur_links.mtl
 o Circle.004_Circle.008
 v -0.100004 6.656656 9.723593

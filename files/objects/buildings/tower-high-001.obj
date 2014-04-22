@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Toren03_Final.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Toren03_Final.mtl
 o Hek_klein.002_Circle.088
 v -1.903234 0.250000 -1.903234

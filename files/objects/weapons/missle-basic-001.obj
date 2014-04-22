@@ -1,4 +1,6 @@
-# Raket by Timothy Beuving
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Raket01.mtl
 o Cylinder.001
 v 0.002027 0.024932 -0.373498

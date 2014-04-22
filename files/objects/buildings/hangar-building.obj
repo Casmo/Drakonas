@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Hangar01_buitenkant02.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Hangar01_buitenkant.mtl
 o Circle.001_Circle
 v -20.787241 13.102960 0.005831

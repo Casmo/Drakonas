@@ -130,6 +130,10 @@ var defaultTextures = [
         "file": "files/objects/buildings/hangar-building.jpg"
     },
     {
+        "ref": "hangar-toolbox",
+        "file": "files/objects/buildings/hangar-toolbox.jpg"
+    },
+    {
         "ref": "hangar-floor",
         "file": "files/objects/buildings/hangar-floor.jpg"
     }

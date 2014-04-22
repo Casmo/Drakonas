@@ -164,7 +164,7 @@ function hangar() {
 
     // Toolbox and extra stuff
     var refObject = gameObjects['hangar-toolbox-1'];
-    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-toolbox']});
     geometry = refObject.geometry;
     spawnedObjects.hangar['toolbox-1'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['toolbox-1'].position.x = 1;//3;
@@ -173,7 +173,7 @@ function hangar() {
     scene.add(spawnedObjects.hangar['toolbox-1']);
 
     var refObject = gameObjects['hangar-toolbox-2'];
-    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-toolbox']});
     geometry = refObject.geometry;
     spawnedObjects.hangar['toolbox-2'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['toolbox-2'].position.x = -7;
@@ -182,7 +182,7 @@ function hangar() {
     scene.add(spawnedObjects.hangar['toolbox-2']);
 
     var refObject = gameObjects['hangar-toolbox-1'];
-    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-toolbox']});
     geometry = refObject.geometry;
     spawnedObjects.hangar['toolbox-3'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['toolbox-3'].position.x = 6;

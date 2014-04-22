@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Gereedschap_kist02.04.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Gereedschap_kist02.02.mtl
 o Cube_Cube.001
 v -0.500000 0.050000 0.250000

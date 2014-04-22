@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Toren01_Af.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Toren01.mtl
 o Circle.004_Circle.012
 v 2.840492 0.000000 1.639956

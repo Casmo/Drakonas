@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Toren02.AF.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Toren02.mtl
 o Cone_Cone.001
 v 1.500113 0.515974 0.878458

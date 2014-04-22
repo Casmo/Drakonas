@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Hangar_skelet.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Hangar_skelet.mtl
 o Circle_Circle.002
 v -20.655672 12.109552 0.101288

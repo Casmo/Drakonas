@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Deur_wanden.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Deur_wanden.mtl
 o Circle.002_Circle.006
 v -20.655676 2.656661 14.008453
