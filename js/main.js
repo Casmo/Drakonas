@@ -1,5 +1,43 @@
 window.AudioContext = window.AudioContext||window.webkitAudioContext||false;
+function storageGetItem(key, callback) {
+    // for chrome
+    try {
+        return chrome.storage.sync.get(key, function(value) {
+            if (typeof callback == 'function') {
+                return callback(value);
+            }
+            return value;
+        });
+    }
+    catch (e) {
+        getValue = window.localStorage.getItem(key);
+        if (typeof callback == 'function') {
+            return callback(getValue);
+        }
+        return getValue;
+    }
+}
 
+/**
+ * Saves data in the local storage api.
+ * @param key
+ * @param value
+ * @param callback
+ * @returns {*}
+ */
+function storageSetItem(key, value, callback) {
+    try {
+        // For chrome
+        return chrome.storage.sync.set({key: value}, callback);
+    }
+    catch (e) {
+        setResult = window.localStorage.setItem(key, value);
+        if (typeof callback == 'function') {
+            return callback(setResult);
+        }
+        return setResult;
+    }
+}
 var defaultSounds = [
     {
         "ref": "weapon-default",

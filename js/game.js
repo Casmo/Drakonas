@@ -25,47 +25,45 @@ var currentWeapons      = new Array();
  * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
  * @type {Object}
  */
-if (window.localStorage) {
-    currentMission = window.localStorage.getItem('gameSettings.currentMission');
-    if (currentMission != null) {
-        gameSettings.currentMission = currentMission;
-    }
-    quality = window.localStorage.getItem('gameSettings.quality');
-    if (quality != null) {
-        gameSettings.quality = quality;
-    }
-    music = window.localStorage.getItem('gameSettings.music')
-    if (music != null) {
-        gameSettings.music = music;
-    }
-    effects = window.localStorage.getItem('gameSettings.effects');
-    if (effects != null) {
-        gameSettings.effects = effects;
-    }
-    controls = window.localStorage.getItem('gameSettings.controls');
-    if (controls != null) {
-        gameSettings.controls = controls;
-    }
-    score = window.localStorage.getItem('gameSettings.score');
-    if (score == null) {
-        score = 0;
-        window.localStorage.setItem('gameSettings.score', score);
-    }
-    gameSettings.score = score;
-    hp = window.localStorage.getItem('gameSettings.hp');
-    if (hp == null) {
-        hp = 100;
-        window.localStorage.setItem('gameSettings.hp', hp);
-    }
-    gameSettings.hp = hp;
-    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
-    if (currentWeapons == null) {
-        currentWeapons = [{"weaponIndex": 0}];
-        currentWeapons = JSON.stringify(currentWeapons);
-        window.localStorage.setItem('gameSettings.currentWeapons', currentWeapons);
-    }
-    currentWeapons = JSON.parse(currentWeapons);
+currentMission = storageGetItem('gameSettings.currentMission');
+if (currentMission != null) {
+    gameSettings.currentMission = currentMission;
 }
+quality = storageGetItem('gameSettings.quality');
+if (quality != null) {
+    gameSettings.quality = quality;
+}
+music = storageGetItem('gameSettings.music')
+if (music != null) {
+    gameSettings.music = music;
+}
+effects = storageGetItem('gameSettings.effects');
+if (effects != null) {
+    gameSettings.effects = effects;
+}
+controls = storageGetItem('gameSettings.controls');
+if (controls != null) {
+    gameSettings.controls = controls;
+}
+score = storageGetItem('gameSettings.score');
+if (score == null) {
+    score = 0;
+    storageSetItem('gameSettings.score', score);
+}
+gameSettings.score = score;
+hp = storageGetItem('gameSettings.hp');
+if (hp == null) {
+    hp = 100;
+    storageSetItem('gameSettings.hp', hp);
+}
+gameSettings.hp = hp;
+currentWeapons = storageGetItem('gameSettings.currentWeapons');
+if (currentWeapons == null) {
+    currentWeapons = [{"weaponIndex": 0}];
+    currentWeapons = JSON.stringify(currentWeapons);
+    storageSetItem('gameSettings.currentWeapons', currentWeapons);
+}
+currentWeapons = JSON.parse(currentWeapons);
 
 /**
  * List with all the objects in the game with it's environments position and callback functions, etc. Will be filled after loading a
@@ -153,10 +151,10 @@ function newGame() {
     gameOptions.pause           = false;
     gameOptions.inGame          = true;
     gameOptions.playable        = true; // Turn false to prevent player from interacting with game
-    gameSettings.score          = window.localStorage.getItem('gameSettings.score');
+    gameSettings.score          = storageGetItem('gameSettings.score');
     gameTweens                  = new Array();
     bullets                     = new Array();
-    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
+    currentWeapons = storageGetItem('gameSettings.currentWeapons');
     currentWeapons = JSON.parse(currentWeapons);
     cancelAnimationFrame(gameOptions.requestId);
 }
@@ -594,7 +592,7 @@ function removeHealth(health) {
     }
     gameSettings.hp = newHealth;
     document.getElementById('hp').style.height = newHealth + '%';
-    localStorage.setItem('gameSettings.hp', newHealth);
+    storageSetItem('gameSettings.hp', newHealth);
 }
 
 /**
@@ -604,7 +602,7 @@ function gameOver() {
     if (typeof player == 'undefined') {
         return;
     }
-    window.localStorage.setItem('gameSettings.score', gameSettings.score);
+    storageSetItem('gameSettings.score', gameSettings.score);
     gameObjects['sound-dieing-player'].play();
     var toPosition = { x: 0, y: 15, z: spawnedObjects.game['sunTarget'].position.z + 25 }
     gameOptions.playable = false;

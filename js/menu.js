@@ -160,15 +160,12 @@ function loadMission(missionCode) {
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
     loadingManager.loadedCallback = function() {
-        playMission(missionCode);
-        return;
         setTimeout(function() { playMission(missionCode); }, 9000);
         controls.enabled = false;
         tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )
             .to( {x: -30, y: 0, z: 0}, 4000 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-
                 spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
                 spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
                 spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
@@ -369,8 +366,8 @@ var currentShopBullet;
 function getShop() {
     cancelAnimationFrame(gameOptions.requestId);
     clearScene();
-    gameSettings.score = parseInt(window.localStorage.getItem('gameSettings.score'));
-    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
+    gameSettings.score = parseInt(storageGetItem('gameSettings.score'));
+    currentWeapons = storageGetItem('gameSettings.currentWeapons');
     currentWeapons = JSON.parse(currentWeapons);
     ajax('files/content/shop.html', function(data) {
         $('#full-container').innerHTML = data;
@@ -519,10 +516,10 @@ function buyShopItem(weaponIndex) {
             e.preventDefault();
             e.stopPropagation();
             addScore(-parseInt(availableWeapons[weaponIndex].price), true);
-            window.localStorage.setItem('gameSettings.score', parseInt(gameSettings.score));
+            storageSetItem('gameSettings.score', parseInt(gameSettings.score));
             currentWeapons.push({"weaponIndex": weaponIndex});
             currentWeapons = JSON.stringify(currentWeapons);
-            window.localStorage.setItem('gameSettings.currentWeapons', currentWeapons);
+            storageSetItem('gameSettings.currentWeapons', currentWeapons);
             getShop();
         }, false);
     }
@@ -537,7 +534,7 @@ function buyShopItem(weaponIndex) {
             }
             sellPrice = parseInt(Math.round(sellPrice));
             addScore(sellPrice, true);
-            window.localStorage.setItem('gameSettings.score', parseInt(gameSettings.score));
+            storageSetItem('gameSettings.score', parseInt(gameSettings.score));
             currentWeapons.forEach(function(weapon, index) {
                 if (weapon.weaponIndex == weaponIndex) {
                     delete(currentWeapons[index]);
@@ -548,7 +545,7 @@ function buyShopItem(weaponIndex) {
                 newCurrentWeapons.push(weapon);
             });
             currentWeapons = JSON.stringify(newCurrentWeapons);
-            window.localStorage.setItem('gameSettings.currentWeapons', currentWeapons);
+            storageSetItem('gameSettings.currentWeapons', currentWeapons);
             getShop();
         }, false);
     }
@@ -560,34 +557,32 @@ function shopAnimation() {
 }
 
 function saveSettings() {
-    if (window.localStorage) {
-        quality = 'high';
-        if (document.getElementById('SettingsQualityLow').checked) {
-            quality = 'low';
-        }
-        window.localStorage.setItem('gameSettings.quality', quality);
-        gameSettings.quality = quality;
-        music = true;
-        if (document.getElementById('SettingsMusicOff').checked) {
-            music = false;
-        }
-        window.localStorage.setItem('gameSettings.music', music);
-        gameSettings.music = music;
-
-        effects = true;
-        if (document.getElementById('SettingsEffectsOff').checked) {
-            effects = false;
-        }
-        window.localStorage.setItem('gameSettings.effects', effects);
-        gameSettings.effects = effects;
-
-        controls = 'mouse';
-        if (document.getElementById('SettingsControlsKeyboard').checked) {
-            controls = 'keyboard';
-        }
-        window.localStorage.setItem('gameSettings.controls', controls);
-        gameSettings.controls = controls;
+    quality = 'high';
+    if (document.getElementById('SettingsQualityLow').checked) {
+        quality = 'low';
     }
+    storageSetItem('gameSettings.quality', quality);
+    gameSettings.quality = quality;
+    music = true;
+    if (document.getElementById('SettingsMusicOff').checked) {
+        music = false;
+    }
+    storageSetItem('gameSettings.music', music);
+    gameSettings.music = music;
+
+    effects = true;
+    if (document.getElementById('SettingsEffectsOff').checked) {
+        effects = false;
+    }
+    storageSetItem('gameSettings.effects', effects);
+    gameSettings.effects = effects;
+
+    controls = 'mouse';
+    if (document.getElementById('SettingsControlsKeyboard').checked) {
+        controls = 'keyboard';
+    }
+    storageSetItem('gameSettings.controls', controls);
+    gameSettings.controls = controls;
     hideInfoWindows();
     return false;
 }

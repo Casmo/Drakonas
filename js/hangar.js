@@ -11,23 +11,28 @@ controls.maxPolarAngle = Math.PI / 2.1;
 function hangar() {
     cancelAnimationFrame(gameOptions.requestId);
     clearScene();
-    gameSettings.score = parseInt(window.localStorage.getItem('gameSettings.score'));
-    currentWeapons = window.localStorage.getItem('gameSettings.currentWeapons');
-    currentWeapons = JSON.parse(currentWeapons);
+    gameSettings.score = parseInt(storageGetItem('gameSettings.score', function(value) {gameSettings.score = value;}));
+    currentWeapons = storageGetItem('gameSettings.currentWeapons', function(value) { currentWeapons = JSON.parse(value);});
+    //currentWeapons = JSON.parse(currentWeapons);
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Light
-    sun = new THREE.SpotLight(0xffffff,1);
+    // SpotLight(hex, intensity, distance, angle, exponent)
+    sun = new THREE.SpotLight(0xffffff,.5);
     sun.position.x = 0;
-    sun.position.y = 64;
+    sun.position.y = 15;
     sun.position.z = 0;
-    sun.castShadow = true;
-    sun.shadowMapWidth = 1024;
-    sun.shadowMapHeight = 1024;
-    sun.shadowCameraNear = 500;
-    sun.shadowCameraFar = 4000;
-    sun.shadowCameraFov = 30;
+    if (gameSettings.quality == 'high') {
+        sun.castShadow = true;
+        sun.shadowCameraFov = 50;
+        sun.shadowBias = 0.0001;
+        sun.shadowDarkness = .5;
+        sun.shadowMapWidth = window.innerWidth / 2; // Shadow map texture width in pixels.
+        sun.shadowMapHeight = window.innerHeight / 2;
+        sun.shadowCameraNear = 1;
+        sun.shadowCameraFar = 60;
+    }
     spawnedObjects.hangar['sun'] = sun;
     scene.add(spawnedObjects.hangar['sun']);
 
@@ -44,7 +49,6 @@ function hangar() {
 
     $('#background-container').appendChild(renderer.domElement);
 
-
     // Player
     var refObject = gameObjects['player-hangar'];
     material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
@@ -52,6 +56,9 @@ function hangar() {
     spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
     spawnedObjects.hangar['hangarPlayer'].position.y = .5;
+    if (gameSettings.quality == 'high') {
+        spawnedObjects.hangar['hangarPlayer'].castShadow = true;
+    }
     scene.add(spawnedObjects.hangar['hangarPlayer']);
 
     // Hangar
@@ -202,6 +209,9 @@ function hangar() {
     spawnedObjects.hangar['floor'] = new THREE.Mesh(geometryFloor, material);
 //    spawnedObjects.hangar['floor'].material.ambient = 0xffffff;
     spawnedObjects.hangar['floor'].rotation.x = -1.57;
+    if (gameSettings.quality == 'high') {
+        spawnedObjects.hangar['floor'].receiveShadow = true;
+    }
     scene.add(spawnedObjects.hangar['floor']);
 
     camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
