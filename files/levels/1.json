@@ -51,6 +51,10 @@
             "file": "files/objects/enemies/ufo.obj"
         },
         {
+            "ref": "mine-001",
+            "file": "files/objects/enemies/mine-001.obj"
+        },
+        {
             "ref": "tower-bunker",
             "file": "files/objects/buildings/tower-bunker-001.obj"
         },
@@ -177,6 +181,34 @@
                     "easing": "Linear.None"
                 }
             ]
+        },
+        {
+            "ref": "enemy-ufo",
+            "texture": "ufo-glow-orange",
+            "position": {
+                "x": 2,
+                "y": 39,
+                "z": -80
+            },
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 75,
+                "color": "0xff9900",
+                "score": 1500
+            },
+            "animation": {
+                "rotation": {
+                    "x": 0.01,
+                    "y": 0.02,
+                    "z": 0.03
+                }
+            },
+            "autoMovement": {
+                "easing": "Linear.None",
+                "speed": 8500
+            }
         }
     ]
 }

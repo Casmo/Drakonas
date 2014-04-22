@@ -55,7 +55,6 @@ function hangar() {
     geometry = refObject.geometry;
     spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
-    spawnedObjects.hangar['hangarPlayer'].position.y = .5;
     if (gameSettings.quality == 'high') {
         spawnedObjects.hangar['hangarPlayer'].castShadow = true;
     }

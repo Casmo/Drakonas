@@ -494,6 +494,41 @@ function spawnObject(index) {
             setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, 15000);
         }
     }
+    else if (objectElement.autoMovement != null) {
+        // Auto movement to the player with linear and speed
+        toX = (player.position.x - newObject.position.x) * 2;
+        toY = (player.position.y - newObject.position.y) * 2;
+        toZ = (player.position.z - newObject.position.z) * 2;
+        easing = TWEEN.Easing.Linear.None;
+        if (objectElement.autoMovement.easing != null) {
+            easing = getEasingByString(objectElement.autoMovement.easing);
+        }
+        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
+        gameTweens['object_' + index + '_0'] = new TWEEN.Tween( currentPosition )
+            .to( { x: toX, y: toY, z: toZ }, objectElement.autoMovement.speed )
+            .easing( easing )
+            .onUpdate( function () {
+                if (objects[this.i] != null) {
+                    objects[this.i].position.x = this.x;
+                    objects[this.i].position.y = this.y;
+                    objects[this.i].position.z = this.z;
+                    if (destroyableMeshList[this.i] != null) {
+                        destroyableMeshList[this.i].position.x = this.x;
+                        destroyableMeshList[this.i].position.y = this.y;
+                        destroyableMeshList[this.i].position.z = this.z;
+                    }
+                    if (collisionableMeshList[this.i] != null) {
+                        collisionableMeshList[this.i].position.x = this.x;
+                        collisionableMeshList[this.i].position.y = this.y;
+                        collisionableMeshList[this.i].position.z = this.z;
+                    }
+                }
+            } )
+            .onComplete( function () {
+                delete(gameTweens['object_' + index + '_0']);
+            } )
+            .start();
+    }
 
     if (objectElement.shooting != null && objectElement.shooting != '') {
         for (var shootingI = 0; shootingI < objectElement.shooting.length; shootingI++) {
