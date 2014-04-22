@@ -1,5 +1,6 @@
-# Blender v2.64 (sub 0) OBJ File: 'Plane01_05_Seams.03.blend'
-# www.blender.org
+# @license  The MIT License (MIT)
+# @author   Timothy Beuving
+# @link     http://games.fellicht.nl/
 mtllib Plane01_02.mtl
 o Cylinder_Cylinder.002
 v -0.959240 0.514354 -0.328598
