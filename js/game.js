@@ -448,7 +448,56 @@ function spawnObject(index) {
 
     // Animate the object
     // @todo, might wanna do this when the objects is in the view port.
-    if (objectElement.movement != null) {
+    if (objectElement.boss != null && objectElement.boss == true) {
+        console.log('boss');
+        console.log(objectElement);
+        setTimeout(function() {gameOptions.move = false;}, 5000);
+    }
+    if (objectElement.movementRepeat != null && objectElement.movementRepeat == true) {
+        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
+        for (var a = 0; a < objectElement.movement.length; a++) {
+            animation = objectElement.movement[a];
+            easing = TWEEN.Easing.Linear.None;
+            if (animation.easing != null) {
+                easing = getEasingByString(animation.easing);
+            }
+            gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
+                .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
+                .easing( easing )
+                .onUpdate( function () {
+                    if (objects[this.i] != null) {
+                        objects[this.i].position.x = this.x;
+                        objects[this.i].position.y = this.y;
+                        objects[this.i].position.z = this.z;
+                        if (destroyableMeshList[this.i] != null) {
+                            destroyableMeshList[this.i].position.x = this.x;
+                            destroyableMeshList[this.i].position.y = this.y;
+                            destroyableMeshList[this.i].position.z = this.z;
+                        }
+                        if (collisionableMeshList[this.i] != null) {
+                            collisionableMeshList[this.i].position.x = this.x;
+                            collisionableMeshList[this.i].position.y = this.y;
+                            collisionableMeshList[this.i].position.z = this.z;
+                        }
+                    }
+                } );
+            currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
+        }
+
+        for (var a = 0; a < objectElement.movement.length; a++) {
+            nextA = a + 1;
+            var nextChain;
+            if (typeof objectElement.movement[nextA] == 'undefined' || objectElement.movement[nextA] == null) {
+                nextChain = gameTweens['object_' + index + '_0'];
+            }
+            else {
+                nextChain = gameTweens['object_' + index + '_' + nextA];
+            }
+            gameTweens['object_' + index + '_' + a].chain(nextChain);
+        }
+        gameTweens['object_' + index + '_' + 0].start();
+    }
+    else if (objectElement.movement != null) {
         delay = 0;
         currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
         for (var a = 0; a < objectElement.movement.length; a++) {
@@ -485,10 +534,10 @@ function spawnObject(index) {
             delay += animation.duration;
             currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
         }
-        if (delay > 0) {
+        if (delay > 0 && (objectElement.movementRepeat == null || objectElement.movementRepeat == false)) {
             setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, delay);
         }
-        else {
+        else if (objectElement.movementRepeat == null || objectElement.movementRepeat == false) {
             // Delete it anyways after 15 seconds.
             // @todo fix this with bosses perhaps? or with a loop option
             setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, 15000);
@@ -620,7 +669,7 @@ function removeHealth(health) {
     if (newHealth < 0) {
         newHealth = 0;
         if (gameOptions.inGame == true) {
-            gameOver();
+            gameOver(true);
         }
     }
     if (newHealth  > 100) {
@@ -634,38 +683,40 @@ function removeHealth(health) {
 /**
  * Logic after the player is being destroyed.
  */
-function gameOver() {
+function gameOver(playerDied) {
     if (typeof player == 'undefined') {
         return;
     }
     storageSetItem('gameSettings.score', gameSettings.score);
-    gameObjects['sound-dieing-player'].play();
-    var toPosition = { x: 0, y: 15, z: spawnedObjects.game['sunTarget'].position.z + 25 }
-    gameOptions.playable = false;
-    // Animate the player to the ground... :)
-    currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
-    gameTweens['player_gameover'] = new TWEEN.Tween( currentPosition )
-        .to( toPosition, 2700 )
-        .easing( TWEEN.Easing.Linear.None )
-        .onUpdate( function () {
-            player.position.x = this.x;
-            player.position.y = this.y;
-            player.position.z = this.z;
-            player.rotation.x -= 0.02;
-            player.rotation.y += 0.05;
-            player.rotation.z += 0.07;
-            randomExplosion = Math.random() * 1000;
-            if (randomExplosion < 75) {
-                createExplosion({x: this.x, y: this.y, z: this.z}, 5,5,10,0xff0000,500);
-            }
-        })
-        .onComplete( function () {
-            createExplosion(toPosition, 40,25,25,0xff0000,2500);
-            delete(gameTweens['player_gameover']);
-            gameObjects['sound-explosion-phaser'].play();
-            gameOptions.move = false;
-        } )
-        .start();
+    if (playerDied == true) {
+        gameObjects['sound-dieing-player'].play();
+        var toPosition = { x: 0, y: 15, z: spawnedObjects.game['sunTarget'].position.z + 25 }
+        gameOptions.playable = false;
+        // Animate the player to the ground... :)
+        currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
+        gameTweens['player_gameover'] = new TWEEN.Tween( currentPosition )
+            .to( toPosition, 2700 )
+            .easing( TWEEN.Easing.Linear.None )
+            .onUpdate( function () {
+                player.position.x = this.x;
+                player.position.y = this.y;
+                player.position.z = this.z;
+                player.rotation.x -= 0.02;
+                player.rotation.y += 0.05;
+                player.rotation.z += 0.07;
+                randomExplosion = Math.random() * 1000;
+                if (randomExplosion < 75) {
+                    createExplosion({x: this.x, y: this.y, z: this.z}, 5,5,10,0xff0000,500);
+                }
+            })
+            .onComplete( function () {
+                createExplosion(toPosition, 40,25,25,0xff0000,2500);
+                delete(gameTweens['player_gameover']);
+                gameObjects['sound-explosion-phaser'].play();
+                setTimeout(function() {gameOptions.move = false;}, 10000); // Some objects might have been spawned and should leave the screen.
+            } )
+            .start();
+    }
 }
 
 /**

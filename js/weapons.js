@@ -12,7 +12,7 @@ availableWeapons[0]       = {
     "sellPrice":        5000, // Make sure that the player can not sell himself bankrupt.
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         75,
+    "interval":         100,
     //"sound":            "sound-weapon-default",
     "lastShot":         new Date().getTime(),
     "damage":           1,
@@ -89,7 +89,7 @@ availableWeapons[2]       = {
         "z": 2.5
     },
     "offset":           {
-        x: -1,
+        x: -1.6,
         y: -1,
         z: .2
     },
@@ -128,7 +128,7 @@ availableWeapons[3]       = {
         "z": 2.5
     },
     "offset":           {
-        x: 1,
+        x: 1.6,
         y: -1,
         z:.2
     },
