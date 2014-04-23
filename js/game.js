@@ -449,101 +449,10 @@ function spawnObject(index) {
     // Animate the object
     // @todo, might wanna do this when the objects is in the view port.
     if (objectElement.boss != null && objectElement.boss == true) {
-        console.log('boss');
-        console.log(objectElement);
         setTimeout(function() {gameOptions.move = false;}, 5000);
     }
-    if (objectElement.movementRepeat != null && objectElement.movementRepeat == true) {
-        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
-        for (var a = 0; a < objectElement.movement.length; a++) {
-            animation = objectElement.movement[a];
-            easing = TWEEN.Easing.Linear.None;
-            if (animation.easing != null) {
-                easing = getEasingByString(animation.easing);
-            }
-            gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
-                .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
-                .easing( easing )
-                .onUpdate( function () {
-                    if (objects[this.i] != null) {
-                        objects[this.i].position.x = this.x;
-                        objects[this.i].position.y = this.y;
-                        objects[this.i].position.z = this.z;
-                        if (destroyableMeshList[this.i] != null) {
-                            destroyableMeshList[this.i].position.x = this.x;
-                            destroyableMeshList[this.i].position.y = this.y;
-                            destroyableMeshList[this.i].position.z = this.z;
-                        }
-                        if (collisionableMeshList[this.i] != null) {
-                            collisionableMeshList[this.i].position.x = this.x;
-                            collisionableMeshList[this.i].position.y = this.y;
-                            collisionableMeshList[this.i].position.z = this.z;
-                        }
-                    }
-                } );
-            currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
-        }
 
-        for (var a = 0; a < objectElement.movement.length; a++) {
-            nextA = a + 1;
-            var nextChain;
-            if (typeof objectElement.movement[nextA] == 'undefined' || objectElement.movement[nextA] == null) {
-                nextChain = gameTweens['object_' + index + '_0'];
-            }
-            else {
-                nextChain = gameTweens['object_' + index + '_' + nextA];
-            }
-            gameTweens['object_' + index + '_' + a].chain(nextChain);
-        }
-        gameTweens['object_' + index + '_' + 0].start();
-    }
-    else if (objectElement.movement != null) {
-        delay = 0;
-        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
-        for (var a = 0; a < objectElement.movement.length; a++) {
-            animation = objectElement.movement[a];
-            easing = TWEEN.Easing.Linear.None;
-            if (animation.easing != null) {
-                easing = getEasingByString(animation.easing);
-            }
-            gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
-                .to( { x: animation.x, y: animation.y, z: animation.z }, animation.duration )
-                .easing( easing )
-                .onUpdate( function () {
-                    if (objects[this.i] != null) {
-                        objects[this.i].position.x = this.x;
-                        objects[this.i].position.y = this.y;
-                        objects[this.i].position.z = this.z;
-                        if (destroyableMeshList[this.i] != null) {
-                            destroyableMeshList[this.i].position.x = this.x;
-                            destroyableMeshList[this.i].position.y = this.y;
-                            destroyableMeshList[this.i].position.z = this.z;
-                        }
-                        if (collisionableMeshList[this.i] != null) {
-                            collisionableMeshList[this.i].position.x = this.x;
-                            collisionableMeshList[this.i].position.y = this.y;
-                            collisionableMeshList[this.i].position.z = this.z;
-                        }
-                    }
-                } )
-                .onComplete( function () {
-                    delete(gameTweens['object_' + index + '_' + a]);
-                } )
-                .delay(delay)
-                .start();
-            delay += animation.duration;
-            currentPosition = { i: thisIndex, x: animation.x, y: animation.y, z: animation.z }
-        }
-        if (delay > 0 && (objectElement.movementRepeat == null || objectElement.movementRepeat == false)) {
-            setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, delay);
-        }
-        else if (objectElement.movementRepeat == null || objectElement.movementRepeat == false) {
-            // Delete it anyways after 15 seconds.
-            // @todo fix this with bosses perhaps? or with a loop option
-            setTimeout(function() { scene.remove(spawnedObjects.game['object_' + thisIndex]) }, 15000);
-        }
-    }
-    else if (objectElement.autoMovement != null) {
+    if (objectElement.autoMovement != null) {
         // Auto movement to the player with linear and speed
         toX = (player.position.x - newObject.position.x) * 2;
         toY = (player.position.y - newObject.position.y) * 2;
@@ -577,6 +486,52 @@ function spawnObject(index) {
                 delete(gameTweens['object_' + index + '_0']);
             } )
             .start();
+    }
+    else if (objectElement.movement != null) {
+        delay = 0;
+        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
+        for (var a = 0; a < objectElement.movement.length; a++) {
+            animation = objectElement.movement[a];
+            easing = TWEEN.Easing.Linear.None;
+            if (animation.easing != null) {
+                easing = getEasingByString(animation.easing);
+            }
+            gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
+                .to( { x: objectElement.movement[a].x, y: objectElement.movement[a].y, z: objectElement.movement[a].z }, animation.duration )
+                .easing( easing )
+                .onUpdate( function () {
+                    if (objects[this.i] != null) {
+                        objects[this.i].position.x = this.x;
+                        objects[this.i].position.y = this.y;
+                        objects[this.i].position.z = this.z;
+                        if (destroyableMeshList[this.i] != null) {
+                            destroyableMeshList[this.i].position.x = this.x;
+                            destroyableMeshList[this.i].position.y = this.y;
+                            destroyableMeshList[this.i].position.z = this.z;
+                        }
+                        if (collisionableMeshList[this.i] != null) {
+                            collisionableMeshList[this.i].position.x = this.x;
+                            collisionableMeshList[this.i].position.y = this.y;
+                            collisionableMeshList[this.i].position.z = this.z;
+                        }
+                    }
+                } );
+        }
+
+        for (var a = 0; a < objectElement.movement.length; a++) {
+            nextA = a + 1;
+            var nextChain;
+            if (typeof objectElement.movement[nextA] == 'undefined' || objectElement.movement[nextA] == null) {
+                if (objectElement.movementRepeat != null && objectElement.movementRepeat == true) {
+                    nextChain = gameTweens['object_' + index + '_0'];
+                }
+            }
+            else {
+                nextChain = gameTweens['object_' + index + '_' + nextA];
+            }
+            gameTweens['object_' + index + '_' + a].chain(nextChain);
+        }
+        gameTweens['object_' + index + '_0'].start();
     }
 
     if (objectElement.shooting != null && objectElement.shooting != '') {
