@@ -112,6 +112,7 @@ var sun;
 var gameOptions                 = new Object();
 gameOptions.requestId           = 0; // window.requestAnimationFrame id.
 gameOptions.shopRequestId       = 0;
+gameOptions.shootingIntervals   = new Array();
 
 /**
  * Array with all the game tweens.
@@ -537,13 +538,25 @@ function spawnObject(index) {
     if (objectElement.shooting != null && objectElement.shooting != '') {
         for (var shootingI = 0; shootingI < objectElement.shooting.length; shootingI++) {
             var shootingObject = objectElement.shooting[shootingI];
-            setTimeout(function() {
-                if (objects[thisIndex] == null) {
-                    return;
-                }
-                spawnEnemyBullet(objects[thisIndex].position, shootingObject);
-            },
-            shootingObject.timeout);
+            if (shootingObject.timeout != null) {
+                setTimeout(function() {
+                    if (objects[thisIndex] == null) {
+                        return;
+                    }
+                    spawnEnemyBullet(objects[thisIndex].position, shootingObject);
+                },
+                shootingObject.timeout);
+            }
+            else if (shootingObject.interval != null) {
+                gameOptions.shootingIntervals['object_' + thisIndex] = setInterval(function() {
+                        if (objects[thisIndex] == null) {
+                            clearInterval(gameOptions.shootingIntervals['object_' + thisIndex]);
+                            return;
+                        }
+                        spawnEnemyBullet(objects[thisIndex].position, shootingObject);
+                    },
+                    shootingObject.interval);
+            }
         }
     }
 

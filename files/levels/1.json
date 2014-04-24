@@ -147,26 +147,26 @@
                     "y": 39,
                     "z": -100,
                     "duration": 2200,
-                    "easing": "Linear.None"
+                    "easing": "Quadratic.Out"
                 },
                 {
                     "x": 20,
                     "y": 39,
                     "z": -100,
                     "duration": 2200,
-                    "easing": "Linear.None"
+                    "easing": "Quadratic.Out"
                 },
                 {
                     "x": -5,
                     "y": 39,
                     "z": -100,
                     "duration": 2200,
-                    "easing": "Linear.None"
+                    "easing": "Quadratic.Out"
                 }
             ],
             "shooting": [
                 {
-                    "timeout": 2000,
+                    "interval": 4000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
