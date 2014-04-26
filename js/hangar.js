@@ -39,15 +39,15 @@ function hangar() {
 
   // Light above door
     sun = new THREE.SpotLight(0xffffff,.5);
-    sun.position.x = -26;
-    sun.position.y = 10;
+    sun.position.x = -28;
+    sun.position.y = 11;
     sun.position.z = 0;
     if (gameSettings.quality == 'high') {
-      sun.shadowCameraFov = 50;
+      sun.shadowCameraFov = 70;
       sun.castShadow = true;
       sun.shadowMapWidth = window.innerWidth; // Shadow map texture width in pixels.
       sun.shadowMapHeight = window.innerHeight;
-      sun.shadowCameraNear = 1;
+      sun.shadowCameraNear = 0.1;
       sun.shadowCameraFar = 50;
     }
     spawnedObjects.hangar['sun_light_door'] = sun;
