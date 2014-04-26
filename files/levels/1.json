@@ -40,7 +40,7 @@
         },
         {
             "ref": "tiles-001",
-            "file": "files/objects/tiles/tile-water-s-grass-n-001.obj"
+            "file": "files/objects/tiles/tile-hills-002.obj"
         },
         {
             "ref": "tiles-002",
@@ -70,7 +70,7 @@
         },
         {
             "ref": "texture-grass",
-            "file": "files/objects/tiles/tile-water-s-grass-n-001.jpg"
+            "file": "files/objects/tiles/tile-hills-002.jpg"
         },
         {
             "ref": "ufo-glow-orange",

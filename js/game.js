@@ -573,8 +573,12 @@ var enemyBullets = new Array();
 function spawnEnemyBullet(position, bulletObject) {
     var refObject = bulletObject;
     var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+
     if (refObject.geometry != null) {
         geometry = refObject.geometry;
+    }
+    else {
+      geometry = new THREE.CubeGeometry(1,1,1)
     }
     var bullet = new THREE.Mesh(geometry, material);
     bullet.position.x = position.x;
