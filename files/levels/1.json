@@ -137,7 +137,7 @@
             "boss": true,
             "movementRepeat": true,
             "stats": {
-                "hp": 200,
+                "hp": 10,
                 "color": "0xff9900",
                 "score": 1000
             },

@@ -450,7 +450,7 @@ function spawnObject(index) {
     // Animate the object
     // @todo, might wanna do this when the objects is in the view port.
     if (objectElement.boss != null && objectElement.boss == true) {
-        setTimeout(function() {gameOptions.move = false;}, 5000);
+        stopMovement();
     }
 
     if (objectElement.autoMovement != null) {
@@ -559,13 +559,10 @@ function spawnObject(index) {
             }
         }
     }
-
-
-        objects[objectIndex] = newObject;
+    objects[objectIndex] = newObject;
     objects[objectIndex].index = objectIndex;
     spawnedObjects.game['object_' + objectIndex] = objects[objectIndex];
     scene.add(spawnedObjects.game['object_' + objectIndex]);
-
     objectIndex++;
 }
 var enemyBulletIndex = 0;
@@ -659,12 +656,12 @@ function gameOver(playerDied) {
         return;
     }
     storageSetItem('gameSettings.score', gameSettings.score);
+    currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
+    gameOptions.playable = false;
     if (playerDied == true) {
         gameObjects['sound-dieing-player'].play();
         var toPosition = { x: 0, y: 15, z: spawnedObjects.game['sunTarget'].position.z + 25 }
-        gameOptions.playable = false;
         // Animate the player to the ground... :)
-        currentPosition = {x: player.position.x, y: player.position.y, z: player.position.z }
         gameTweens['player_gameover'] = new TWEEN.Tween( currentPosition )
             .to( toPosition, 2700 )
             .easing( TWEEN.Easing.Linear.None )
@@ -684,10 +681,101 @@ function gameOver(playerDied) {
                 createExplosion(toPosition, 40,25,25,0xff0000,2500);
                 delete(gameTweens['player_gameover']);
                 gameObjects['sound-explosion-phaser'].play();
-                setTimeout(function() {gameOptions.move = false;}, 10000); // Some objects might have been spawned and should leave the screen.
+                setTimeout(function() {stopMovement();}, 10000); // Some objects might have been spawned and should leave the screen.
             } )
             .start();
     }
+    else {
+        if (gameOptions.move == true) {
+            stopMovement();
+        }
+        // Game ended with defeating boss. Let's make a salto
+        currentPosition.r = player.rotation.x;
+        currentPosition.rz = player.rotation.z;
+        toPosition = {x: 0, y: 40, z: (spawnedObjects.game['sunTarget'].position.z - 10), r: 0, rz: 0 }
+        gameTweens['player_salto_0'] = new TWEEN.Tween( currentPosition )
+          .to( toPosition, 1500 )
+          .easing( TWEEN.Easing.Quadratic.Out )
+          .onUpdate( function () {
+              player.position.x = this.x;
+              player.position.y = this.y;
+              player.position.z = this.z;
+              player.rotation.x = this.r;
+              player.rotation.z = this.rz;
+          })
+          .onComplete( function () {
+              delete(gameTweens['player_salto_0']);
+          } )
+          .start();
+        currentPosition = {x: toPosition.x, y: 40, z: toPosition.z, r: 0, rz: 0 };
+        toPosition = {x: toPosition.x, y: 70, z: (toPosition.z + 32), r: -1.57, rz: -1.57 }
+        gameTweens['player_salto_1'] = new TWEEN.Tween( currentPosition )
+          .to( toPosition, 1000 )
+          .easing( TWEEN.Easing.Quadratic.Out )
+          .onUpdate( function () {
+              player.position.x = this.x;
+              player.position.y = this.y;
+              player.position.z = this.z;
+              player.rotation.x = this.r;
+              player.rotation.z = this.rz;
+          })
+          .onComplete( function () {
+              delete(gameTweens['player_salto_1']);
+          } )
+          .delay(1500)
+          .start();
+        currentPosition = {x: toPosition.x, y: 70, z: toPosition.z, r: -1.57, rz: -1.57 };
+        toPosition = { x: currentPosition.x, y: 90, z: (currentPosition.z - 10), r: -3.14, rz: -3.14}
+        gameTweens['player_salto_2'] = new TWEEN.Tween( currentPosition )
+          .to( toPosition, 1000 )
+          .easing( TWEEN.Easing.Quadratic.In )
+          .onUpdate( function () {
+              player.position.x = this.x;
+              player.position.y = this.y;
+              player.position.z = this.z;
+              player.rotation.x = this.r;
+              player.rotation.z = this.rz;
+          })
+          .onComplete( function () {
+              delete(gameTweens['player_salto_2']);
+          } )
+          .delay(2500)
+          .start();
+        currentPosition = {x: currentPosition.x, y: 90, z: (currentPosition.z - 10), r: -3.14, rz: -3.14};
+        toPosition = { x: currentPosition.x, y: 90, z: (currentPosition.z - 30), r: -3.14, rz: -3.14}
+        gameTweens['player_salto_3'] = new TWEEN.Tween( currentPosition )
+          .to( toPosition, 1000 )
+          .easing( TWEEN.Easing.Linear.None )
+          .onUpdate( function () {
+              player.position.x = this.x;
+              player.position.y = this.y;
+              player.position.z = this.z;
+              player.rotation.x = this.r;
+              player.rotation.z = this.rz;
+          })
+          .onComplete( function () {
+              delete(gameTweens['player_salto_3']);
+          } )
+          .delay(3500)
+          .start();
+        setTimeout(function() {gotoMenu();}, 6000); // Some objects might have been spawned and should leave the screen.
+    }
+}
+
+function stopMovement() {
+    gameOptions.move = false;
+    cameraFrom = {z: camera.position.z}
+    cameraTo = {z: camera.position.z + 10}
+    gameTweens['cameraMovement'] = new TWEEN.Tween( cameraFrom )
+      .to( cameraTo, 2000 )
+      .easing( TWEEN.Easing.Quadratic.Out )
+      .onUpdate( function () {
+          camera.position.z = this.z;
+      })
+      .onComplete( function () {
+          delete(gameTweens['cameraMovement']);
+      } )
+      .start();
 }
 
 /**

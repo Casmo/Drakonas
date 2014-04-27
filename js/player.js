@@ -224,6 +224,7 @@ function removeObject(objectIndex) {
     if (object == null) {
         return;
     }
+    var bossObject = mission.elements[objectIndex];
     // createExplosion(position, size, amount, explosionSize, color)
     color = 0xff0000;
     if (objects[objectIndex].stats.color != null) {
@@ -250,6 +251,9 @@ function removeObject(objectIndex) {
         delete(collisionableMeshList[objectIndex]);
     }
     gameObjects['sound-explosion-phaser'].play();
+    if (bossObject.boss != null && bossObject.boss == true) {
+        gameOver(false);
+    }
 }
 
 /**

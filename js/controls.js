@@ -13,7 +13,7 @@ window.addEventListener("keydown", function(e) {
         pause();
     }
     if (e.keyCode == 71) {
-        gameOver(true);
+        gameOver(false);
     }
     if (e.keyCode == 66) {
         bossMode();

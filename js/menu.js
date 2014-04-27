@@ -8,6 +8,7 @@ if ( document.addEventListener ) {
 var menuHtml = '';
 var inHangar = false;
 function gotoMenu() {
+    exitPointerLock();
     loadingManager.totalObjects = 1;
     loadingManager.loadedCallback = showMenu;
     ajax('files/content/menu.html', function(data) {
@@ -160,6 +161,8 @@ function loadMission(missionCode) {
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
     loadingManager.loadedCallback = function() {
+        playMission(missionCode);
+        return;
         setTimeout(function() { playMission(missionCode); }, 9000);
         controls.enabled = false;
         tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )
