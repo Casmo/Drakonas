@@ -8,14 +8,14 @@
             "position": {
                 "x": 0,
                 "y": 100,
-                "z": -175
+                "z": -3250
             }
         },
         "player": {
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": -175
+                "z": -3250
             },
             "ref": "player",
             "texture": "player"
@@ -45,6 +45,10 @@
         {
             "ref": "tiles-002",
             "file": "files/objects/tiles/tile-water-s-grass-n-001.obj"
+        },
+        {
+            "ref": "level-001",
+            "file": "files/objects/tiles/level-001.obj"
         },
         {
             "ref": "enemy-ufo",
@@ -97,29 +101,11 @@
     ],
     "elements": [
         {
-            "ref": "tiles-001",
+            "ref": "level-001",
             "position": {
                 "x": 0,
                 "y": 0,
                 "z": 0
-            },
-            "texture": "texture-grass"
-        },
-        {
-            "ref": "tiles-002",
-            "position": {
-                "x": 0,
-                "y": -2,
-                "z": 200
-            },
-            "texture": "texture-grass"
-        },
-        {
-            "ref": "tiles-002",
-            "position": {
-                "x": 0,
-                "y": 0,
-                "z": 400
             },
             "texture": "texture-grass"
         },
@@ -129,7 +115,7 @@
             "position": {
                 "x": -5,
                 "y": 39,
-                "z": -100
+                "z": 0
             },
             "spawn": true,
             "destroyable": true,

@@ -74,7 +74,7 @@ currentWeapons = JSON.parse(currentWeapons);
 var gameObjects                 = new Object();
 var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer();
-var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 170); // 170); // window.innerWidth / window.innerHeight
+var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 700); // 170); // window.innerWidth / window.innerHeight
 if (gameSettings.quality == 'high') {
     renderer.shadowMapEnabled = true;
 }
@@ -742,7 +742,7 @@ function gameOver(playerDied) {
           .delay(2500)
           .start();
         currentPosition = {x: currentPosition.x, y: 90, z: (currentPosition.z - 10), r: -3.14, rz: -3.14};
-        toPosition = { x: currentPosition.x, y: 90, z: (currentPosition.z - 30), r: -3.14, rz: -3.14}
+        toPosition = { x: currentPosition.x, y: 90, z: (currentPosition.z - 50), r: -3.14, rz: -3.14}
         gameTweens['player_salto_3'] = new TWEEN.Tween( currentPosition )
           .to( toPosition, 1000 )
           .easing( TWEEN.Easing.Linear.None )
@@ -765,9 +765,9 @@ function gameOver(playerDied) {
 function stopMovement() {
     gameOptions.move = false;
     cameraFrom = {z: camera.position.z}
-    cameraTo = {z: camera.position.z + 10}
+    cameraTo = {z: camera.position.z + 30}
     gameTweens['cameraMovement'] = new TWEEN.Tween( cameraFrom )
-      .to( cameraTo, 2000 )
+      .to( cameraTo, 5000 )
       .easing( TWEEN.Easing.Quadratic.Out )
       .onUpdate( function () {
           camera.position.z = this.z;
