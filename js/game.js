@@ -20,6 +20,7 @@ gameSettings.controls = 'mouse';
  * @type {Array}
  */
 var currentWeapons      = new Array();
+var sv_cheats = true;
 
 /**
  * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
