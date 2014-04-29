@@ -530,7 +530,12 @@ function spawnObject(index) {
               }
           }
 
-        }).start();
+        })
+      .onComplete( function () {
+          delete(gameTweens['object_' + index + '_0']);
+          removeObject(index, false)
+      } )
+      .start();
     }
     // Moving automaticly to the player. Usefull for mines.
     else if (objectElement.autoMovement != null) {
@@ -565,6 +570,7 @@ function spawnObject(index) {
             } )
             .onComplete( function () {
                 delete(gameTweens['object_' + index + '_0']);
+                removeObject(index, false)
             } )
             .start();
     }

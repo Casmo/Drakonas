@@ -219,28 +219,35 @@ function removeBullet(index, explosion, explosionY) {
  * Removes a bullet from the game including its animation
  * @param index
  */
-function removeObject(objectIndex) {
+function removeObject(objectIndex, killed) {
+    if (killed == null) {
+        killed = true;
+    }
     object = objects[objectIndex];
     if (object == null) {
         return;
     }
     var bossObject = mission.elements[objectIndex];
-    // createExplosion(position, size, amount, explosionSize, color)
-    color = 0xff0000;
-    if (objects[objectIndex].stats.color != null) {
-        color = parseInt(objects[objectIndex].stats.color);
-    }
-    createExplosion(objects[objectIndex].position, 8, 20, 30, color, 750);
-    //gameTweens['bullets_' + index].stop();
-    objectElement = mission.elements[object.missionIndex];
-    if (objectElement.movement != null) {
-        for (var a = 0; a < objectElement.movement.length; a++) {
-            delete(gameTweens['object_' + objectIndex + '_' + a]);
+
+    if (killed == true) {
+        // createExplosion(position, size, amount, explosionSize, color)
+        color = 0xff0000;
+        if (objects[objectIndex].stats.color != null) {
+            color = parseInt(objects[objectIndex].stats.color);
         }
-    }
-    // Add score
-    if (objectElement.stats.score != null) {
-        addScore(objectElement.stats.score, true);
+        createExplosion(objects[objectIndex].position, 8, 20, 30, color, 750);
+        //gameTweens['bullets_' + index].stop();
+        objectElement = mission.elements[object.missionIndex];
+        if (objectElement.movement != null) {
+            for (var a = 0; a < objectElement.movement.length; a++) {
+                delete(gameTweens['object_' + objectIndex + '_' + a]);
+            }
+        }
+        // Add score
+        if (objectElement.stats.score != null) {
+            addScore(objectElement.stats.score, true);
+        }
+        gameObjects['sound-explosion-phaser'].play();
     }
     scene.remove(objects[objectIndex]);
     delete(objects[objectIndex]);
@@ -250,7 +257,6 @@ function removeObject(objectIndex) {
     if (collisionableMeshList[objectIndex] != null) {
         delete(collisionableMeshList[objectIndex]);
     }
-    gameObjects['sound-explosion-phaser'].play();
     if (bossObject.boss != null && bossObject.boss == true) {
         gameOver(false);
     }
