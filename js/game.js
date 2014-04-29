@@ -74,7 +74,7 @@ currentWeapons = JSON.parse(currentWeapons);
 var gameObjects                 = new Object();
 var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer();
-var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 700); // 170); // window.innerWidth / window.innerHeight
+var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 170); // 170); // window.innerWidth / window.innerHeight
 if (gameSettings.quality == 'high') {
     renderer.shadowMapEnabled = true;
 }
@@ -408,6 +408,44 @@ function spawnObjects() {
     }
 }
 
+function Spline() {
+
+    var c = [], v2 = { x: 0, y: 0, z: 0 },
+      point, intPoint, weight;
+
+    this.get2DPoint = function ( points, k ) {
+
+        point = ( points.length - 1 ) * k;
+        intPoint = Math.floor( point );
+        weight = point - intPoint;
+
+        c[ 0 ] = intPoint == 0 ? intPoint : intPoint - 1;
+        c[ 1 ] = intPoint;
+        c[ 2 ] = intPoint > points.length - 2 ? points.length - 1 : intPoint + 1;
+        c[ 3 ] = intPoint > points.length - 3 ? points.length - 1 : intPoint + 2;
+
+        v2.x = interpolate( points[ c[ 0 ] ].x, points[ c[ 1 ] ].x, points[ c[ 2 ] ].x, points[ c[ 3 ] ].x, weight );
+        v2.y = interpolate( points[ c[ 0 ] ].y, points[ c[ 1 ] ].y, points[ c[ 2 ] ].y, points[ c[ 3 ] ].y, weight );
+        v2.z = interpolate( points[ c[ 0 ] ].z, points[ c[ 1 ] ].z, points[ c[ 2 ] ].z, points[ c[ 3 ] ].z, weight );
+
+        return v2;
+
+    }
+
+    // Catmull-Rom
+
+    function interpolate( p0, p1, p2, p3, t ) {
+
+        var v0 = ( p2 - p0 ) * 0.5;
+        var v1 = ( p3 - p1 ) * 0.5;
+        var t2 = t * t;
+        var t3 = t * t2;
+        return ( 2 * p1 - 2 * p2 + v0 + v1 ) * t3 + ( - 3 * p1 + 3 * p2 - 2 * v0 - v1 ) * t2 + v0 * t + p1;
+
+    }
+
+}
+
 /**
  * Spawns an object into the game. Will start the animation directly if the there is one.
  * @param index the index id of the elements in the json file
@@ -446,14 +484,56 @@ function spawnObject(index) {
         newObject.material.side = THREE.DoubleSided;
         destroyableMeshList[objectIndex] = newObject;
     }
-
-    // Animate the object
-    // @todo, might wanna do this when the objects is in the view port.
     if (objectElement.boss != null && objectElement.boss == true) {
         stopMovement();
     }
 
-    if (objectElement.autoMovement != null) {
+    // Animate the object
+    // @todo, might wanna do this when the objects is in the view port.
+    // Animation according bezier curving
+    if (objectElement.points != null) {
+        pointsX = [];
+        pointsY = [];
+        pointsZ = [];
+        pointsX.push(objectElement.position.x);
+        pointsY.push(objectElement.position.y);
+        pointsZ.push(objectElement.position.z);
+        for (i = 0; i < objectElement.points.length; i++) {
+            pointsX.push(objectElement.points[i].x);
+            pointsY.push(objectElement.points[i].y);
+            pointsZ.push(objectElement.points[i].z);
+        }
+
+        var dummy = { p: 0, i: thisIndex };
+//        var position = { x: 0, y: 0, z: 0 };
+        var position_old = { x: objectElement.points[ 0 ].x, y: objectElement.points[ 0 ].y, z: objectElement.points[ 0 ].z };
+
+        var spline = new Spline();
+
+        gameTweens['object_' + index + '_0'] = new TWEEN.Tween( dummy )
+          .to( { p: 1 },
+          objectElement.points_duration ).easing( TWEEN.Easing.Linear.None ).onUpdate( function() {
+          if (objects[this.i] != null) {
+              position = spline.get2DPoint( mission.elements[this.i].points, this.p );
+              objects[this.i].position.x = position.x;
+              objects[this.i].position.y = position.y;
+              objects[this.i].position.z = position.z;
+              if (destroyableMeshList[this.i] != null) {
+                  destroyableMeshList[this.i].position.x = position.x;
+                  destroyableMeshList[this.i].position.y = position.y;
+                  destroyableMeshList[this.i].position.z = position.z;
+              }
+              if (collisionableMeshList[this.i] != null) {
+                  collisionableMeshList[this.i].position.x = position.x;
+                  collisionableMeshList[this.i].position.y = position.y;
+                  collisionableMeshList[this.i].position.z = position.z;
+              }
+          }
+
+        }).start();
+    }
+    // Moving automaticly to the player. Usefull for mines.
+    else if (objectElement.autoMovement != null) {
         // Auto movement to the player with linear and speed
         toX = (player.position.x - newObject.position.x) * 2;
         toY = (player.position.y - newObject.position.y) * 2;
@@ -488,6 +568,7 @@ function spawnObject(index) {
             } )
             .start();
     }
+    // Animation according tween.js and easing
     else if (objectElement.movement != null) {
         delay = 0;
         currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}

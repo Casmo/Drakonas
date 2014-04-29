@@ -8,14 +8,14 @@
             "position": {
                 "x": 0,
                 "y": 100,
-                "z": -3250
+                "z": -3200
             }
         },
         "player": {
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": -3250
+                "z": -3200
             },
             "ref": "player",
             "texture": "player"
@@ -24,7 +24,7 @@
             "sun": {
                 "color": "0xcccccc",
                 "ground": "0xffff00",
-                "intensity": 0.5
+                "intensity": 0.7
             },
             "fog": {
                 "color": "0xcccccc",
@@ -49,6 +49,10 @@
         {
             "ref": "level-001",
             "file": "files/objects/tiles/level-001.obj"
+        },
+        {
+            "ref": "scout-001",
+            "file": "files/objects/enemies/scout-001.obj"
         },
         {
             "ref": "enemy-ufo",
@@ -91,6 +95,10 @@
         {
             "ref": "tower-number2",
             "file": "files/objects/buildings/tower-number2-001.jpg"
+        },
+        {
+            "ref": "scout-001",
+            "file": "files/objects/enemies/scout-001.jpg"
         }
     ],
     "sounds": [
@@ -108,6 +116,41 @@
                 "z": 0
             },
             "texture": "texture-grass"
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -40,
+                "y": 40,
+                "z": -3150
+            },
+            "points": [
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": -3120
+                },
+                {
+                    "x": -40,
+                    "y": 40,
+                    "z": -3180
+                },
+                {
+                    "x": 40,
+                    "y": 40,
+                    "z": -3100
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 3,
+                "color": "0xff9900",
+                "score": 500
+            }
         },
         {
             "ref": "enemy-ufo",
