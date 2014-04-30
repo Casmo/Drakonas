@@ -3,12 +3,15 @@
  */
 
 controls = new THREE.OrbitControls(camera);
-controls.minDistance = 2;
-controls.maxDistance = 18;
-controls.minPolarAngle = 0.5;
-controls.maxPolarAngle = Math.PI / 2.1;
-
+/**
+ * Display the hanger scene with objects
+ */
 function hangar() {
+    controls.minDistance = 2;
+    controls.maxDistance = 18;
+    controls.minPolarAngle = 0.5;
+    controls.maxPolarAngle = Math.PI / 2.1;
+
     cancelAnimationFrame(gameOptions.requestId);
     clearScene();
     gameSettings.score = parseInt(storageGetItem('gameSettings.score', function(value) {gameSettings.score = value;}));
@@ -19,23 +22,21 @@ function hangar() {
 
     // Light
     // SpotLight(hex, intensity, distance, angle, exponent)
-  dirLight = new THREE.DirectionalLight( 0xffffff,.2);
-  dirLight.color.setHSL( 0.1, 1, 0.95 );
-  dirLight.position.set( -1, 1.75, 1 );
-  dirLight.position.multiplyScalar( 50 );
-  scene.add( dirLight );
+    dirLight = new THREE.DirectionalLight( 0xffffff,.2);
+    dirLight.color.setHSL( 0.1, 1, 0.95 );
+    dirLight.position.set( -1, 1.75, 1 );
+    dirLight.position.multiplyScalar( 50 );
+    scene.add( dirLight );
 
     spawnedObjects.hangar['sun'] = dirLight;
     scene.add(spawnedObjects.hangar['sun']);
 
-
-
-  hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.1 );
-  hemiLight.color.setHSL( 0.6, 1, 0.6 );
-  hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-  hemiLight.position.set( 0, 500, 0 );
-  spawnedObjects.hangar['hemiLight'] = hemiLight;
-  scene.add( spawnedObjects.hangar['hemiLight'] );
+    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.1 );
+    hemiLight.color.setHSL( 0.6, 1, 0.6 );
+    hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+    hemiLight.position.set( 0, 500, 0 );
+    spawnedObjects.hangar['hemiLight'] = hemiLight;
+    scene.add( spawnedObjects.hangar['hemiLight'] );
 
   // Light above door
     sun = new THREE.SpotLight(0xffffff,.5);
@@ -82,9 +83,6 @@ function hangar() {
     geometry = refObject.geometry;
     spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
-    if (gameSettings.quality == 'high') {
-        spawnedObjects.hangar['hangarPlayer'].castShadow = true;
-    }
     scene.add(spawnedObjects.hangar['hangarPlayer']);
 
     // Hangar
@@ -138,18 +136,12 @@ function hangar() {
         y: 0,
         z: 11.4
     }
-    if (gameSettings.quality == 'high') {
-      spawnedObjects.hangar['closet-1'].castShadow = true;
-    }
     scene.add(spawnedObjects.hangar['closet-1']);
     spawnedObjects.hangar['closet-2'] = new THREE.Mesh(refObject.geometry, material);
     spawnedObjects.hangar['closet-2'].position = {
         x: -6,
         y: 0,
         z: 11.4
-    }
-    if (gameSettings.quality == 'high') {
-      spawnedObjects.hangar['closet-2'].castShadow = true;
     }
     scene.add(spawnedObjects.hangar['closet-2']);
     spawnedObjects.hangar['closet-3'] = new THREE.Mesh(refObject.geometry, material);
@@ -158,18 +150,12 @@ function hangar() {
         y: 0,
         z: 11.4
     }
-    if (gameSettings.quality == 'high') {
-      spawnedObjects.hangar['closet-3'].castShadow = true;
-    }
     scene.add(spawnedObjects.hangar['closet-3']);
     spawnedObjects.hangar['closet-4'] = new THREE.Mesh(refObject.geometry, material);
     spawnedObjects.hangar['closet-4'].position = {
         x: 13,
         y: 0,
         z: 11.4
-    }
-    if (gameSettings.quality == 'high') {
-      spawnedObjects.hangar['closet-4'].castShadow = true;
     }
     scene.add(spawnedObjects.hangar['closet-4']);
     spawnedObjects.hangar['closet-5'] = new THREE.Mesh(refObject.geometry, material);
@@ -178,9 +164,6 @@ function hangar() {
         y: 0,
         z: -11.4
     }
-    if (gameSettings.quality == 'high') {
-      spawnedObjects.hangar['closet-5'].castShadow = true;
-    }
     scene.add(spawnedObjects.hangar['closet-5']);
     spawnedObjects.hangar['closet-6'] = new THREE.Mesh(refObject.geometry, material);
     spawnedObjects.hangar['closet-6'].position = {
@@ -188,9 +171,6 @@ function hangar() {
         y: 0,
         z: -11.4
     }
-  if (gameSettings.quality == 'high') {
-    spawnedObjects.hangar['closet-6'].castShadow = true;
-  }
     scene.add(spawnedObjects.hangar['closet-6']);
     spawnedObjects.hangar['closet-7'] = new THREE.Mesh(refObject.geometry, material);
     spawnedObjects.hangar['closet-7'].position = {
@@ -198,9 +178,6 @@ function hangar() {
         y: 0,
         z: -11.4
     }
-  if (gameSettings.quality == 'high') {
-    spawnedObjects.hangar['closet-7'].castShadow = true;
-  }
     scene.add(spawnedObjects.hangar['closet-7']);
     spawnedObjects.hangar['closet-8'] = new THREE.Mesh(refObject.geometry, material);
     spawnedObjects.hangar['closet-8'].position = {
@@ -208,9 +185,6 @@ function hangar() {
         y: 0,
         z: -11.4
     }
-  if (gameSettings.quality == 'high') {
-    spawnedObjects.hangar['closet-8'].castShadow = true;
-  }
     scene.add(spawnedObjects.hangar['closet-8']);
 
     // Toolbox and extra stuff
@@ -221,9 +195,6 @@ function hangar() {
     spawnedObjects.hangar['toolbox-1'].position.x = 1;//3;
     spawnedObjects.hangar['toolbox-1'].position.z = 2;//-11;
     spawnedObjects.hangar['toolbox-1'].rotation.y = Math.random() * 10;
-  if (gameSettings.quality == 'high') {
-    spawnedObjects.hangar['toolbox-1'].castShadow = true;
-  }
     scene.add(spawnedObjects.hangar['toolbox-1']);
 
     var refObject = gameObjects['hangar-toolbox-2'];
@@ -233,9 +204,6 @@ function hangar() {
     spawnedObjects.hangar['toolbox-2'].position.x = -7;
     spawnedObjects.hangar['toolbox-2'].position.z = 12;
     spawnedObjects.hangar['toolbox-2'].rotation.y = Math.random() * 10;
-  if (gameSettings.quality == 'high') {
-    spawnedObjects.hangar['toolbox-2'].castShadow = true;
-  }
     scene.add(spawnedObjects.hangar['toolbox-2']);
 
     var refObject = gameObjects['hangar-toolbox-1'];
@@ -246,15 +214,10 @@ function hangar() {
     spawnedObjects.hangar['toolbox-3'].position.y = 2.9;
     spawnedObjects.hangar['toolbox-3'].position.z = -9.4;
     spawnedObjects.hangar['toolbox-3'].rotation.y = Math.random() * 10;
-  if (gameSettings.quality == 'high') {
-    spawnedObjects.hangar['toolbox-3'].castShadow = true;
-  }
     scene.add(spawnedObjects.hangar['toolbox-3']);
 
 
     geometryFloor = new THREE.PlaneGeometry(42,30);
-//    gameObjects['texture-hangar-floor'].wrapS = gameObjects['texture-hangar-floor'].wrapT = THREE.RepeatWrapping;
-//    gameObjects['texture-hangar-floor'].repeat.set(3, 3);
     material = new THREE.MeshPhongMaterial(
         {
             map: gameObjects['texture-hangar-floor'],
@@ -266,17 +229,30 @@ function hangar() {
         }
     );
     spawnedObjects.hangar['floor'] = new THREE.Mesh(geometryFloor, material);
-//    spawnedObjects.hangar['floor'].material.ambient = 0xffffff;
     spawnedObjects.hangar['floor'].rotation.x = -1.57;
     if (gameSettings.quality == 'high') {
         spawnedObjects.hangar['floor'].receiveShadow = true;
         spawnedObjects.hangar['buiding'].receiveShadow = true;
-      spawnedObjects.hangar['skelet'].receiveShadow = true;
-      spawnedObjects.hangar['door-frames'].receiveShadow = true;
+        spawnedObjects.hangar['skelet'].receiveShadow = true;
+        spawnedObjects.hangar['door-frames'].receiveShadow = true;
     }
     scene.add(spawnedObjects.hangar['floor']);
-
     camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
+
+    if (gameSettings.quality == 'high') {
+        spawnedObjects.hangar['hangarPlayer'].castShadow = true;
+        spawnedObjects.hangar['closet-1'].castShadow = true;
+        spawnedObjects.hangar['closet-2'].castShadow = true;
+        spawnedObjects.hangar['closet-3'].castShadow = true;
+        spawnedObjects.hangar['closet-4'].castShadow = true;
+        spawnedObjects.hangar['closet-5'].castShadow = true;
+        spawnedObjects.hangar['closet-6'].castShadow = true;
+        spawnedObjects.hangar['closet-7'].castShadow = true;
+        spawnedObjects.hangar['closet-8'].castShadow = true;
+        spawnedObjects.hangar['toolbox-1'].castShadow = true;
+        spawnedObjects.hangar['toolbox-2'].castShadow = true;
+        spawnedObjects.hangar['toolbox-3'].castShadow = true;
+    }
 
     hangarAnimation();
 }

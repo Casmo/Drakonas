@@ -20,7 +20,6 @@ gameSettings.controls = 'mouse';
  * @type {Array}
  */
 var currentWeapons      = new Array();
-var sv_cheats = true;
 
 /**
  * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
@@ -182,7 +181,7 @@ function playMission(missionCode) {
 
     // @todo Get default menu settings and extend current mission with it (array/object merge)
     if (mission.settings == null) {
-        mission.settings = new Object();
+        mission.settings = {};
     }
     if (mission.settings.sun == null) {
         mission.settings.sun = {
