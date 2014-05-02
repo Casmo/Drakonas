@@ -498,14 +498,15 @@ function spawnObject(index) {
         for (i = 0; i < objectElement.points.length; i++) {
             points.push(objectElement.points[i]);
         }
-        mission.elements[objectIndex].points = points;
-        var dummy = { p: 0, i: thisIndex };
+        newObject.points = points;
+        //mission.elements[objectIndex].points = points;
+        dummy = { p: 0, i: thisIndex };
         var spline = new Spline();
         gameTweens['object_' + thisIndex + '_0'] = new TWEEN.Tween( dummy )
           .to( { p: 1 },
           objectElement.points_duration ).easing( TWEEN.Easing.Linear.None ).onUpdate( function() {
           if (objects[this.i] != null) {
-              position = spline.get2DPoint( mission.elements[this.i].points, this.p );
+              position = spline.get2DPoint( objects[this.i].points, this.p );
               objects[this.i].position.x = position.x;
               objects[this.i].position.y = position.y;
               objects[this.i].position.z = position.z;
@@ -524,22 +525,23 @@ function spawnObject(index) {
         })
       .onComplete( function () {
           delete(gameTweens['object_' + this.i + '_0']);
-          removeObject(this.i, false)
+          removeObject(this.i, false);
       } )
       .start();
     }
     // Moving automaticly to the player. Usefull for mines.
+    // @todo there is a bug somehwere here. Making other moving objects using this information.
     else if (objectElement.autoMovement != null) {
         // Auto movement to the player with linear and speed
-        toX = (player.position.x - newObject.position.x) * 2;
-        toY = (player.position.y - newObject.position.y) * 2;
-        toZ = (player.position.z - newObject.position.z) * 2;
+        toX = (player.position.x - objectElement.position.x) * 2;
+        toY = (player.position.y - objectElement.position.y) * 2;
+        toZ = (player.position.z - objectElement.position.z) * 2;
         easing = TWEEN.Easing.Linear.None;
         if (objectElement.autoMovement.easing != null) {
             easing = getEasingByString(objectElement.autoMovement.easing);
         }
-        currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
-        gameTweens['object_' + thisIndex + '_0'] = new TWEEN.Tween( currentPosition )
+        currentPosition = {i: thisIndex, x: objectElement.position.x, y: objectElement.position.y, z: objectElement.position.z}
+        gameTweens['object_' + thisIndex + '_a'] = new TWEEN.Tween( currentPosition )
             .to( { x: toX, y: toY, z: toZ }, objectElement.autoMovement.speed )
             .easing( easing )
             .onUpdate( function () {
@@ -560,8 +562,8 @@ function spawnObject(index) {
                 }
             } )
             .onComplete( function () {
-                delete(gameTweens['object_' + this.i + '_0']);
-                removeObject(this.i, false)
+                delete(gameTweens['object_' + this.i + '_a']);
+                removeObject(this.i, false);
             } )
             .start();
     }
@@ -616,7 +618,7 @@ function spawnObject(index) {
         // Remove object after the movement
         if (objectElement.movementRepeat == null || objectElement.movementRepeat == false) {
             setTimeout(function(){
-                removeObject(index, false)
+                removeObject(index, false);
             }, delay);
         }
     }

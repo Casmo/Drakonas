@@ -73,6 +73,10 @@
         {
             "ref": "tower-number2",
             "file": "files/objects/buildings/tower-number2-001.obj"
+        },
+        {
+            "ref": "mine-001",
+            "file": "files/objects/enemies/mine-001.obj"
         }
     ],
     "textures": [
@@ -107,6 +111,10 @@
         {
             "ref": "fighter-001",
             "file": "files/objects/enemies/fighter-001.jpg"
+        },
+        {
+            "ref": "mine-001",
+            "file": "files/objects/enemies/mine-001.jpg"
         }
     ],
     "sounds": [
@@ -1091,6 +1099,27 @@
                     "speed": 1500
                 }
             ]
+        },
+        {
+            "ref": "mine-001",
+            "texture": "mine-001",
+            "position": {
+                "x": 80,
+                "y": 40,
+                "z": 100
+            },
+            "autoMovement": {
+                "easing": "Linear.None",
+                "speed": 45000
+            },
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 7,
+                "color": "0xaaaaaa",
+                "score": 2200
+            }
         },
         {
             "ref": "enemy-ufo",
