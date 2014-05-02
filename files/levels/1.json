@@ -358,6 +358,96 @@
             }
         },
         {
+            "ref": "scout-001",
+            "position": {
+                "x": 10,
+                "y": 40,
+                "z": 130
+            },
+            "points": [
+                {
+                    "x": -20,
+                    "y": 40,
+                    "z": 130
+                },
+                {
+                    "x": 40,
+                    "y": 40,
+                    "z": 120
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 150
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 170
+                },
+                {
+                    "x": 20,
+                    "y": 120,
+                    "z": 170
+                }
+            ],
+            "points_duration": 12000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -10,
+                "y": 40,
+                "z": 140
+            },
+            "points": [
+                {
+                    "x": 20,
+                    "y": 40,
+                    "z": 140
+                },
+                {
+                    "x": -40,
+                    "y": 40,
+                    "z": 130
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 160
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 180
+                },
+                {
+                    "x": -20,
+                    "y": 120,
+                    "z": 180
+                }
+            ],
+            "points_duration": 12000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
             "ref": "enemy-ufo",
             "texture": "ufo-glow-pink",
             "position": {

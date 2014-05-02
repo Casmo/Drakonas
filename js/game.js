@@ -396,7 +396,7 @@ function spawnObjects() {
         if (mission.elements[i].spawned != null) {
             continue;
         }
-        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + (gameOptions.size.y / 1))
+        if (mission.elements[i].spawn == null || gameOptions.move == true && mission.elements[i].position.z < (camera.position.z + gameOptions.size.y)
             ) {
             mission.elements[i].spawned = true;
             spawnObject(i);
@@ -489,27 +489,17 @@ function spawnObject(index) {
     }
 
     // Animate the object
-    // @todo, might wanna do this when the objects is in the view port.
     // Animation according bezier curving
     if (objectElement.points != null) {
-        pointsX = [];
-        pointsY = [];
-        pointsZ = [];
-        pointsX.push(objectElement.position.x);
-        pointsY.push(objectElement.position.y);
-        pointsZ.push(objectElement.position.z);
+        // Adding the basic start point to the point array of the object
+        points = [];
+        points.push(objectElement.position);
         for (i = 0; i < objectElement.points.length; i++) {
-            pointsX.push(objectElement.points[i].x);
-            pointsY.push(objectElement.points[i].y);
-            pointsZ.push(objectElement.points[i].z);
+            points.push(objectElement.points[i]);
         }
-
+        mission.elements[objectIndex].points = points;
         var dummy = { p: 0, i: thisIndex };
-//        var position = { x: 0, y: 0, z: 0 };
-        var position_old = { x: objectElement.points[ 0 ].x, y: objectElement.points[ 0 ].y, z: objectElement.points[ 0 ].z };
-
         var spline = new Spline();
-
         gameTweens['object_' + index + '_0'] = new TWEEN.Tween( dummy )
           .to( { p: 1 },
           objectElement.points_duration ).easing( TWEEN.Easing.Linear.None ).onUpdate( function() {
