@@ -129,9 +129,12 @@ function removeObjectHp(objectIndex, damage) {
     }
 }
 
-function createExplosion(position, size, amount, explosionRatio, color, duration) {
+function createExplosion(position, size, amount, explosionRatio, color, duration, shake) {
     if (gameSettings.quality != 'high') {
         return;
+    }
+    if (typeof shake == 'undefined' || shake == null) {
+        shake = false;
     }
     if (size == null) {
         size = 2;
@@ -208,6 +211,64 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         scene.add(spawnedObjects.game['explosion_' + explosionIndex]);
         explosionIndex++;
     }
+
+    if (shake == true) {
+        shakeCamera();
+    }
+}
+
+function shakeCamera() {
+    shakePosition = { x: camera.position.x }
+    shakePositionTo = { x: camera.position.x + 1 }
+    gameTweens['camera_explosion_1'] = new TWEEN.Tween( shakePosition )
+      .to( shakePositionTo, 50 )
+      .easing( TWEEN.Easing.Linear.None )
+      .onUpdate( function () {
+          camera.position.x = this.x;
+      } )
+      .onComplete( function () {
+          delete(gameTweens['camera_explosion_1']);
+      } )
+      .start();
+    shakePosition = { x: shakePositionTo.x }
+    shakePositionTo = { x: shakePosition.x - 2 }
+    gameTweens['camera_explosion_2'] = new TWEEN.Tween( shakePosition )
+      .to( shakePositionTo, 100 )
+      .easing( TWEEN.Easing.Linear.None )
+      .onUpdate( function () {
+          camera.position.x = this.x;
+      } )
+      .onComplete( function () {
+          delete(gameTweens['camera_explosion_2']);
+      } )
+      .delay(50)
+      .start();
+    shakePosition = { x: shakePositionTo.x }
+    shakePositionTo = { x: shakePosition.x + 2 }
+    gameTweens['camera_explosion_3'] = new TWEEN.Tween( shakePosition )
+      .to( shakePositionTo, 100 )
+      .easing( TWEEN.Easing.Linear.None )
+      .onUpdate( function () {
+          camera.position.x = this.x;
+      } )
+      .onComplete( function () {
+          delete(gameTweens['camera_explosion_3']);
+      } )
+      .delay(150)
+      .start();
+    shakePosition = { x: shakePositionTo.x }
+    shakePositionTo = { x: shakePosition.x - 1 }
+    gameTweens['camera_explosion_4'] = new TWEEN.Tween( shakePosition )
+      .to( shakePositionTo, 50 )
+      .easing( TWEEN.Easing.Quartic.Out )
+      .onUpdate( function () {
+          camera.position.x = this.x;
+      } )
+      .onComplete( function () {
+          delete(gameTweens['camera_explosion_4']);
+      } )
+      .delay(250)
+      .start();
 }
 
 /**

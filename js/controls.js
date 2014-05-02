@@ -18,6 +18,9 @@ window.addEventListener("keydown", function(e) {
     if (e.keyCode == 66) {
         bossMode();
     }
+    if (e.keyCode == 83) {
+        shakeCamera();
+    }
 });
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();

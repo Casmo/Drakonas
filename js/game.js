@@ -755,7 +755,7 @@ function gameOver(playerDied) {
                 }
             })
             .onComplete( function () {
-                createExplosion(toPosition, 40,25,25,0xff0000,2500);
+                createExplosion(toPosition, 40,25,25,0xff0000,2500, true);
                 delete(gameTweens['player_gameover']);
                 gameObjects['sound-explosion-phaser'].play();
                 setTimeout(function() {stopMovement();}, 10000); // Some objects might have been spawned and should leave the screen.
