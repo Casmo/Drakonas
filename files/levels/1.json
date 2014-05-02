@@ -802,6 +802,159 @@
             ]
         },
         {
+            "ref": "scout-001",
+            "position": {
+                "x": 10,
+                "y": 40,
+                "z": 260
+            },
+            "points": [
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 250
+                },
+                {
+                    "x": 20,
+                    "y": 40,
+                    "z": 300
+                },
+                {
+                    "x": 30,
+                    "y": 40,
+                    "z": 340
+                },
+                {
+                    "x": 80,
+                    "y": 40,
+                    "z": 340
+                },
+                {
+                    "x": 140,
+                    "y": 90,
+                    "z": 340
+                }
+            ],
+            "points_duration": 20000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -10,
+                "y": 40,
+                "z": 260
+            },
+            "points": [
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 250
+                },
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 300
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 340
+                },
+                {
+                    "x": 60,
+                    "y": 40,
+                    "z": 380
+                },
+                {
+                    "x": 120,
+                    "y": 90,
+                    "z": 380
+                }
+            ],
+            "points_duration": 20000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "fighter-001",
+            "position": {
+                "x": 0,
+                "y": 40,
+                "z": 260
+            },
+            "points": [
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 250
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 300
+                },
+                {
+                    "x": 20,
+                    "y": 40,
+                    "z": 340
+                },
+                {
+                    "x": 70,
+                    "y": 40,
+                    "z": 380
+                },
+                {
+                    "x": 130,
+                    "y": 90,
+                    "z": 380
+                }
+            ],
+            "points_duration": 20000,
+            "texture": "fighter-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 6,
+                "color": "0xaaaaaa",
+                "score": 1500
+            },
+            "shooting": [
+                {
+                    "interval": 4000,
+                    "direction": "down",
+                    "ref": "bullet-yellow",
+                    "speed": 1500
+                }
+            ]
+        },
+        {
             "ref": "enemy-ufo",
             "texture": "ufo-glow-pink",
             "position": {
