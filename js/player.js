@@ -142,16 +142,25 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
     if (explosionRatio == null) {
         explosionRatio = 4;
     }
-    if (color == null) {
-        color = 0xffffff;
-    }
     if (duration == null) {
         duration = 350;
     }
     for (i = 0; i < amount; i++ ) {
-        randomObject = Math.round(Math.random() * 3);
-
-        var material = new THREE.MeshBasicMaterial({ color: color });
+        randomObject = Math.floor(Math.round(Math.random() * 2));
+        if (color == null) {
+            explosionColor = 0xffffff;
+        }
+        else {
+            if (typeof color == 'object') {
+                randomIndex = Math.floor(Math.random() * color.length);
+                randomColor = color[randomIndex];
+                explosionColor = parseInt(randomColor);
+            }
+            else {
+                explosionColor = parseInt(color);
+            }
+        }
+        var material = new THREE.MeshBasicMaterial({ color: explosionColor });
 
         if (randomObject == 1) {
             var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
@@ -233,7 +242,7 @@ function removeObject(objectIndex, killed) {
         // createExplosion(position, size, amount, explosionSize, color)
         color = 0xff0000;
         if (objects[objectIndex].stats.color != null) {
-            color = parseInt(objects[objectIndex].stats.color);
+            color = objects[objectIndex].stats.color;
         }
         createExplosion(objects[objectIndex].position, 8, 20, 30, color, 750);
         //gameTweens['bullets_' + index].stop();

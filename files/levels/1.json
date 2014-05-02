@@ -161,7 +161,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -201,7 +206,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -241,7 +251,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -281,7 +296,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -321,7 +341,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -361,7 +386,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -406,7 +436,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -451,7 +486,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -496,7 +536,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -541,7 +586,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -591,7 +641,7 @@
             },
             "shooting": [
                 {
-                    "timeout": 4000,
+                    "interval": 4000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
@@ -639,7 +689,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -684,7 +739,12 @@
             "collisionable": true,
             "stats": {
                 "hp": 2,
-                "color": "0xaaaaaa",
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
                 "score": 500
             }
         },
@@ -734,7 +794,7 @@
             },
             "shooting": [
                 {
-                    "timeout": 4000,
+                    "interval": 4000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
