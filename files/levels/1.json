@@ -641,7 +641,7 @@
             },
             "shooting": [
                 {
-                    "interval": 4000,
+                    "interval": 3000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
@@ -794,7 +794,7 @@
             },
             "shooting": [
                 {
-                    "interval": 4000,
+                    "interval": 3000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
@@ -947,7 +947,76 @@
             },
             "shooting": [
                 {
-                    "interval": 4000,
+                    "interval": 3000,
+                    "direction": "down",
+                    "ref": "bullet-yellow",
+                    "speed": 1500
+                }
+            ]
+        },
+        {
+            "ref": "fighter-001",
+            "texture": "fighter-001",
+            "position": {
+                "x": -120,
+                "y": 40,
+                "z": 270
+            },
+            "movement": [
+                {
+                    "x": -120,
+                    "y": 40,
+                    "z": 290,
+                    "duration": 5200,
+                    "easing": "Linear.None"
+                },
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 310,
+                    "duration": 4800,
+                    "easing": "Quartic.Out"
+                },
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 370,
+                    "duration": 4100,
+                    "easing": "Quadratic.InOut"
+                },
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 380,
+                    "duration": 1000,
+                    "easing": "Quadratic.InOut"
+                },
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 380,
+                    "duration": 1500,
+                    "easing": "Linear.None"
+                },
+                {
+                    "x": 0,
+                    "y": 400,
+                    "z": 380,
+                    "duration": 1000,
+                    "easing": "Quadratic.Out"
+                }
+            ],
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 7,
+                "color": "0xaaaaaa",
+                "score": 2000
+            },
+            "shooting": [
+                {
+                    "interval": 3000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500

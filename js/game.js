@@ -500,7 +500,7 @@ function spawnObject(index) {
         mission.elements[objectIndex].points = points;
         var dummy = { p: 0, i: thisIndex };
         var spline = new Spline();
-        gameTweens['object_' + index + '_0'] = new TWEEN.Tween( dummy )
+        gameTweens['object_' + thisIndex + '_0'] = new TWEEN.Tween( dummy )
           .to( { p: 1 },
           objectElement.points_duration ).easing( TWEEN.Easing.Linear.None ).onUpdate( function() {
           if (objects[this.i] != null) {
@@ -522,8 +522,8 @@ function spawnObject(index) {
 
         })
       .onComplete( function () {
-          delete(gameTweens['object_' + index + '_0']);
-          removeObject(index, false)
+          delete(gameTweens['object_' + this.i + '_0']);
+          removeObject(this.i, false)
       } )
       .start();
     }
@@ -538,7 +538,7 @@ function spawnObject(index) {
             easing = getEasingByString(objectElement.autoMovement.easing);
         }
         currentPosition = {i: thisIndex, x: newObject.position.x, y: newObject.position.y, z: newObject.position.z}
-        gameTweens['object_' + index + '_0'] = new TWEEN.Tween( currentPosition )
+        gameTweens['object_' + thisIndex + '_0'] = new TWEEN.Tween( currentPosition )
             .to( { x: toX, y: toY, z: toZ }, objectElement.autoMovement.speed )
             .easing( easing )
             .onUpdate( function () {
@@ -559,8 +559,8 @@ function spawnObject(index) {
                 }
             } )
             .onComplete( function () {
-                delete(gameTweens['object_' + index + '_0']);
-                removeObject(index, false)
+                delete(gameTweens['object_' + this.i + '_0']);
+                removeObject(this.i, false)
             } )
             .start();
     }
@@ -574,6 +574,7 @@ function spawnObject(index) {
             if (animation.easing != null) {
                 easing = getEasingByString(animation.easing);
             }
+            delay += animation.duration;
             gameTweens['object_' + index + '_' + a] = new TWEEN.Tween( currentPosition )
                 .to( { x: objectElement.movement[a].x, y: objectElement.movement[a].y, z: objectElement.movement[a].z }, animation.duration )
                 .easing( easing )
@@ -610,6 +611,13 @@ function spawnObject(index) {
             gameTweens['object_' + index + '_' + a].chain(nextChain);
         }
         gameTweens['object_' + index + '_0'].start();
+
+        // Remove object after the movement
+        if (objectElement.movementRepeat == null || objectElement.movementRepeat == false) {
+            setTimeout(function(){
+                removeObject(index, false)
+            }, delay);
+        }
     }
 
     if (objectElement.shooting != null && objectElement.shooting != '') {

@@ -7,17 +7,21 @@
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
 window.addEventListener("keydown", function(e) {
+    // esc || p
     if (e.keyCode == 27 || e.keyCode == 80) {
         e.preventDefault();
         e.stopPropagation();
         pause();
     }
+    // g
     if (e.keyCode == 71) {
         gameOver(false);
     }
+    // b
     if (e.keyCode == 66) {
         bossMode();
     }
+    // s
     if (e.keyCode == 83) {
         shakeCamera();
     }
