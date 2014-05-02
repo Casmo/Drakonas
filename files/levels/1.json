@@ -55,6 +55,10 @@
             "file": "files/objects/enemies/scout-001.obj"
         },
         {
+            "ref": "fighter-001",
+            "file": "files/objects/enemies/fighter-001.obj"
+        },
+        {
             "ref": "enemy-ufo",
             "file": "files/objects/enemies/ufo.obj"
         },
@@ -99,6 +103,10 @@
         {
             "ref": "scout-001",
             "file": "files/objects/enemies/scout-001.jpg"
+        },
+        {
+            "ref": "fighter-001",
+            "file": "files/objects/enemies/fighter-001.jpg"
         }
     ],
     "sounds": [
@@ -446,6 +454,149 @@
                 "color": "0xaaaaaa",
                 "score": 500
             }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -20,
+                "y": 40,
+                "z": 180
+            },
+            "points": [
+                {
+                    "x": -20,
+                    "y": 40,
+                    "z": 170
+                },
+                {
+                    "x": -30,
+                    "y": 40,
+                    "z": 220
+                },
+                {
+                    "x": -40,
+                    "y": 40,
+                    "z": 260
+                },
+                {
+                    "x": -90,
+                    "y": 40,
+                    "z": 300
+                },
+                {
+                    "x": -150,
+                    "y": 90,
+                    "z": 300
+                }
+            ],
+            "points_duration": 20000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": 0,
+                "y": 40,
+                "z": 180
+            },
+            "points": [
+                {
+                    "x": 0,
+                    "y": 40,
+                    "z": 170
+                },
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 220
+                },
+                {
+                    "x": -20,
+                    "y": 40,
+                    "z": 260
+                },
+                {
+                    "x": -70,
+                    "y": 40,
+                    "z": 300
+                },
+                {
+                    "x": -130,
+                    "y": 90,
+                    "z": 300
+                }
+            ],
+            "points_duration": 20000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
+            "ref": "fighter-001",
+            "position": {
+                "x": -10,
+                "y": 40,
+                "z": 180
+            },
+            "points": [
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 170
+                },
+                {
+                    "x": -20,
+                    "y": 40,
+                    "z": 220
+                },
+                {
+                    "x": -30,
+                    "y": 40,
+                    "z": 260
+                },
+                {
+                    "x": -80,
+                    "y": 40,
+                    "z": 300
+                },
+                {
+                    "x": -140,
+                    "y": 90,
+                    "z": 300
+                }
+            ],
+            "points_duration": 20000,
+            "texture": "fighter-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 6,
+                "color": "0xaaaaaa",
+                "score": 1500
+            },
+            "shooting": [
+                {
+                    "timeout": 4000,
+                    "direction": "down",
+                    "ref": "bullet-yellow",
+                    "speed": 1500
+                }
+            ]
         },
         {
             "ref": "enemy-ufo",
