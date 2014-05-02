@@ -895,11 +895,11 @@ function generateTerrain() {
     }
     texture = new THREE.Texture( generateTexture( data, worldWidth, worldDepth ), new THREE.UVMapping(), THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping );
     texture.needsUpdate = true;
-    gameObjects['terrain'] = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: texture } ) );
-    scene.add( gameObjects['terrain'] );
-    gameObjects['terrain'].position.z = 1500; // height;
+    spawnedObjects.game['terrain'] = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: texture } ) );
+    scene.add( spawnedObjects.game['terrain'] );
+    spawnedObjects.game['terrain'].position.z = 1500; // height;
     if (gameSettings.quality == 'high') {
-        gameObjects['terrain'].receiveShadow = true;
+        spawnedObjects.game['terrain'].receiveShadow = true;
     }
     renderer.setClearColor( 0xbfd1e5 );
 
