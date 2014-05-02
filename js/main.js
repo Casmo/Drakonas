@@ -100,7 +100,7 @@ var defaultObjects = [
     },
     {
         "ref": "bullet-yellow",
-        "geometry": new THREE.CubeGeometry(2,2,2)
+        "geometry": new THREE.CubeGeometry(1,1,1)
     }
 ]
 

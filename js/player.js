@@ -221,7 +221,7 @@ function shakeCamera() {
     shakePosition = { x: camera.position.x }
     shakePositionTo = { x: camera.position.x + 1 }
     gameTweens['camera_explosion_1'] = new TWEEN.Tween( shakePosition )
-      .to( shakePositionTo, 50 )
+      .to( shakePositionTo, 25 )
       .easing( TWEEN.Easing.Linear.None )
       .onUpdate( function () {
           camera.position.x = this.x;
@@ -233,7 +233,7 @@ function shakeCamera() {
     shakePosition = { x: shakePositionTo.x }
     shakePositionTo = { x: shakePosition.x - 2 }
     gameTweens['camera_explosion_2'] = new TWEEN.Tween( shakePosition )
-      .to( shakePositionTo, 100 )
+      .to( shakePositionTo, 50 )
       .easing( TWEEN.Easing.Linear.None )
       .onUpdate( function () {
           camera.position.x = this.x;
@@ -241,12 +241,12 @@ function shakeCamera() {
       .onComplete( function () {
           delete(gameTweens['camera_explosion_2']);
       } )
-      .delay(50)
+      .delay(25)
       .start();
     shakePosition = { x: shakePositionTo.x }
     shakePositionTo = { x: shakePosition.x + 2 }
     gameTweens['camera_explosion_3'] = new TWEEN.Tween( shakePosition )
-      .to( shakePositionTo, 100 )
+      .to( shakePositionTo, 50 )
       .easing( TWEEN.Easing.Linear.None )
       .onUpdate( function () {
           camera.position.x = this.x;
@@ -254,12 +254,12 @@ function shakeCamera() {
       .onComplete( function () {
           delete(gameTweens['camera_explosion_3']);
       } )
-      .delay(150)
+      .delay(75)
       .start();
     shakePosition = { x: shakePositionTo.x }
     shakePositionTo = { x: shakePosition.x - 1 }
     gameTweens['camera_explosion_4'] = new TWEEN.Tween( shakePosition )
-      .to( shakePositionTo, 50 )
+      .to( shakePositionTo, 25 )
       .easing( TWEEN.Easing.Quartic.Out )
       .onUpdate( function () {
           camera.position.x = this.x;
@@ -267,7 +267,7 @@ function shakeCamera() {
       .onComplete( function () {
           delete(gameTweens['camera_explosion_4']);
       } )
-      .delay(250)
+      .delay(125)
       .start();
 }
 

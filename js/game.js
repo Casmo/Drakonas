@@ -332,8 +332,8 @@ function render() {
             v1 = {x: mesh.position.x, y: mesh.position.y, z: mesh.position.z};
             v2 = player.position;
             distance = calcDistance(v1, v2);
-            if (distance < 6) {
-                createExplosion(player.position, 4, 8, 28, 0xff0000);
+            if (distance < 5) {
+                createExplosion(player.position, 4, 8, 28, 0xff0000, 350, true);
                 removeHealth(2);
                 removeObjectHp(mesh.missionIndex, 1);
             }
@@ -343,7 +343,7 @@ function render() {
             v2 = {x: player.position.x, y: player.position.z};
             distance = calcDistance(v1, v2);
             if (distance < 2) {
-                createExplosion(bullet, 4, 8, 28, 0xff0000);
+                createExplosion(bullet, 4, 8, 28, 0xf0ff00);
                 removeHealth(1);
                 scene.remove(spawnedObjects.game['bullet_enemy_' + index]);
                 delete(enemyBullets[index]);
@@ -654,7 +654,7 @@ var enemyBulletIndex = 0;
 var enemyBullets = new Array();
 function spawnEnemyBullet(position, bulletObject) {
     var refObject = bulletObject;
-    var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+    var material = new THREE.MeshBasicMaterial({color: 0xf0ff00});
     if (refObject.ref != null) {
         geometry = gameObjects[refObject.ref];
     }
