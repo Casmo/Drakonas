@@ -327,6 +327,7 @@ function render() {
     });
 
     if (gameOptions.playable == true) {
+        // @todo Should be fixed by collision detection and not distance calculations.
         collisionableMeshList.forEach(function(mesh, index) {
             v1 = {x: mesh.position.x, y: mesh.position.y, z: mesh.position.z};
             v2 = player.position;

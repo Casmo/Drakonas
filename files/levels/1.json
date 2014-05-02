@@ -152,8 +152,8 @@
             "destroyable": true,
             "collisionable": true,
             "stats": {
-                "hp": 3,
-                "color": "0xff9900",
+                "hp": 2,
+                "color": "0xaaaaaa",
                 "score": 500
             }
         },
@@ -192,8 +192,8 @@
             "destroyable": true,
             "collisionable": true,
             "stats": {
-                "hp": 3,
-                "color": "0xff9900",
+                "hp": 2,
+                "color": "0xaaaaaa",
                 "score": 500
             }
         },
@@ -232,8 +232,128 @@
             "destroyable": true,
             "collisionable": true,
             "stats": {
-                "hp": 3,
-                "color": "0xff9900",
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": 150,
+                "y": 40,
+                "z": 100
+            },
+            "points": [
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 100
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 90
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 120
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 70
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": 150,
+                "y": 40,
+                "z": 110
+            },
+            "points": [
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 110
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 100
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 130
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 80
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": 150,
+                "y": 40,
+                "z": 120
+            },
+            "points": [
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 120
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 110
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 140
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 90
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": "0xaaaaaa",
                 "score": 500
             }
         },
