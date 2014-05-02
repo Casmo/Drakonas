@@ -14,7 +14,7 @@ gameSettings.controls = 'mouse';
 
 /**
  * List with current equiped weapons. Interval is based on time but might need to base it
- * on frames. (Use a counter loop in render() perhaps. Minimum of 50 microseconds.
+ * on frames. (Use a counter loop in the render() perhaps. Minimum of 50 microseconds.
  * Weapons that are available can be found in availableWeapons array.
  * @see js/weapons.js
  * @type {Array}
@@ -74,7 +74,7 @@ currentWeapons = JSON.parse(currentWeapons);
 var gameObjects                 = new Object();
 var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer();
-var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 170); // 170); // window.innerWidth / window.innerHeight
+var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight , 0.1, 1170); // 170); // window.innerWidth / window.innerHeight
 if (gameSettings.quality == 'high') {
     renderer.shadowMapEnabled = true;
 }
@@ -164,6 +164,8 @@ function newGame() {
 function playMission(missionCode) {
     newGame();
     mission = missions[missionCode];
+
+    generateTerrain();
 
     $('#container').innerHTML = '<div class="pause" id="pause" style="display: none;"></div><div class="overlay" id="overlay"></div><div class="ui" id="ui"></div>';
 
@@ -266,7 +268,6 @@ function playMission(missionCode) {
         gameOptions.move = true;
         document.getElementById('overlay').className = 'overlay fadeOut';
     }, 750);
-
     render(); // Start looping the game
 }
 
@@ -879,6 +880,115 @@ function clearScene() {
         var obj = spawnedObjects.game[key];
         scene.remove(obj);
     }
+}
+
+function generateTerrain() {
+    worldWidth = 40;
+    worldDepth = 360;
+    data = generateHeight( worldWidth, worldDepth );
+    var geometry = new THREE.PlaneGeometry( 300, 3200, worldWidth - 1, worldDepth - 1 );
+    geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+    for ( var i = 0, l = geometry.vertices.length; i < l; i ++ ) {
+        geometry.vertices[ i ].y = data[ i ] * 1.5;
+    }
+    texture = new THREE.Texture( generateTexture( data, worldWidth, worldDepth ), new THREE.UVMapping(), THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping );
+    texture.needsUpdate = true;
+    gameObjects['terrain'] = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: texture } ) );
+    scene.add( gameObjects['terrain'] );
+    gameObjects['terrain'].position.z = 1500; // height;
+    if (gameSettings.quality == 'high') {
+        gameObjects['terrain'].receiveShadow = true;
+    }
+    renderer.setClearColor( 0xbfd1e5 );
+
+}
+
+function generateHeight( width, height ) {
+
+    var size = width * height, data = new Uint8Array( size ),
+      perlin = new ImprovedNoise(), quality = 1, z = Math.random() * 2;
+
+    for ( var j = 0; j < 4; j ++ ) {
+
+        for ( var i = 0; i < size; i ++ ) {
+
+            var x = i % width, y = ~~ ( i / width );
+            data[ i ] += Math.abs( perlin.noise( x / quality, y / quality, z ) * quality * 1.11 );
+
+        }
+
+        quality *= 2.22;
+
+    }
+
+    return data;
+
+}
+
+function generateTexture( data, width, height ) {
+
+    var canvas, canvasScaled, context, image, imageData,
+      level, diff, vector3, sun, shade;
+
+    vector3 = new THREE.Vector3( 0, 0, 0 );
+
+    sun = new THREE.Vector3( 1, 1, 1 );
+    sun.normalize();
+
+    canvas = document.createElement( 'canvas' );
+    canvas.width = width;
+    canvas.height = height;
+
+    context = canvas.getContext( '2d' );
+    context.fillStyle = '#000';
+    context.fillRect( 0, 0, width, height );
+
+    image = context.getImageData( 0, 0, canvas.width, canvas.height );
+    imageData = image.data;
+
+    for ( var i = 0, j = 0, l = imageData.length; i < l; i += 4, j ++ ) {
+
+        vector3.x = data[ j - 2 ] - data[ j + 2 ];
+        vector3.y = 2;
+        vector3.z = data[ j - width * 2 ] - data[ j + width * 2 ];
+        vector3.normalize();
+
+        shade = vector3.dot( sun );
+
+        imageData[ i ] = ( 96 + shade * 128 ) * ( 0.5 + data[ j ] * 0.007 );
+        imageData[ i + 1 ] = ( 32 + shade * 96 ) * ( 0.5 + data[ j ] * 0.007 );
+        imageData[ i + 2 ] = ( shade * 96 ) * ( 0.5 + data[ j ] * 0.007 );
+    }
+
+    context.putImageData( image, 0, 0 );
+
+    // Scaled 4x
+
+    canvasScaled = document.createElement( 'canvas' );
+    canvasScaled.width = width * 4;
+    canvasScaled.height = height * 4;
+
+    context = canvasScaled.getContext( '2d' );
+    context.scale( 4, 4 );
+    context.drawImage( canvas, 0, 0 );
+
+    image = context.getImageData( 0, 0, canvasScaled.width, canvasScaled.height );
+    imageData = image.data;
+
+    for ( var i = 0, l = imageData.length; i < l; i += 4 ) {
+
+        var v = ~~ ( Math.random() * 5 );
+
+        imageData[ i ] += v;
+        imageData[ i + 1 ] += v;
+        imageData[ i + 2 ] += v;
+
+    }
+
+    context.putImageData( image, 0, 0 );
+
+    return canvasScaled;
+
 }
 
 /**

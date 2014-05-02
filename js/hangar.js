@@ -253,7 +253,6 @@ function hangar() {
         spawnedObjects.hangar['toolbox-2'].castShadow = true;
         spawnedObjects.hangar['toolbox-3'].castShadow = true;
     }
-
     hangarAnimation();
 }
 

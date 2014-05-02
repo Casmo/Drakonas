@@ -121,7 +121,7 @@
             "position": {
                 "x": 0,
                 "y": 0,
-                "z": 3200
+                "z": -3200
             },
             "texture": "texture-grass"
         },
@@ -960,48 +960,48 @@
             "position": {
                 "x": -120,
                 "y": 40,
-                "z": 270
+                "z": 260
             },
             "movement": [
                 {
                     "x": -120,
                     "y": 40,
-                    "z": 290,
+                    "z": 280,
                     "duration": 5200,
                     "easing": "Linear.None"
                 },
                 {
                     "x": 0,
                     "y": 40,
-                    "z": 310,
+                    "z": 300,
                     "duration": 4800,
                     "easing": "Quartic.Out"
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 370,
+                    "z": 360,
                     "duration": 4100,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 380,
+                    "z": 370,
                     "duration": 1000,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 380,
+                    "z": 370,
                     "duration": 1500,
                     "easing": "Linear.None"
                 },
                 {
                     "x": -10,
                     "y": 400,
-                    "z": 380,
+                    "z": 370,
                     "duration": 1000,
                     "easing": "Quadratic.Out"
                 }
@@ -1029,48 +1029,48 @@
             "position": {
                 "x": 120,
                 "y": 40,
-                "z": 290
+                "z": 280
             },
             "movement": [
                 {
                     "x": 120,
                     "y": 40,
-                    "z": 310,
+                    "z": 300,
                     "duration": 5200,
                     "easing": "Linear.None"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 330,
+                    "z": 320,
                     "duration": 4800,
                     "easing": "Quartic.Out"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 390,
+                    "z": 380,
                     "duration": 4100,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 400,
+                    "z": 390,
                     "duration": 1000,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 400,
+                    "z": 390,
                     "duration": 1500,
                     "easing": "Linear.None"
                 },
                 {
                     "x": 10,
                     "y": 400,
-                    "z": 400,
+                    "z": 390,
                     "duration": 1000,
                     "easing": "Quadratic.Out"
                 }
