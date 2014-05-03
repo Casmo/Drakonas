@@ -1108,6 +1108,11 @@
                 "y": 40,
                 "z": 100
             },
+            "size": {
+                "x": 3,
+                "y": 3,
+                "z": 3
+            },
             "autoMovement": {
                 "easing": "Linear.None",
                 "speed": 45000

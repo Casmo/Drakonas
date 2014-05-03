@@ -470,6 +470,9 @@ function spawnObject(index) {
     newObject.missionIndex = index;
     newObject.stats = objectElement.stats;
     newObject.position = objectElement.position;
+    if (objectElement.size != null) {
+        newObject.scale = objectElement.size;
+    }
     if (gameSettings.quality == 'high') {
         newObject.receiveShadow = true;
         newObject.castShadow = true;
