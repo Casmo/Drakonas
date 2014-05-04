@@ -186,7 +186,7 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         mesh.position.y = position.y + ((Math.random() * 4) - 2);
         mesh.position.z = position.z + ((Math.random() * 4) - 2);
         mesh.position.i = explosionIndex;
-        var positionTo = new Object;
+        var positionTo = {};
         positionTo.x = position.x + (Math.random() * explosionRatio) - (explosionRatio / 2);
         positionTo.y = position.y + (Math.random() * explosionRatio) - (explosionRatio / 2);
         positionTo.z = position.z + (Math.random() * explosionRatio) - (explosionRatio / 2);
@@ -219,8 +219,8 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
 }
 
 function shakeCamera() {
-    shakePosition = { x: camera.position.x }
-    shakePositionTo = { x: camera.position.x + 1 }
+    shakePosition = { x: camera.position.x };
+    shakePositionTo = { x: camera.position.x + 1 };
     gameTweens['camera_explosion_1'] = new TWEEN.Tween( shakePosition )
       .to( shakePositionTo, 25 )
       .easing( TWEEN.Easing.Linear.None )
@@ -231,8 +231,8 @@ function shakeCamera() {
           delete(gameTweens['camera_explosion_1']);
       } )
       .start();
-    shakePosition = { x: shakePositionTo.x }
-    shakePositionTo = { x: shakePosition.x - 2 }
+    shakePosition = { x: shakePositionTo.x };
+    shakePositionTo = { x: shakePosition.x - 2 };
     gameTweens['camera_explosion_2'] = new TWEEN.Tween( shakePosition )
       .to( shakePositionTo, 50 )
       .easing( TWEEN.Easing.Linear.None )
@@ -244,8 +244,8 @@ function shakeCamera() {
       } )
       .delay(25)
       .start();
-    shakePosition = { x: shakePositionTo.x }
-    shakePositionTo = { x: shakePosition.x + 2 }
+    shakePosition = { x: shakePositionTo.x };
+    shakePositionTo = { x: shakePosition.x + 2 };
     gameTweens['camera_explosion_3'] = new TWEEN.Tween( shakePosition )
       .to( shakePositionTo, 50 )
       .easing( TWEEN.Easing.Linear.None )
@@ -257,8 +257,8 @@ function shakeCamera() {
       } )
       .delay(75)
       .start();
-    shakePosition = { x: shakePositionTo.x }
-    shakePositionTo = { x: shakePosition.x - 1 }
+    shakePosition = { x: shakePositionTo.x };
+    shakePositionTo = { x: shakePosition.x - 1 };
     gameTweens['camera_explosion_4'] = new TWEEN.Tween( shakePosition )
       .to( shakePositionTo, 25 )
       .easing( TWEEN.Easing.Quartic.Out )
@@ -275,6 +275,8 @@ function shakeCamera() {
 /**
  * Removes a bullet from the game including its animation
  * @param index
+ * @param explosion whether to show an explosion
+ * @param explosionY the Y position of the explosion
  */
 function removeBullet(index, explosion, explosionY) {
     if (bullets[index] != null && explosion != null && explosion == true) {
@@ -288,7 +290,8 @@ function removeBullet(index, explosion, explosionY) {
 
 /**
  * Removes a bullet from the game including its animation
- * @param index
+ * @param objectIndex
+ * @param killed set true of the player killed to object to add score and explosion
  */
 function removeObject(objectIndex, killed) {
     if (killed == null) {
@@ -331,58 +334,4 @@ function removeObject(objectIndex, killed) {
     if (bossObject.boss != null && bossObject.boss == true) {
         gameOver(false);
     }
-}
-
-/**
- * Function to add score for the current mission. Player will lose the score if it returns
- * to the menu before finishing the mission. After finishing a mission the score will be
- * add to the normal score and stored in the localStorage.
- * @param score
- */
-function addScore(amountToAdd, firstTime) {
-    if ($('#score') == null) {
-        return false;
-    }
-    if (amountToAdd <= 0) {
-        gameSettings.score = parseInt(gameSettings.score) + amountToAdd;
-        $('#score').innerHTML = gameSettings.score;
-        return true;
-    }
-    score = parseInt(amountToAdd);
-    currentScore = parseInt(gameSettings.score);
-    newScore = currentScore + score;
-    if (typeof firstTime != 'undefined' && firstTime == true) {
-        gameSettings.score = parseInt(gameSettings.score) + score;
-    }
-
-    if (score > 99999) {
-        newScore = currentScore + 100000;
-        score -= 100000;
-        setTimeout(function () { addScore(score) }, 20);
-    }
-    else if (score > 9999) {
-        newScore = currentScore + 10000;
-        score -= 10000;
-        setTimeout(function () { addScore(score) }, 20);
-    }
-    else if (score > 999) {
-        newScore = currentScore + 1000;
-        score -= 1000;
-        setTimeout(function () { addScore(score) }, 20);
-    }
-    else if (score > 99) {
-        newScore = currentScore + 100;
-        score -= 100;
-        setTimeout(function () { addScore(score) }, 20);
-    }
-    else if (score > 9) {
-        newScore = currentScore + 10;
-        score -= 10;
-        setTimeout(function () { addScore(score) }, 20);
-    }
-    else if (score > 0) {
-        newScore = currentScore + score;
-        //currentScore = $('#score').innerHTML = newScore;
-    }
-    $('#score').innerHTML = newScore;
 }

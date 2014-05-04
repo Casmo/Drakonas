@@ -670,6 +670,47 @@ function removeHealth(health) {
 }
 
 /**
+ * Function to add score for the current mission. Player will lose the score if it returns
+ * to the menu before finishing the mission. After finishing a mission the score will be
+ * add to the normal score and stored in the localStorage.
+ * @param amountToAdd total amount the add
+ * @param firstTime boolean for checking recurring loop of money
+ */
+function addScore(amountToAdd, firstTime) {
+    scoreEl = $('#score');
+    if (scoreEl == null) {
+        return false;
+    }
+    // Amount could be negative. For example in the shop.
+    if (amountToAdd <= 0) {
+        gameSettings.score = parseInt(gameSettings.score) + amountToAdd;
+        $('#score').innerHTML = gameSettings.score;
+        return true;
+    }
+    score = parseInt(amountToAdd);
+    currentScore = parseInt(gameSettings.score);
+    newScore = currentScore + score;
+    if (typeof firstTime != 'undefined' && firstTime == true) {
+        gameSettings.score = parseInt(gameSettings.score) + score;
+    }
+    s = 100000;
+    while (s > 9) {
+        if (amountToAdd >= s) {
+            newScore = currentScore + s;
+            score -= s;
+            setTimeout(function () { addScore(score) }, 20);
+            break;
+        }
+        s /= 10;
+    }
+    if (s > 0) {
+        newScore = currentScore + score;
+    }
+    scoreEl.innerHTML = newScore;
+    return true;
+}
+
+/**
  * Logic after the player is being destroyed.
  */
 function gameOver(playerDied) {
