@@ -1,72 +1,4 @@
 /**
- * Object with all the game settings. Those are override by the user settings that are stored in indexDB.
- * @type {Object}
- */
-var gameSettings = new Object();
-gameSettings.availableMissions = [1,2];
-gameSettings.unlockedMissions = [0,1];
-gameSettings.currentMission = 1;
-gameSettings.quality = 'high';
-gameSettings.debug = false;
-gameSettings.music = true;
-gameSettings.effects = true;
-gameSettings.controls = 'mouse';
-
-/**
- * List with current equiped weapons. Interval is based on time but might need to base it
- * on frames. (Use a counter loop in the render() perhaps. Minimum of 50 microseconds.
- * Weapons that are available can be found in availableWeapons array.
- * @see js/weapons.js
- * @type {Array}
- */
-var currentWeapons      = new Array();
-
-/**
- * Retrieve saved user settings and overrides the gameSettings. Also retrieving scores.
- * @type {Object}
- */
-currentMission = storageGetItem('gameSettings.currentMission');
-if (currentMission != null) {
-    gameSettings.currentMission = currentMission;
-}
-quality = storageGetItem('gameSettings.quality');
-if (quality != null) {
-    gameSettings.quality = quality;
-}
-music = storageGetItem('gameSettings.music')
-if (music != null) {
-    gameSettings.music = music;
-}
-effects = storageGetItem('gameSettings.effects');
-if (effects != null) {
-    gameSettings.effects = effects;
-}
-controls = storageGetItem('gameSettings.controls');
-if (controls != null) {
-    gameSettings.controls = controls;
-}
-storageSetItem('gameSettings.score', 1000000);
-score = storageGetItem('gameSettings.score');
-if (score == null) {
-    score = 0;
-    storageSetItem('gameSettings.score', score);
-}
-gameSettings.score = score;
-hp = storageGetItem('gameSettings.hp');
-if (hp == null) {
-    hp = 100;
-    storageSetItem('gameSettings.hp', hp);
-}
-gameSettings.hp = hp;
-currentWeapons = storageGetItem('gameSettings.currentWeapons');
-if (currentWeapons == null) {
-    currentWeapons = [{"weaponIndex": 0}];
-    currentWeapons = JSON.stringify(currentWeapons);
-    storageSetItem('gameSettings.currentWeapons', currentWeapons);
-}
-currentWeapons = JSON.parse(currentWeapons);
-
-/**
  * List with all the objects in the game with it's environments position and callback functions, etc. Will be filled after loading a
  * mission. The key of each object has to be unique and will be filled depending on the .json file in /files/levels/.
  * @type {Object}
@@ -156,8 +88,6 @@ function newGame() {
     gameSettings.score          = storageGetItem('gameSettings.score');
     gameTweens                  = new Array();
     bullets                     = new Array();
-    currentWeapons = storageGetItem('gameSettings.currentWeapons');
-    currentWeapons = JSON.parse(currentWeapons);
     cancelAnimationFrame(gameOptions.requestId);
 }
 

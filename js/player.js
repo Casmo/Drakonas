@@ -2,7 +2,7 @@
  * Player logic like shooting will be placed in this file.
  */
 
-var bullets             = new Array();
+var bullets             = [];
 var bulletIndex         = 0;
 
 var explosionIndex      = 0;
@@ -12,7 +12,7 @@ function shoot() {
         return;
     }
     var timeNow = new Date().getTime();
-    currentWeapons.forEach(function(weapon, index) {
+    gameSettings.currentWeapons.forEach(function(weapon) {
         weaponIndex = parseInt(weapon.weaponIndex);
         if (availableWeapons[weaponIndex].lastShot < (timeNow - availableWeapons[weaponIndex].interval)) {
             spawnBullet(availableWeapons[weaponIndex]);
@@ -30,7 +30,7 @@ function shoot() {
  * @param currentWeapon
  */
 function spawnBullet(currentWeapon) {
-    var refObject = currentWeapon;
+    refObject = currentWeapon;
     var material = '';
     if (refObject.texture != null) {
         material = refObject.texture;
@@ -75,7 +75,7 @@ function spawnBullet(currentWeapon) {
     delay = 0;
     position = bullet.position;
     for (var b = 0; b < currentWeapon.animation.length; b++) {
-        var toPosition = {x: (position.x + currentWeapon.animation[b].x), i: currentIndex, y: (position.y + currentWeapon.animation[b].y), z: (position.z + currentWeapon.animation[b].z) }
+        var toPosition = {x: (position.x + currentWeapon.animation[b].x), i: currentIndex, y: (position.y + currentWeapon.animation[b].y), z: (position.z + currentWeapon.animation[b].z) };
         easing = TWEEN.Easing.Linear.None;
         if (currentWeapon.animation[b].easing != null) {
             easing = getEasingByString(currentWeapon.animation[b].easing);
@@ -164,20 +164,21 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
             }
         }
         var material = new THREE.MeshBasicMaterial({ color: explosionColor });
+        var mesh;
 
         if (randomObject == 1) {
-            var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
-            var mesh = new THREE.Mesh( circleGeometry, material );
+            cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
+            mesh = new THREE.Mesh( cubeGeometry, material );
         }
         else if (randomObject == 2) {
-            var tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 );
-            var mesh = new THREE.Mesh( tertraGeometry, material );
+            tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 );
+            mesh = new THREE.Mesh( tertraGeometry, material );
         }
         else {
-            var radius = (Math.random() * size) / 10;
-            var segments = 8;
-            var circleGeometry = new THREE.CircleGeometry( radius, segments );
-            var mesh = new THREE.Mesh( circleGeometry, material );
+            radius = (Math.random() * size) / 10;
+            segments = 8;
+            circleGeometry = new THREE.CircleGeometry( radius, segments );
+            mesh = new THREE.Mesh( circleGeometry, material );
         }
 
         mesh.rotation.x = -(Math.PI / 2);
