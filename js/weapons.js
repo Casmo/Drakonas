@@ -12,7 +12,7 @@ availableWeapons[0]       = {
     "sellPrice":        5000, // Make sure that the player can not sell himself bankrupt.
     "geometry":         new THREE.CubeGeometry(.2,.2,.2),
     "texture":          new THREE.MeshBasicMaterial ({color: 0xffffff}),
-    "interval":         100,
+    "interval":         75,
     "sound":            "sound-weapon-default",
     "lastShot":         new Date().getTime(),
     "damage":           1,
@@ -25,27 +25,11 @@ availableWeapons[0]       = {
         {
             x: 0,
             y: -1,
-            z: 60,
-            "duration": 750,
+            z: 50,
+            "duration": 350,
             "easing": "Linear.None"
         }
     ]
-//    "animation":        [
-//        {
-//            x: 0,
-//            y: -20,
-//            z: 15,
-//            "duration": 350,
-//            "easing": "Sinusoidal.In"
-//        },
-//        {
-//            x: 0,
-//            y: -20,
-//            z: 60,
-//            "duration": 750,
-//            "easing": "Sinusoidal.Out"
-//        }
-//    ]
 }
 availableWeapons[1]       = {
     "name":             "Plasma cannon",

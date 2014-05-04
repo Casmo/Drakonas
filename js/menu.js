@@ -17,7 +17,7 @@ function gotoMenu() {
     });
     manager = new THREE.LoadingManager();
     defaultObjects.forEach(function(object, i) {
-        gameObjects[object.ref] = new Object();
+        gameObjects[object.ref] = {};
         if (object.file != null && object.file != '') {
             loadingManager.totalObjects++;
             // load file
@@ -107,10 +107,10 @@ function showMenu() {
  * Get current available missions
  */
 var missionHtml;
-var missions = new Array();
+var missions = [];
 function gotoMissions() {
     $('#container').className = 'animated fadeOut';
-    missions = new Array();
+    missions = [];
     loadingManager.totalObjects = gameSettings.availableMissions.length + 1;
     loadingManager.loadedCallback = showMissions;
     for (i = 1; i <= gameSettings.availableMissions.length; i++) {
@@ -161,8 +161,8 @@ function loadMission(missionCode) {
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
     loadingManager.loadedCallback = function() {
-        playMission(missionCode);
-        return true;
+//        playMission(missionCode);
+//        return true;
         setTimeout(function() { playMission(missionCode); }, 9000);
         controls.enabled = false;
         tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )
@@ -370,8 +370,6 @@ function getShop() {
     cancelAnimationFrame(gameOptions.requestId);
     clearScene();
     gameSettings.score = parseInt(storageGetItem('gameSettings.score'));
-    currentWeapons = storageGetItem('gameSettings.currentWeapons');
-    currentWeapons = JSON.parse(currentWeapons);
     ajax('files/content/shop.html', function(data) {
         $('#full-container').innerHTML = data;
         $('#score').innerHTML = gameSettings.score;
@@ -391,7 +389,7 @@ function getShop() {
             itemsHtml += '<div class="item-container" id="weapon-'+ index +'">';
 
             sold = false;
-            currentWeapons.forEach(function(currentWeapon) {
+            gameSettings.currentWeapons.forEach(function(currentWeapon) {
                 if (currentWeapon.weaponIndex == index) {
                     itemsHtml += '<div class="owned" id="sold_'+ index +'">Owned</div>';
                     sold = true;
@@ -493,7 +491,7 @@ function getShop() {
  */
 function buyShopItem(weaponIndex) {
     buy = true;
-    currentWeapons.forEach(function(weapon) {
+    gameSettings.currentWeapons.forEach(function(weapon) {
         if (weapon.weaponIndex == weaponIndex) {
             buy = false;
         }
@@ -520,8 +518,8 @@ function buyShopItem(weaponIndex) {
             e.stopPropagation();
             addScore(-parseInt(availableWeapons[weaponIndex].price), true);
             storageSetItem('gameSettings.score', parseInt(gameSettings.score));
-            currentWeapons.push({"weaponIndex": weaponIndex});
-            currentWeapons = JSON.stringify(currentWeapons);
+            gameSettings.currentWeapons.push({"weaponIndex": weaponIndex});
+            currentWeapons = JSON.stringify(gameSettings.currentWeapons);
             storageSetItem('gameSettings.currentWeapons', currentWeapons);
             getShop();
         }, false);
@@ -538,15 +536,16 @@ function buyShopItem(weaponIndex) {
             sellPrice = parseInt(Math.round(sellPrice));
             addScore(sellPrice, true);
             storageSetItem('gameSettings.score', parseInt(gameSettings.score));
-            currentWeapons.forEach(function(weapon, index) {
+            gameSettings.currentWeapons.forEach(function(weapon, index) {
                 if (weapon.weaponIndex == weaponIndex) {
-                    delete(currentWeapons[index]);
+                    delete(gameSettings.currentWeapons[index]);
                 }
             });
-            newCurrentWeapons = new Array();
-            currentWeapons.forEach(function(weapon, index) {
+            newCurrentWeapons = [];
+            gameSettings.currentWeapons.forEach(function(weapon, index) {
                 newCurrentWeapons.push(weapon);
             });
+            gameSettings.currentWeapons = newCurrentWeapons;
             currentWeapons = JSON.stringify(newCurrentWeapons);
             storageSetItem('gameSettings.currentWeapons', currentWeapons);
             getShop();

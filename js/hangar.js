@@ -9,8 +9,8 @@ controls = new THREE.OrbitControls(camera);
 function hangar() {
     controls.minDistance = 2;
     controls.maxDistance = 18;
-    controls.minPolarAngle = 0.5;
-    controls.maxPolarAngle = Math.PI / 2.1;
+    controls.minPolarAngle = 0.01;
+    controls.maxPolarAngle = Math.PI / 2.05;
 
     cancelAnimationFrame(gameOptions.requestId);
     clearScene();
@@ -20,39 +20,32 @@ function hangar() {
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // Light
-    // SpotLight(hex, intensity, distance, angle, exponent)
-    dirLight = new THREE.DirectionalLight( 0xffffff,.2);
-    dirLight.color.setHSL( 0.1, 1, 0.95 );
-    dirLight.position.set( -1, 1.75, 1 );
-    dirLight.position.multiplyScalar( 50 );
-    scene.add( dirLight );
-
-    spawnedObjects.hangar['sun'] = dirLight;
-    scene.add(spawnedObjects.hangar['sun']);
-
-    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.1 );
-    hemiLight.color.setHSL( 0.6, 1, 0.6 );
-    hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-    hemiLight.position.set( 0, 500, 0 );
-    spawnedObjects.hangar['hemiLight'] = hemiLight;
-    scene.add( spawnedObjects.hangar['hemiLight'] );
-
   // Light above door
-    sun = new THREE.SpotLight(0xffffff,.5);
+    sun = new THREE.SpotLight( 0xffffff, 1, 0, Math.PI / 2, 1 );
     sun.position.x = -28;
     sun.position.y = 11;
     sun.position.z = 0;
     if (gameSettings.quality == 'high') {
-      sun.shadowCameraFov = 70;
-      sun.castShadow = true;
-      sun.shadowMapWidth = window.innerWidth; // Shadow map texture width in pixels.
-      sun.shadowMapHeight = window.innerHeight;
-      sun.shadowCameraNear = 0.1;
-      sun.shadowCameraFar = 50;
+        sun.shadowCameraFov = 120;
+        sun.castShadow = true;
+        sun.shadowMapWidth = 2048; // Shadow map texture width in pixels.
+        sun.shadowMapHeight = 2048;
+        sun.shadowCameraNear = .1;
+        sun.shadowCameraFar = 100;
+        sun.shadowBias = 0.0006;
+        sun.shadowDarkness = 0.5;
     }
     spawnedObjects.hangar['sun_light_door'] = sun;
     scene.add(spawnedObjects.hangar['sun_light_door']);
+
+    // Light above the plane
+    var light = new THREE.PointLight( 0xffffff,1, 20 );
+    light.position.set( 0, 5, 0 );
+    scene.add( light );
+    spawnedObjects.hangar['sun_light_center'] = light;
+    scene.add(spawnedObjects.hangar['sun_light_center']);
+
+//    lightBulbGeometry = new THREE.
 
     var geometry = new THREE.CylinderGeometry(.2,.2, 8, 8 );
     var material = new THREE.MeshBasicMaterial( {color: 0xcccccc} );
@@ -68,9 +61,9 @@ function hangar() {
     spawnedObjects.hangar['AmbientLight'] = AmbientLight;
     scene.add(spawnedObjects.hangar['AmbientLight']);
 
-    camera.position.x = 12;
+    camera.position.x = -10;
     camera.position.y = 2;
-    camera.position.z = 9;
+    camera.position.z = 2;
     camera.rotation.x = 0;
     camera.rotation.y = 0;
     camera.rotation.z = 0;
@@ -79,7 +72,12 @@ function hangar() {
 
     // Player
     var refObject = gameObjects['player-hangar'];
-    material = new THREE.MeshLambertMaterial({map: gameObjects['texture-player-hangar']});
+    material = new THREE.MeshPhongMaterial(
+      {
+          map: gameObjects['texture-player-hangar'],
+          shininess:55
+      }
+    );
     geometry = refObject.geometry;
     spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
@@ -221,11 +219,8 @@ function hangar() {
     material = new THREE.MeshPhongMaterial(
         {
             map: gameObjects['texture-hangar-floor'],
-            color: 0xeeeeee,
-            specular:0xcccccc,
-            shininess:.5,
-            combine: THREE.MixOperation,
-            reflectivity: 0.5
+            shininess:55,
+            shading: THREE.FlatShading
         }
     );
     spawnedObjects.hangar['floor'] = new THREE.Mesh(geometryFloor, material);
