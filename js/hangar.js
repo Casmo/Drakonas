@@ -61,9 +61,9 @@ function hangar() {
     spawnedObjects.hangar['AmbientLight'] = AmbientLight;
     scene.add(spawnedObjects.hangar['AmbientLight']);
 
-    camera.position.x = -10;
+    camera.position.x = -7;
     camera.position.y = 2;
-    camera.position.z = 2;
+    camera.position.z = 6;
     camera.rotation.x = 0;
     camera.rotation.y = 0;
     camera.rotation.z = 0;
@@ -79,9 +79,9 @@ function hangar() {
       }
     );
     geometry = refObject.geometry;
-    spawnedObjects.hangar['hangarPlayer'] = new THREE.Mesh(geometry, material);
-    spawnedObjects.hangar['hangarPlayer'].rotation.y = -(Math.PI / 2);
-    scene.add(spawnedObjects.hangar['hangarPlayer']);
+    spawnedObjects.hangar['player'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['player'].rotation.y = -(Math.PI / 2);
+    scene.add(spawnedObjects.hangar['player']);
 
     // Hangar
     var refObject = gameObjects['hangar-skelet'];
@@ -190,10 +190,10 @@ function hangar() {
     material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-toolbox']});
     geometry = refObject.geometry;
     spawnedObjects.hangar['toolbox-1'] = new THREE.Mesh(geometry, material);
-    spawnedObjects.hangar['toolbox-1'].position.x = 1;//3;
-    spawnedObjects.hangar['toolbox-1'].position.z = 2;//-11;
+    spawnedObjects.hangar['toolbox-1'].position.x = 3;
+    spawnedObjects.hangar['toolbox-1'].position.z = -11;
     spawnedObjects.hangar['toolbox-1'].rotation.y = Math.random() * 10;
-    scene.add(spawnedObjects.hangar['toolbox-1']);
+    //scene.add(spawnedObjects.hangar['toolbox-1']);
 
     var refObject = gameObjects['hangar-toolbox-2'];
     material = new THREE.MeshLambertMaterial({map: gameObjects['texture-hangar-toolbox']});
@@ -232,10 +232,10 @@ function hangar() {
         spawnedObjects.hangar['door-frames'].receiveShadow = true;
     }
     scene.add(spawnedObjects.hangar['floor']);
-    camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
+    camera.lookAt(spawnedObjects.hangar['player'].position);
 
     if (gameSettings.quality == 'high') {
-        spawnedObjects.hangar['hangarPlayer'].castShadow = true;
+        spawnedObjects.hangar['player'].castShadow = true;
         spawnedObjects.hangar['closet-1'].castShadow = true;
         spawnedObjects.hangar['closet-2'].castShadow = true;
         spawnedObjects.hangar['closet-3'].castShadow = true;

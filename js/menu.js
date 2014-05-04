@@ -169,10 +169,10 @@ function loadMission(missionCode) {
             .to( {x: -30, y: 0, z: 0}, 4000 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-                spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
-                spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
-                spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
-                camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
+                spawnedObjects.hangar['player'].position.x = this.x;
+                spawnedObjects.hangar['player'].position.y = this.y;
+                spawnedObjects.hangar['player'].position.z = this.z;
+                camera.lookAt(spawnedObjects.hangar['player'].position);
             } )
             .start();
 
@@ -180,11 +180,11 @@ function loadMission(missionCode) {
             .to( {x: -30, y: 0, z: -2, r: -Math.PI}, 1500 )
             .easing( TWEEN.Easing.Sinusoidal.InOut )
             .onUpdate( function () {
-                spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
-                spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
-                spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
-                spawnedObjects.hangar['hangarPlayer'].rotation.y = this.r;
-                camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
+                spawnedObjects.hangar['player'].position.x = this.x;
+                spawnedObjects.hangar['player'].position.y = this.y;
+                spawnedObjects.hangar['player'].position.z = this.z;
+                spawnedObjects.hangar['player'].rotation.y = this.r;
+                camera.lookAt(spawnedObjects.hangar['player'].position);
             } )
             .delay(4000)
             .start();
@@ -193,10 +193,10 @@ function loadMission(missionCode) {
             .to( {x: -30, y: 25, z: -270}, 2500 )
             .easing( TWEEN.Easing.Exponential.In )
             .onUpdate( function () {
-                spawnedObjects.hangar['hangarPlayer'].position.x = this.x;
-                spawnedObjects.hangar['hangarPlayer'].position.y = this.y;
-                spawnedObjects.hangar['hangarPlayer'].position.z = this.z;
-                camera.lookAt(spawnedObjects.hangar['hangarPlayer'].position);
+                spawnedObjects.hangar['player'].position.x = this.x;
+                spawnedObjects.hangar['player'].position.y = this.y;
+                spawnedObjects.hangar['player'].position.z = this.z;
+                camera.lookAt(spawnedObjects.hangar['player'].position);
             } )
             .delay(5500)
             .start();
