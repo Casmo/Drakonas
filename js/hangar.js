@@ -47,7 +47,7 @@ function hangar() {
 
 //    lightBulbGeometry = new THREE.
 
-    var geometry = new THREE.CylinderGeometry(.2,.2, 8, 8 );
+    var geometry = new THREE.CylinderGeometry(.2,.2, 4, 8 );
     var material = new THREE.MeshBasicMaterial( {color: 0xcccccc} );
     var cylinder = new THREE.Mesh( geometry, material );
     cylinder.position.x = -19;
