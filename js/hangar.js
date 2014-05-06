@@ -1,7 +1,3 @@
-/**
- * Make scene for hanger/menu
- */
-
 controls = new THREE.OrbitControls(camera);
 /**
  * Display the hanger scene with objects
@@ -16,7 +12,6 @@ function hangar() {
     clearScene();
     gameSettings.score = parseInt(storageGetItem('gameSettings.score', function(value) {gameSettings.score = value;}));
     currentWeapons = storageGetItem('gameSettings.currentWeapons', function(value) { currentWeapons = JSON.parse(value);});
-    //currentWeapons = JSON.parse(currentWeapons);
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
