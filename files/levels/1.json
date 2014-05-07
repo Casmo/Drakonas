@@ -138,208 +138,118 @@
             "position": {
                 "x": -150,
                 "y": 40,
-                "z": 60
+                "z": 160
             },
             "points": [
                 {
                     "x": -50,
                     "y": 40,
-                    "z": 60
+                    "z": 160
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 50
+                    "z": 150
                 },
                 {
                     "x": 50,
                     "y": 40,
-                    "z": 80
+                    "z": 180
                 },
                 {
                     "x": 50,
-                    "y": 40,
-                    "z": 30
-                }
-            ],
-            "points_duration": 10000,
-            "texture": "scout-001",
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 2,
-                "color": [
-                    "0xf40000",
-                    "0x003261",
-                    "0x610000",
-                    "0x0b79df"
-                ],
-                "score": 500
-            }
-        },
-        {
-            "ref": "scout-001",
-            "position": {
-                "x": -150,
-                "y": 40,
-                "z": 70
-            },
-            "points": [
-                {
-                    "x": -50,
-                    "y": 40,
-                    "z": 70
-                },
-                {
-                    "x": -10,
-                    "y": 40,
-                    "z": 60
-                },
-                {
-                    "x": 50,
-                    "y": 40,
-                    "z": 90
-                },
-                {
-                    "x": 50,
-                    "y": 40,
-                    "z": 40
-                }
-            ],
-            "points_duration": 10000,
-            "texture": "scout-001",
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 2,
-                "color": [
-                    "0xf40000",
-                    "0x003261",
-                    "0x610000",
-                    "0x0b79df"
-                ],
-                "score": 500
-            }
-        },
-        {
-            "ref": "scout-001",
-            "position": {
-                "x": -150,
-                "y": 40,
-                "z": 80
-            },
-            "points": [
-                {
-                    "x": -50,
-                    "y": 40,
-                    "z": 80
-                },
-                {
-                    "x": -10,
-                    "y": 40,
-                    "z": 70
-                },
-                {
-                    "x": 50,
-                    "y": 40,
-                    "z": 100
-                },
-                {
-                    "x": 50,
-                    "y": 40,
-                    "z": 50
-                }
-            ],
-            "points_duration": 10000,
-            "texture": "scout-001",
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 2,
-                "color": [
-                    "0xf40000",
-                    "0x003261",
-                    "0x610000",
-                    "0x0b79df"
-                ],
-                "score": 500
-            }
-        },
-        {
-            "ref": "scout-001",
-            "position": {
-                "x": 150,
-                "y": 40,
-                "z": 100
-            },
-            "points": [
-                {
-                    "x": 50,
-                    "y": 40,
-                    "z": 100
-                },
-                {
-                    "x": 10,
-                    "y": 40,
-                    "z": 90
-                },
-                {
-                    "x": -50,
-                    "y": 40,
-                    "z": 120
-                },
-                {
-                    "x": -50,
-                    "y": 40,
-                    "z": 70
-                }
-            ],
-            "points_duration": 10000,
-            "texture": "scout-001",
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 2,
-                "color": [
-                    "0xf40000",
-                    "0x003261",
-                    "0x610000",
-                    "0x0b79df"
-                ],
-                "score": 500
-            }
-        },
-        {
-            "ref": "scout-001",
-            "position": {
-                "x": 150,
-                "y": 40,
-                "z": 110
-            },
-            "points": [
-                {
-                    "x": 50,
-                    "y": 40,
-                    "z": 110
-                },
-                {
-                    "x": 10,
-                    "y": 40,
-                    "z": 100
-                },
-                {
-                    "x": -50,
                     "y": 40,
                     "z": 130
-                },
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -150,
+                "y": 40,
+                "z": 170
+            },
+            "points": [
                 {
                     "x": -50,
                     "y": 40,
-                    "z": 80
+                    "z": 170
+                },
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 160
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 190
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 140
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -150,
+                "y": 40,
+                "z": 180
+            },
+            "points": [
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 180
+                },
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 170
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 200
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 150
                 }
             ],
             "points_duration": 10000,
@@ -363,28 +273,118 @@
             "position": {
                 "x": 150,
                 "y": 40,
-                "z": 120
+                "z": 200
             },
             "points": [
                 {
                     "x": 50,
                     "y": 40,
-                    "z": 120
+                    "z": 200
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 110
+                    "z": 190
                 },
                 {
                     "x": -50,
                     "y": 40,
-                    "z": 140
+                    "z": 220
                 },
                 {
                     "x": -50,
                     "y": 40,
-                    "z": 90
+                    "z": 170
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": 150,
+                "y": 40,
+                "z": 210
+            },
+            "points": [
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 210
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 200
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 230
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 180
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": 150,
+                "y": 40,
+                "z": 220
+            },
+            "points": [
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 220
+                },
+                {
+                    "x": 10,
+                    "y": 40,
+                    "z": 210
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 240
+                },
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 190
                 }
             ],
             "points_duration": 10000,
@@ -408,33 +408,33 @@
             "position": {
                 "x": 10,
                 "y": 40,
-                "z": 130
+                "z": 230
             },
             "points": [
                 {
                     "x": -20,
                     "y": 40,
-                    "z": 130
+                    "z": 230
                 },
                 {
                     "x": 40,
                     "y": 40,
-                    "z": 120
+                    "z": 220
                 },
                 {
                     "x": 50,
                     "y": 40,
-                    "z": 150
+                    "z": 250
                 },
                 {
                     "x": 50,
                     "y": 40,
-                    "z": 170
+                    "z": 270
                 },
                 {
                     "x": 20,
                     "y": 120,
-                    "z": 170
+                    "z": 270
                 }
             ],
             "points_duration": 12000,
@@ -458,33 +458,33 @@
             "position": {
                 "x": -10,
                 "y": 40,
-                "z": 140
+                "z": 240
             },
             "points": [
                 {
                     "x": 20,
                     "y": 40,
-                    "z": 140
+                    "z": 240
                 },
                 {
                     "x": -40,
                     "y": 40,
-                    "z": 130
+                    "z": 230
                 },
                 {
                     "x": -50,
                     "y": 40,
-                    "z": 160
+                    "z": 260
                 },
                 {
                     "x": -50,
                     "y": 40,
-                    "z": 180
+                    "z": 280
                 },
                 {
                     "x": -20,
                     "y": 120,
-                    "z": 180
+                    "z": 280
                 }
             ],
             "points_duration": 12000,
@@ -508,33 +508,33 @@
             "position": {
                 "x": -20,
                 "y": 40,
-                "z": 180
+                "z": 280
             },
             "points": [
                 {
                     "x": -20,
                     "y": 40,
-                    "z": 170
+                    "z": 270
                 },
                 {
                     "x": -30,
                     "y": 40,
-                    "z": 220
+                    "z": 320
                 },
                 {
                     "x": -40,
                     "y": 40,
-                    "z": 260
+                    "z": 360
                 },
                 {
                     "x": -90,
                     "y": 40,
-                    "z": 300
+                    "z": 400
                 },
                 {
                     "x": -150,
                     "y": 90,
-                    "z": 300
+                    "z": 400
                 }
             ],
             "points_duration": 20000,
@@ -558,33 +558,33 @@
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": 180
+                "z": 280
             },
             "points": [
                 {
                     "x": 0,
                     "y": 40,
-                    "z": 170
+                    "z": 270
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 220
+                    "z": 320
                 },
                 {
                     "x": -20,
                     "y": 40,
-                    "z": 260
+                    "z": 360
                 },
                 {
                     "x": -70,
                     "y": 40,
-                    "z": 300
+                    "z": 400
                 },
                 {
                     "x": -130,
                     "y": 90,
-                    "z": 300
+                    "z": 400
                 }
             ],
             "points_duration": 20000,
@@ -608,33 +608,33 @@
             "position": {
                 "x": -10,
                 "y": 40,
-                "z": 180
+                "z": 280
             },
             "points": [
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 170
+                    "z": 270
                 },
                 {
                     "x": -20,
                     "y": 40,
-                    "z": 220
+                    "z": 320
                 },
                 {
                     "x": -30,
                     "y": 40,
-                    "z": 260
+                    "z": 360
                 },
                 {
                     "x": -80,
                     "y": 40,
-                    "z": 300
+                    "z": 400
                 },
                 {
                     "x": -140,
                     "y": 90,
-                    "z": 300
+                    "z": 400
                 }
             ],
             "points_duration": 20000,
@@ -661,33 +661,33 @@
             "position": {
                 "x": 20,
                 "y": 40,
-                "z": 230
+                "z": 330
             },
             "points": [
                 {
                     "x": 20,
                     "y": 40,
-                    "z": 220
+                    "z": 320
                 },
                 {
                     "x": 30,
                     "y": 40,
-                    "z": 270
+                    "z": 370
                 },
                 {
                     "x": 40,
                     "y": 40,
-                    "z": 310
+                    "z": 410
                 },
                 {
                     "x": 90,
                     "y": 40,
-                    "z": 310
+                    "z": 410
                 },
                 {
                     "x": 150,
                     "y": 90,
-                    "z": 310
+                    "z": 410
                 }
             ],
             "points_duration": 20000,
@@ -711,33 +711,33 @@
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": 230
+                "z": 330
             },
             "points": [
                 {
                     "x": 0,
                     "y": 40,
-                    "z": 220
+                    "z": 320
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 270
+                    "z": 370
                 },
                 {
                     "x": 20,
                     "y": 40,
-                    "z": 310
+                    "z": 410
                 },
                 {
                     "x": 70,
                     "y": 40,
-                    "z": 350
+                    "z": 450
                 },
                 {
                     "x": 130,
                     "y": 90,
-                    "z": 350
+                    "z": 450
                 }
             ],
             "points_duration": 20000,
@@ -761,33 +761,33 @@
             "position": {
                 "x": 10,
                 "y": 40,
-                "z": 230
+                "z": 330
             },
             "points": [
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 220
+                    "z": 320
                 },
                 {
                     "x": 20,
                     "y": 40,
-                    "z": 270
+                    "z": 370
                 },
                 {
                     "x": 30,
                     "y": 40,
-                    "z": 310
+                    "z": 410
                 },
                 {
                     "x": 80,
                     "y": 40,
-                    "z": 350
+                    "z": 450
                 },
                 {
                     "x": 140,
                     "y": 90,
-                    "z": 350
+                    "z": 450
                 }
             ],
             "points_duration": 20000,
@@ -814,33 +814,33 @@
             "position": {
                 "x": 10,
                 "y": 40,
-                "z": 260
+                "z": 360
             },
             "points": [
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 250
+                    "z": 350
                 },
                 {
                     "x": 20,
                     "y": 40,
-                    "z": 300
+                    "z": 400
                 },
                 {
                     "x": 30,
                     "y": 40,
-                    "z": 340
+                    "z": 440
                 },
                 {
                     "x": 80,
                     "y": 40,
-                    "z": 340
+                    "z": 440
                 },
                 {
                     "x": 140,
                     "y": 90,
-                    "z": 340
+                    "z": 440
                 }
             ],
             "points_duration": 20000,
@@ -864,33 +864,33 @@
             "position": {
                 "x": -10,
                 "y": 40,
-                "z": 260
+                "z": 360
             },
             "points": [
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 250
+                    "z": 350
                 },
                 {
                     "x": 0,
                     "y": 40,
-                    "z": 300
+                    "z": 400
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 340
+                    "z": 440
                 },
                 {
                     "x": 60,
                     "y": 40,
-                    "z": 380
+                    "z": 480
                 },
                 {
                     "x": 120,
                     "y": 90,
-                    "z": 380
+                    "z": 480
                 }
             ],
             "points_duration": 20000,
@@ -914,33 +914,33 @@
             "position": {
                 "x": 0,
                 "y": 40,
-                "z": 260
+                "z": 360
             },
             "points": [
                 {
                     "x": 0,
                     "y": 40,
-                    "z": 250
+                    "z": 350
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 300
+                    "z": 400
                 },
                 {
                     "x": 20,
                     "y": 40,
-                    "z": 340
+                    "z": 440
                 },
                 {
                     "x": 70,
                     "y": 40,
-                    "z": 380
+                    "z": 480
                 },
                 {
                     "x": 130,
                     "y": 90,
-                    "z": 380
+                    "z": 480
                 }
             ],
             "points_duration": 20000,
@@ -968,48 +968,48 @@
             "position": {
                 "x": -120,
                 "y": 40,
-                "z": 260
+                "z": 360
             },
             "movement": [
                 {
                     "x": -120,
                     "y": 40,
-                    "z": 280,
+                    "z": 380,
                     "duration": 5200,
                     "easing": "Linear.None"
                 },
                 {
                     "x": 0,
                     "y": 40,
-                    "z": 300,
+                    "z": 400,
                     "duration": 4800,
                     "easing": "Quartic.Out"
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 360,
+                    "z": 460,
                     "duration": 4100,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 370,
+                    "z": 470,
                     "duration": 1000,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": -10,
                     "y": 40,
-                    "z": 370,
+                    "z": 470,
                     "duration": 1500,
                     "easing": "Linear.None"
                 },
                 {
                     "x": -10,
                     "y": 400,
-                    "z": 370,
+                    "z": 470,
                     "duration": 1000,
                     "easing": "Quadratic.Out"
                 }
@@ -1037,48 +1037,48 @@
             "position": {
                 "x": 120,
                 "y": 40,
-                "z": 280
+                "z": 380
             },
             "movement": [
                 {
                     "x": 120,
                     "y": 40,
-                    "z": 300,
+                    "z": 400,
                     "duration": 5200,
                     "easing": "Linear.None"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 320,
+                    "z": 420,
                     "duration": 4800,
                     "easing": "Quartic.Out"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 380,
+                    "z": 480,
                     "duration": 4100,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 390,
+                    "z": 490,
                     "duration": 1000,
                     "easing": "Quadratic.InOut"
                 },
                 {
                     "x": 10,
                     "y": 40,
-                    "z": 390,
+                    "z": 490,
                     "duration": 1500,
                     "easing": "Linear.None"
                 },
                 {
                     "x": 10,
                     "y": 400,
-                    "z": 390,
+                    "z": 490,
                     "duration": 1000,
                     "easing": "Quadratic.Out"
                 }
@@ -1105,126 +1105,6 @@
             "texture": "mine-001",
             "position": {
                 "x": 20,
-                "y": 40,
-                "z": 410
-            },
-            "size": {
-                "x": 3,
-                "y": 3,
-                "z": 3
-            },
-            "autoMovement": {
-                "easing": "Linear.None",
-                "speed": 50000
-            },
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 7,
-                "color": [
-                    "0xff0000",
-                    "0xffffff",
-                    "0xff0000"
-                ],
-                "score": 2200
-            }
-        },
-        {
-            "ref": "mine-001",
-            "texture": "mine-001",
-            "position": {
-                "x": 10,
-                "y": 40,
-                "z": 440
-            },
-            "size": {
-                "x": 3,
-                "y": 3,
-                "z": 3
-            },
-            "autoMovement": {
-                "easing": "Linear.None",
-                "speed": 45000
-            },
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 7,
-                "color": [
-                    "0xff0000",
-                    "0xffffff",
-                    "0xff0000"
-                ],
-                "score": 2200
-            }
-        },
-        {
-            "ref": "mine-001",
-            "texture": "mine-001",
-            "position": {
-                "x": 50,
-                "y": 40,
-                "z": 470
-            },
-            "size": {
-                "x": 3,
-                "y": 3,
-                "z": 3
-            },
-            "autoMovement": {
-                "easing": "Linear.None",
-                "speed": 45000
-            },
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 7,
-                "color": [
-                    "0xff0000",
-                    "0xffffff",
-                    "0xff0000"
-                ],
-                "score": 2200
-            }
-        },
-        {
-            "ref": "mine-001",
-            "texture": "mine-001",
-            "position": {
-                "x": 40,
-                "y": 40,
-                "z": 500
-            },
-            "size": {
-                "x": 3,
-                "y": 3,
-                "z": 3
-            },
-            "autoMovement": {
-                "easing": "Linear.None",
-                "speed": 40000
-            },
-            "spawn": true,
-            "destroyable": true,
-            "collisionable": true,
-            "stats": {
-                "hp": 7,
-                "color": [
-                    "0xff0000",
-                    "0xffffff",
-                    "0xff0000"
-                ],
-                "score": 2200
-            }
-        },
-        {
-            "ref": "mine-001",
-            "texture": "mine-001",
-            "position": {
-                "x": 0,
                 "y": 40,
                 "z": 510
             },
@@ -1254,9 +1134,129 @@
             "ref": "mine-001",
             "texture": "mine-001",
             "position": {
+                "x": 10,
+                "y": 40,
+                "z": 540
+            },
+            "size": {
+                "x": 3,
+                "y": 3,
+                "z": 3
+            },
+            "autoMovement": {
+                "easing": "Linear.None",
+                "speed": 45000
+            },
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 7,
+                "color": [
+                    "0xff0000",
+                    "0xffffff",
+                    "0xff0000"
+                ],
+                "score": 2200
+            }
+        },
+        {
+            "ref": "mine-001",
+            "texture": "mine-001",
+            "position": {
+                "x": 50,
+                "y": 40,
+                "z": 570
+            },
+            "size": {
+                "x": 3,
+                "y": 3,
+                "z": 3
+            },
+            "autoMovement": {
+                "easing": "Linear.None",
+                "speed": 45000
+            },
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 7,
+                "color": [
+                    "0xff0000",
+                    "0xffffff",
+                    "0xff0000"
+                ],
+                "score": 2200
+            }
+        },
+        {
+            "ref": "mine-001",
+            "texture": "mine-001",
+            "position": {
+                "x": 40,
+                "y": 40,
+                "z": 600
+            },
+            "size": {
+                "x": 3,
+                "y": 3,
+                "z": 3
+            },
+            "autoMovement": {
+                "easing": "Linear.None",
+                "speed": 40000
+            },
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 7,
+                "color": [
+                    "0xff0000",
+                    "0xffffff",
+                    "0xff0000"
+                ],
+                "score": 2200
+            }
+        },
+        {
+            "ref": "mine-001",
+            "texture": "mine-001",
+            "position": {
+                "x": 0,
+                "y": 40,
+                "z": 610
+            },
+            "size": {
+                "x": 3,
+                "y": 3,
+                "z": 3
+            },
+            "autoMovement": {
+                "easing": "Linear.None",
+                "speed": 50000
+            },
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 7,
+                "color": [
+                    "0xff0000",
+                    "0xffffff",
+                    "0xff0000"
+                ],
+                "score": 2200
+            }
+        },
+        {
+            "ref": "mine-001",
+            "texture": "mine-001",
+            "position": {
                 "x": -30,
                 "y": 40,
-                "z": 550
+                "z": 650
             },
             "size": {
                 "x": 3,
@@ -1286,7 +1286,7 @@
             "position": {
                 "x": -20,
                 "y": 40,
-                "z": 580
+                "z": 680
             },
             "size": {
                 "x": 3,
@@ -1316,7 +1316,7 @@
             "position": {
                 "x": -5,
                 "y": 39,
-                "z": 660
+                "z": 760
             },
             "spawn": true,
             "destroyable": true,
@@ -1332,21 +1332,21 @@
                 {
                     "x": -20,
                     "y": 39,
-                    "z": -100,
+                    "z": 700,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": 20,
                     "y": 39,
-                    "z": -100,
+                    "z": 700,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": -5,
                     "y": 39,
-                    "z": -100,
+                    "z": 700,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 }
