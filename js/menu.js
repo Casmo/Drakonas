@@ -15,13 +15,13 @@ function gotoMenu() {
         menuHtml = data;
         loadingManager.objectLoaded();
     });
-    manager = new THREE.LoadingManager();
-    defaultObjects.forEach(function(object, i) {
+    var manager = new THREE.LoadingManager();
+    defaultObjects.forEach(function(object) {
         gameObjects[object.ref] = {};
         if (object.file != null && object.file != '') {
             loadingManager.totalObjects++;
             // load file
-            loader = new THREE.OBJLoader(manager);
+            var loader = new THREE.OBJLoader(manager);
             loader.load(object.file, function (newObject) {
                 gameObjects[object.ref] = newObject.children[0];
                 loadingManager.objectLoaded();
@@ -35,7 +35,7 @@ function gotoMenu() {
     defaultTextures.forEach(function(texture, i) {
         loadingManager.totalObjects++;
         gameObjects['texture-' + texture.ref] = new THREE.Texture();
-        loader = new THREE.ImageLoader(manager);
+        var loader = new THREE.ImageLoader(manager);
         loader.load(texture.file, function (image) {
             gameObjects['texture-' + texture.ref].image = image;
             gameObjects['texture-' + texture.ref].needsUpdate = true;
@@ -52,10 +52,10 @@ function showMenu() {
         gameOptions.inGame = false;
     }
     if (gameOptions.spawnObjects != null) {
-        clearTimeout(gameOptions.spawnObjects);
+        window.clearTimeout(gameOptions.spawnObjects);
     }
     if (gameOptions.requestId != null) {
-        cancelAnimationFrame(gameOptions.requestId);
+        window.cancelAnimationFrame(gameOptions.requestId);
     }
     $('#container').innerHTML = menuHtml;
 
@@ -63,10 +63,9 @@ function showMenu() {
     document.body.addEventListener('click', function(event) {
         hideInfoWindows();
     });
-
     $('#shop').addEventListener('click', getShop, false);
 
-    infoWindows = document.getElementsByClassName('info-window');
+    var infoWindows = document.getElementsByClassName('info-window');
     for (i = 0; i < infoWindows.length; i++) {
         // Do not fire normal clicks on this div
         infoWindows[i].addEventListener('click', function(event) {
@@ -85,16 +84,13 @@ function showMenu() {
             }
         });
     }
-
     $('#window-credits').addEventListener('click', function() {
         hideInfoWindows();
     }, false);
-
     document.getElementById('start').addEventListener('click', function() {
         launchFullscreen();
         gotoMissions();
     });
-
     document.getElementById('exit').addEventListener('click', function() {
         exitFullscreen();
         exit();
@@ -129,11 +125,9 @@ function gotoMissions() {
 function showMissions() {
     $('#container').innerHTML = missionHtml;
     missions.forEach(function(mission, i) {
+        var link = '<a class="disabled">'+ mission.name +'</a>';
         if (typeof gameSettings.unlockedMissions[i] != 'undefined') {
             link = '<a id="mission_'+ i +'">'+ mission.name +'</a>';
-        }
-        else {
-            link = '<a class="disabled">'+ mission.name +'</a>';
         }
         $('#missions').innerHTML = $('#missions').innerHTML + link;
     });
@@ -157,82 +151,82 @@ function showMissions() {
 
 // Loads all objects and textures for the selected mission and stats the mission after.
 function loadMission(missionCode) {
-    manager = new THREE.LoadingManager();
+    var manager = new THREE.LoadingManager();
     $('#container').innerHTML = 'Loading mission ' + missionCode;
     loadingManager.totalObjects = 0;
+    var missionReady = false;
     loadingManager.loadedCallback = function() {
-//        playMission(missionCode);
-//        return true;
+        $('#container').innerHTML = 'Launching mission';
         setTimeout(function() { playMission(missionCode); }, 9000);
-        controls.enabled = false;
-        tweenPlayer = new TWEEN.Tween( {x: 0, y: 0, z: 0} )
-            .to( {x: -30, y: 0, z: 0}, 4000 )
-            .easing( TWEEN.Easing.Sinusoidal.InOut )
-            .onUpdate( function () {
-                spawnedObjects.hangar['player'].position.x = this.x;
-                spawnedObjects.hangar['player'].position.y = this.y;
-                spawnedObjects.hangar['player'].position.z = this.z;
-                camera.lookAt(spawnedObjects.hangar['player'].position);
-            } )
-            .start();
-
-        tweenPlayer = new TWEEN.Tween( {x: -30, y: 0, z: 0, r: -(Math.PI / 2)} )
-            .to( {x: -30, y: 0, z: -2, r: -Math.PI}, 1500 )
-            .easing( TWEEN.Easing.Sinusoidal.InOut )
-            .onUpdate( function () {
-                spawnedObjects.hangar['player'].position.x = this.x;
-                spawnedObjects.hangar['player'].position.y = this.y;
-                spawnedObjects.hangar['player'].position.z = this.z;
-                spawnedObjects.hangar['player'].rotation.y = this.r;
-                camera.lookAt(spawnedObjects.hangar['player'].position);
-            } )
-            .delay(4000)
-            .start();
-
-        tweenPlayer = new TWEEN.Tween( {x: -30, y: 0, z: -2} )
-            .to( {x: -30, y: 25, z: -270}, 2500 )
-            .easing( TWEEN.Easing.Exponential.In )
-            .onUpdate( function () {
-                spawnedObjects.hangar['player'].position.x = this.x;
-                spawnedObjects.hangar['player'].position.y = this.y;
-                spawnedObjects.hangar['player'].position.z = this.z;
-                camera.lookAt(spawnedObjects.hangar['player'].position);
-            } )
-            .delay(5500)
-            .start();
-
-        // Move camera
-        tweenCamera = new TWEEN.Tween(camera.position )
-            .to( {x: -9, y: 8, z: camera.position.z}, 3000 )
-            .easing( TWEEN.Easing.Sinusoidal.InOut )
-            .onUpdate( function () {
-                camera.position.x = this.x;
-                camera.position.y = this.y;
-                camera.position.z = this.z;
-            } )
-            .start();
-
-        // Open doors
-        tweenDoorRight = new TWEEN.Tween( {x: -20.67, y: 0, z: 0} )
-            .to( {x: -20.67, y: 0, z: -6}, 1500 )
-            .easing( TWEEN.Easing.Sinusoidal.InOut )
-            .onUpdate( function () {
-                spawnedObjects.hangar['door-right'].position.x = this.x;
-                spawnedObjects.hangar['door-right'].position.y = this.y;
-                spawnedObjects.hangar['door-right'].position.z = this.z;
-            } )
-            .start();
-
-        tweenDoorLeft = new TWEEN.Tween( {x: -20.67, y: 0, z: 0} )
-            .to( {x: -20.67, y: 0, z: 6}, 1500 )
-            .easing( TWEEN.Easing.Sinusoidal.InOut )
-            .onUpdate( function () {
-                spawnedObjects.hangar['door-left'].position.x = this.x;
-                spawnedObjects.hangar['door-left'].position.y = this.y;
-                spawnedObjects.hangar['door-left'].position.z = this.z;
-            } )
-            .start();
     }
+    controls.enabled = false;
+    new TWEEN.Tween( {x: 0, y: 0, z: 0} )
+        .to( {x: -30, y: 0, z: 0}, 4000 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut )
+        .onUpdate( function () {
+            spawnedObjects.hangar['player'].position.x = this.x;
+            spawnedObjects.hangar['player'].position.y = this.y;
+            spawnedObjects.hangar['player'].position.z = this.z;
+            camera.lookAt(spawnedObjects.hangar['player'].position);
+        } )
+        .start();
+
+    new TWEEN.Tween( {x: -30, y: 0, z: 0, r: -(Math.PI / 2)} )
+        .to( {x: -30, y: 0, z: -2, r: -Math.PI}, 1500 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut )
+        .onUpdate( function () {
+            spawnedObjects.hangar['player'].position.x = this.x;
+            spawnedObjects.hangar['player'].position.y = this.y;
+            spawnedObjects.hangar['player'].position.z = this.z;
+            spawnedObjects.hangar['player'].rotation.y = this.r;
+            camera.lookAt(spawnedObjects.hangar['player'].position);
+        } )
+        .delay(4000)
+        .start();
+
+    new TWEEN.Tween( {x: -30, y: 0, z: -2} )
+        .to( {x: -30, y: 25, z: -270}, 2500 )
+        .easing( TWEEN.Easing.Exponential.In )
+        .onUpdate( function () {
+            spawnedObjects.hangar['player'].position.x = this.x;
+            spawnedObjects.hangar['player'].position.y = this.y;
+            spawnedObjects.hangar['player'].position.z = this.z;
+            camera.lookAt(spawnedObjects.hangar['player'].position);
+        } )
+        .delay(5500)
+        .start();
+
+    // Move camera
+    new TWEEN.Tween(camera.position )
+        .to( {x: -9, y: 8, z: camera.position.z}, 3000 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut )
+        .onUpdate( function () {
+            camera.position.x = this.x;
+            camera.position.y = this.y;
+            camera.position.z = this.z;
+        } )
+        .start();
+
+    // Open doors
+    new TWEEN.Tween( {x: -20.67, y: 0, z: 0} )
+        .to( {x: -20.67, y: 0, z: -6}, 1500 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut )
+        .onUpdate( function () {
+            spawnedObjects.hangar['door-right'].position.x = this.x;
+            spawnedObjects.hangar['door-right'].position.y = this.y;
+            spawnedObjects.hangar['door-right'].position.z = this.z;
+        } )
+        .start();
+
+    new TWEEN.Tween( {x: -20.67, y: 0, z: 0} )
+        .to( {x: -20.67, y: 0, z: 6}, 1500 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut )
+        .onUpdate( function () {
+            spawnedObjects.hangar['door-left'].position.x = this.x;
+            spawnedObjects.hangar['door-left'].position.y = this.y;
+            spawnedObjects.hangar['door-left'].position.z = this.z;
+        } )
+        .start();
     missions[missionCode].objects.forEach(function(object, i) {
         if (object.file != null) {
             loadingManager.totalObjects++;
@@ -325,7 +319,7 @@ function loadMission(missionCode) {
 }
 
 function hideInfoWindows() {
-    infoWindows = document.getElementsByClassName('info-window animated fadeIn');
+    var infoWindows = document.getElementsByClassName('info-window animated fadeIn');
     for (i = 0; i < infoWindows.length; i++) {
         infoWindows[i].className = 'info-window hidden';
     }
@@ -384,7 +378,7 @@ function getShop() {
                 hangar();
             }, 500);
         }, false);
-        itemsHtml = '';
+        var itemsHtml = '';
         availableWeapons.forEach(function(weapon, index) {
             itemsHtml += '<div class="item-container" id="weapon-'+ index +'">';
 
@@ -448,7 +442,7 @@ function getShop() {
 
         // Set scene for shop
         currentShopBullet = '';
-        height = Math.round(parseInt($('#shop-item').clientWidth) / 16 * 9);
+        var height = Math.round(parseInt($('#shop-item').clientWidth) / 16 * 9);
 
         for(var i = scene.children.length-1;i>=0;i--){
             scene.remove(scene.children[i]);
@@ -490,7 +484,7 @@ function getShop() {
  * @param weaponIndex
  */
 function buyShopItem(weaponIndex) {
-    buy = true;
+    var buy = true;
     gameSettings.currentWeapons.forEach(function(weapon) {
         if (weapon.weaponIndex == weaponIndex) {
             buy = false;
@@ -505,7 +499,7 @@ function buyShopItem(weaponIndex) {
         }
     }
     else {
-        sellPrice = Math.round(availableWeapons[weaponIndex].price * 0.8);
+        var sellPrice = Math.round(availableWeapons[weaponIndex].price * 0.8);
         if (availableWeapons[weaponIndex].sellPrice != null) {
             sellPrice = availableWeapons[weaponIndex].sellPrice;
         }
@@ -559,27 +553,27 @@ function shopAnimation() {
 }
 
 function saveSettings() {
-    quality = 'high';
+    var quality = 'high';
     if (document.getElementById('SettingsQualityLow').checked) {
         quality = 'low';
     }
     storageSetItem('gameSettings.quality', quality);
     gameSettings.quality = quality;
-    music = true;
+    var music = true;
     if (document.getElementById('SettingsMusicOff').checked) {
         music = false;
     }
     storageSetItem('gameSettings.music', music);
     gameSettings.music = music;
 
-    effects = true;
+    var effects = true;
     if (document.getElementById('SettingsEffectsOff').checked) {
         effects = false;
     }
     storageSetItem('gameSettings.effects', effects);
     gameSettings.effects = effects;
 
-    controls = 'mouse';
+    var controls = 'mouse';
     if (document.getElementById('SettingsControlsKeyboard').checked) {
         controls = 'keyboard';
     }

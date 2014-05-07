@@ -40,8 +40,6 @@ function hangar() {
     spawnedObjects.hangar['sun_light_center'] = light;
     scene.add(spawnedObjects.hangar['sun_light_center']);
 
-//    lightBulbGeometry = new THREE.
-
     var geometry = new THREE.CylinderGeometry(.2,.2, 4, 8 );
     var material = new THREE.MeshBasicMaterial( {color: 0xcccccc} );
     var cylinder = new THREE.Mesh( geometry, material );

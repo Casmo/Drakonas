@@ -1,6 +1,13 @@
 window.AudioContext = window.AudioContext||window.webkitAudioContext||false;
+window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+/**
+ * Global function for storing data into Local Storage. Using acynchrome when providing
+ * callback.
+ * @param key
+ * @param callback
+ * @returns {*}
+ */
 function storageGetItem(key, callback) {
-    // for chrome
     try {
         return chrome.storage.sync.get(key, function(value) {
             if (typeof callback == 'function') {
@@ -10,7 +17,7 @@ function storageGetItem(key, callback) {
         });
     }
     catch (e) {
-        getValue = window.localStorage.getItem(key);
+        var getValue = window.localStorage.getItem(key);
         if (typeof callback == 'function') {
             return callback(getValue);
         }
@@ -31,7 +38,7 @@ function storageSetItem(key, value, callback) {
         return chrome.storage.sync.set({key: value}, callback);
     }
     catch (e) {
-        setResult = window.localStorage.setItem(key, value);
+        var setResult = window.localStorage.setItem(key, value);
         if (typeof callback == 'function') {
             return callback(setResult);
         }
@@ -75,11 +82,11 @@ var defaultObjects = [
         "file": "files/objects/buildings/hangar-door-frames.obj"
     },
     {
-        "ref": "hangar-door-right", // position should be on the ?-as 20.67
+        "ref": "hangar-door-right",
         "file": "files/objects/buildings/hangar-door-right.obj"
     },
     {
-        "ref": "hangar-door-left", // position should be on the ?-as 20.67
+        "ref": "hangar-door-left",
         "file": "files/objects/buildings/hangar-door-left.obj"
     },
     {
