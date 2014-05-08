@@ -77,6 +77,10 @@
         {
             "ref": "mine-001",
             "file": "files/objects/enemies/mine-001.obj"
+        },
+        {
+            "ref": "boss-001",
+            "file": "files/objects/enemies/boss-001.obj"
         }
     ],
     "textures": [
@@ -115,6 +119,10 @@
         {
             "ref": "mine-001",
             "file": "files/objects/enemies/mine-001.jpg"
+        },
+        {
+            "ref": "boss-001",
+            "file": "files/objects/enemies/boss-001.jpg"
         }
     ],
     "sounds": [
@@ -1311,12 +1319,12 @@
             }
         },
         {
-            "ref": "enemy-ufo",
-            "texture": "ufo-glow-pink",
+            "ref": "boss-001",
+            "texture": "boss-001",
             "position": {
                 "x": -5,
                 "y": 39,
-                "z": 760
+                "z": 700
             },
             "spawn": true,
             "destroyable": true,
@@ -1324,9 +1332,9 @@
             "boss": true,
             "movementRepeat": true,
             "stats": {
-                "hp": 10,
+                "hp": 500,
                 "color": "0xff9900",
-                "score": 1000
+                "score": 10000
             },
             "movement": [
                 {
@@ -1353,7 +1361,7 @@
             ],
             "shooting": [
                 {
-                    "interval": 4000,
+                    "interval": 3000,
                     "direction": "down",
                     "ref": "bullet-yellow",
                     "speed": 1500
