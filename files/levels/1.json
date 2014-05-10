@@ -1324,7 +1324,7 @@
             "position": {
                 "x": -5,
                 "y": 39,
-                "z": 700
+                "z": 100
             },
             "spawn": true,
             "destroyable": true,
@@ -1332,7 +1332,7 @@
             "boss": true,
             "movementRepeat": true,
             "stats": {
-                "hp": 500,
+                "hp": 150,
                 "color": "0xff9900",
                 "score": 10000
             },
@@ -1340,21 +1340,21 @@
                 {
                     "x": -20,
                     "y": 39,
-                    "z": 700,
+                    "z": 100,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": 20,
                     "y": 39,
-                    "z": 700,
+                    "z": 100,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": -5,
                     "y": 39,
-                    "z": 700,
+                    "z": 100,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 }
