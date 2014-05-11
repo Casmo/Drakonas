@@ -148,15 +148,15 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
     if (duration == null) {
         duration = 350;
     }
-    for (i = 0; i < amount; i++ ) {
-        randomObject = Math.floor(Math.round(Math.random() * 2));
+    for (var i = 0; i < amount; i++ ) {
+        var randomObject = Math.floor(Math.round(Math.random() * 2));
         if (color == null) {
-            explosionColor = 0xffffff;
+            var explosionColor = 0xffffff;
         }
         else {
             if (typeof color == 'object') {
-                randomIndex = Math.floor(Math.random() * color.length);
-                randomColor = color[randomIndex];
+                var randomIndex = Math.floor(Math.random() * color.length);
+                var randomColor = color[randomIndex];
                 explosionColor = parseInt(randomColor);
             }
             else {
@@ -167,17 +167,17 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         var mesh;
 
         if (randomObject == 1) {
-            cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
+            var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
             mesh = new THREE.Mesh( cubeGeometry, material );
         }
         else if (randomObject == 2) {
-            tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 );
+            var tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 );
             mesh = new THREE.Mesh( tertraGeometry, material );
         }
         else {
-            radius = (Math.random() * size) / 10;
-            segments = 8;
-            circleGeometry = new THREE.CircleGeometry( radius, segments );
+            var radius = (Math.random() * size) / 10;
+            var segments = 8;
+            var circleGeometry = new THREE.CircleGeometry( radius, segments );
             mesh = new THREE.Mesh( circleGeometry, material );
         }
 
@@ -212,12 +212,14 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         scene.add(spawnedObjects.game['explosion_' + explosionIndex]);
         explosionIndex++;
     }
-
     if (shake == true) {
         shakeCamera();
     }
 }
 
+/**
+ * Shakes the camera. Useful for in game effects like after a collision
+ */
 function shakeCamera() {
     shakePosition = { x: camera.position.x };
     shakePositionTo = { x: camera.position.x + 1 };
@@ -284,7 +286,6 @@ function removeBullet(index, explosion, explosionY) {
     }
     scene.remove(bullets[index]);
     delete(bullets[index]);
-    //gameTweens['bullets_' + index].stop();
     delete(gameTweens['bullets_' + index]);
 }
 
@@ -304,13 +305,11 @@ function removeObject(objectIndex, killed) {
     var bossObject = mission.elements[objectIndex];
 
     if (killed == true) {
-        // createExplosion(position, size, amount, explosionSize, color)
         color = 0xff0000;
         if (objects[objectIndex].stats.color != null) {
             color = objects[objectIndex].stats.color;
         }
         createExplosion(objects[objectIndex].position, 8, 20, 30, color, 750);
-        //gameTweens['bullets_' + index].stop();
         objectElement = mission.elements[object.missionIndex];
         if (objectElement.movement != null) {
             for (var a = 0; a < objectElement.movement.length; a++) {
