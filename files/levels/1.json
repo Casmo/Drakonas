@@ -1361,10 +1361,24 @@
             ],
             "shooting": [
                 {
+                    "interval": 2000,
+                    "direction": "down",
+                    "ref": "bullet-yellow",
+                    "speed": 1000,
+                    "offset": {
+                        "x": 5,
+                        "y": 5
+                    }
+                },
+                {
                     "interval": 3000,
                     "direction": "down",
                     "ref": "bullet-yellow",
-                    "speed": 1500
+                    "speed": 1000,
+                    "offset": {
+                        "x": -5,
+                        "y": 5
+                    }
                 }
             ]
         }

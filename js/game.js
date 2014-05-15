@@ -556,9 +556,10 @@ function spawnObject(index) {
         }
     }
 
+    // Clear and continue with pause
     if (objectElement.shooting != null && objectElement.shooting != '') {
         for (var shootingI = 0; shootingI < objectElement.shooting.length; shootingI++) {
-            var shootingObject = objectElement.shooting[shootingI];
+            shootingObject = objectElement.shooting[shootingI];
             if (shootingObject.timeout != null) {
                 setTimeout(function() {
                     if (objects[thisIndex] == null) {
@@ -569,9 +570,12 @@ function spawnObject(index) {
                 shootingObject.timeout);
             }
             else if (shootingObject.interval != null) {
-                gameOptions.shootingIntervals['object_' + thisIndex] = setInterval(function() {
+                gameOptions.shootingIntervals['object_' + thisIndex + '_' + shootingI] = setInterval(function() {
                         if (objects[thisIndex] == null) {
-                            clearInterval(gameOptions.shootingIntervals['object_' + thisIndex]);
+                            clearInterval(gameOptions.shootingIntervals['object_' + thisIndex + '_' + shootingI]);
+                            return;
+                        }
+                        if (gameOptions.pause == true) {
                             return;
                         }
                         spawnEnemyBullet(objects[thisIndex].position, shootingObject);
@@ -601,6 +605,18 @@ function spawnEnemyBullet(position, bulletObject) {
     bullet.position.x = position.x;
     bullet.position.y = position.y;
     bullet.position.z = position.z;
+
+    if (bulletObject.offset != null) {
+        if (bulletObject.offset.x != null) {
+            bullet.position.x += bulletObject.offset.x;
+        }
+        if (bulletObject.offset.y != null) {
+            bullet.position.y += bulletObject.offset.y;
+        }
+        if (bulletObject.offset.z != null) {
+            bullet.position.z += bulletObject.offset.z;
+        }
+    }
 
     easing = TWEEN.Easing.Linear.None;
     if (bulletObject.easing != null) {
