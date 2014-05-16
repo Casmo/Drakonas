@@ -76,6 +76,21 @@ function hangar() {
     spawnedObjects.hangar['player'].rotation.y = -(Math.PI / 2);
     scene.add(spawnedObjects.hangar['player']);
 
+
+    // mine
+    var refObject = gameObjects['enemy-mine'];
+    material = new THREE.MeshPhongMaterial(
+      {
+          map: gameObjects['texture-enemy-mine'],
+          normalMap: gameObjects['texture-enemy-mine-normal'],
+          shininess:85
+      }
+    );
+    geometry = refObject.geometry;
+    spawnedObjects.hangar['enemy'] = new THREE.Mesh(geometry, material);
+    spawnedObjects.hangar['enemy'].position.y = 3;
+    scene.add(spawnedObjects.hangar['enemy']);
+
     // Hangar
     var refObject = gameObjects['hangar-skelet'];
     material = new THREE.MeshLambertMaterial (
@@ -244,6 +259,7 @@ function hangar() {
 }
 
 function hangarAnimation() {
+    spawnedObjects.hangar['enemy'].rotation.y += 0.03;
     gameOptions.requestId = requestAnimationFrame(hangarAnimation);
     TWEEN.update();
     renderer.render(scene, camera);

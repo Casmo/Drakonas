@@ -106,6 +106,10 @@ var defaultObjects = [
         "file": "files/objects/player/default.obj"
     },
     {
+        "ref": "enemy-mine",
+        "file": "files/objects/enemies/mine-001.obj"
+    },
+    {
         "ref": "bullet-yellow",
         "geometry": new THREE.BoxGeometry(.5,.5,.5)
     }
@@ -143,5 +147,13 @@ var defaultTextures = [
     {
         "ref": "hangar-floor",
         "file": "files/objects/buildings/hangar-floor.jpg"
+    },
+    {
+        "ref": "enemy-mine",
+        "file": "files/objects/enemies/mine-001.jpg"
+    },
+    {
+        "ref": "enemy-mine-normal",
+        "file": "files/objects/enemies/mine-001-normal.jpg"
     }
 ]
