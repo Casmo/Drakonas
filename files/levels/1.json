@@ -1324,7 +1324,7 @@
             "position": {
                 "x": -5,
                 "y": 39,
-                "z": 100
+                "z": 700
             },
             "spawn": true,
             "destroyable": true,
@@ -1340,21 +1340,21 @@
                 {
                     "x": -20,
                     "y": 39,
-                    "z": 100,
+                    "z": 700,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": 20,
                     "y": 39,
-                    "z": 100,
+                    "z": 700,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": -5,
                     "y": 39,
-                    "z": 100,
+                    "z": 700,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 }

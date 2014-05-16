@@ -4,7 +4,7 @@ controls = new THREE.OrbitControls(camera);
  */
 function hangar() {
     controls.minDistance = 2;
-    controls.maxDistance = 18;
+    controls.maxDistance = 12;
     controls.minPolarAngle = 0.01;
     controls.maxPolarAngle = Math.PI / 2.05;
 
