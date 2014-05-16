@@ -72,6 +72,9 @@ function hangar() {
       }
     );
     geometry = refObject.geometry;
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
     spawnedObjects.hangar['player'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['player'].rotation.y = -(Math.PI / 2);
     scene.add(spawnedObjects.hangar['player']);
@@ -87,6 +90,8 @@ function hangar() {
       }
     );
     geometry = refObject.geometry;
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
     spawnedObjects.hangar['enemy'] = new THREE.Mesh(geometry, material);
     spawnedObjects.hangar['enemy'].position.y = 3;
     scene.add(spawnedObjects.hangar['enemy']);
