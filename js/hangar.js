@@ -23,9 +23,9 @@ function hangar() {
     if (gameSettings.quality == 'high') {
         sun.shadowCameraFov = 120;
         sun.castShadow = true;
-        sun.shadowMapWidth = 2048; // Shadow map texture width in pixels.
-        sun.shadowMapHeight = 2048;
-        sun.shadowCameraNear = .1;
+        sun.shadowMapWidth = 512; // Shadow map texture width in pixels.
+        sun.shadowMapHeight = 512;
+        sun.shadowCameraNear = .2;
         sun.shadowCameraFar = 100;
         sun.shadowBias = 0.0006;
         sun.shadowDarkness = 0.5;
@@ -207,12 +207,11 @@ function hangar() {
     spawnedObjects.hangar['toolbox-3'].rotation.y = Math.random() * 10;
     scene.add(spawnedObjects.hangar['toolbox-3']);
 
-
     geometryFloor = new THREE.PlaneGeometry(42,30);
     material = new THREE.MeshPhongMaterial(
         {
             map: gameObjects['texture-hangar-floor'],
-            shininess:55,
+            shininess: 55,
             shading: THREE.FlatShading
         }
     );

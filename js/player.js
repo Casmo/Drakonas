@@ -298,11 +298,11 @@ function removeObject(objectIndex, killed) {
     if (killed == null) {
         killed = true;
     }
-    object = objects[objectIndex];
+    var object = objects[objectIndex];
     if (object == null) {
         return;
     }
-    var bossObject = mission.elements[objectIndex];
+    var bossObject = mission.elements[object.missionIndex];
 
     if (killed == true) {
         color = 0xff0000;
@@ -323,14 +323,16 @@ function removeObject(objectIndex, killed) {
         gameObjects['sound-explosion-phaser'].play();
     }
     scene.remove(objects[objectIndex]);
+
+    if (bossObject.boss != null && bossObject.boss == true) {
+        gameOver(false);
+    }
+
     delete(objects[objectIndex]);
     if (destroyableMeshList[objectIndex] != null) {
         delete(destroyableMeshList[objectIndex]);
     }
     if (collisionableMeshList[objectIndex] != null) {
         delete(collisionableMeshList[objectIndex]);
-    }
-    if (bossObject.boss != null && bossObject.boss == true) {
-        gameOver(false);
     }
 }

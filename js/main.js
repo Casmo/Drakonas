@@ -107,7 +107,7 @@ var defaultObjects = [
     },
     {
         "ref": "bullet-yellow",
-        "geometry": new THREE.BoxGeometry(1,1,1)
+        "geometry": new THREE.BoxGeometry(.5,.5,.5)
     }
 ]
 

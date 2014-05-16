@@ -617,6 +617,7 @@ function spawnEnemyBullet(position, bulletObject) {
             bullet.position.z += bulletObject.offset.z;
         }
     }
+    console.log(bulletObject.offset);
 
     easing = TWEEN.Easing.Linear.None;
     if (bulletObject.easing != null) {
