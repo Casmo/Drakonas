@@ -162,7 +162,7 @@ function playMission(missionCode) {
     environmentLight = new THREE.HemisphereLight(parseInt(mission.settings.environment.sun.color), parseInt(mission.settings.environment.sun.ground), mission.settings.environment.sun.intensity);
     spawnedObjects.game['environmentLight'] = environmentLight;
     scene.add(spawnedObjects.game['environmentLight']);
-    spawnedObjects.game['sunTarget'] = new THREE.Mesh(new THREE.CubeGeometry(10,10,10), veryBasicMaterial);
+    spawnedObjects.game['sunTarget'] = new THREE.Mesh(new THREE.BoxGeometry(10,10,10), veryBasicMaterial);
     spawnedObjects.game['sunTarget'].position.x = camera.position.x;
     spawnedObjects.game['sunTarget'].position.y = -50;
     spawnedObjects.game['sunTarget'].position.z = camera.position.z;

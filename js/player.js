@@ -167,8 +167,8 @@ function createExplosion(position, size, amount, explosionRatio, color, duration
         var mesh;
 
         if (randomObject == 1) {
-            var cubeGeometry = new THREE.CubeGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
-            mesh = new THREE.Mesh( cubeGeometry, material );
+            var boxGeometry = new THREE.BoxGeometry((Math.random() * size) / 10, (Math.random() * size) / 10, (Math.random() * size) / 10);
+            mesh = new THREE.Mesh( boxGeometry, material );
         }
         else if (randomObject == 2) {
             var tertraGeometry = new THREE.TetrahedronGeometry( (Math.random() * size) / 10, 0 );
