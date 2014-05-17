@@ -133,6 +133,7 @@ function playMission(missionCode) {
     }
 
     playerMaterial = gameObjects[mission.settings.player.ref].material.map = gameObjects['texture-' + mission.settings.player.texture];
+    gameObjects[mission.settings.player.ref].geometry.computeVertexNormals();
     player = new THREE.Mesh(gameObjects[mission.settings.player.ref].geometry, gameObjects[mission.settings.player.ref].material);
     player.position = mission.settings.player.position;
     player.position.relativeY = 0;
@@ -384,6 +385,9 @@ function Spline() {
 function spawnObject(index) {
     objectElement = mission.elements[index];
     var refObject = gameObjects[objectElement.ref];
+    if (objectElement.smooth != null && objectElement.smooth == true) {
+        refObject.geometry.computeVertexNormals();
+    }
     material = new THREE.MeshBasicMaterial( {color: 0xff9900} );
     var thisIndex = objectIndex;
     if (gameSettings.quality == 'high') {
@@ -555,44 +559,38 @@ function spawnObject(index) {
             }, delay);
         }
     }
+    objects[objectIndex] = newObject;
+    objects[objectIndex].index = objectIndex;
+    spawnedObjects.game['object_' + objectIndex] = objects[objectIndex];
 
     // Clear and continue with pause
     if (objectElement.shooting != null && objectElement.shooting != '') {
         for (var shootingI = 0; shootingI < objectElement.shooting.length; shootingI++) {
-            shootingObject = objectElement.shooting[shootingI];
+            var shootingObject = objectElement.shooting[shootingI];
             if (shootingObject.timeout != null) {
                 setTimeout(function() {
-                    if (objects[thisIndex] == null) {
-                        return;
-                    }
-                    spawnEnemyBullet(objects[thisIndex].position, shootingObject);
-                },
-                shootingObject.timeout);
+                      if (objects[thisIndex] == null) {
+                          return;
+                      }
+                      spawnEnemyBullet(objects[thisIndex].position, shootingObject, thisIndex);
+                  },
+                  shootingObject.timeout);
             }
             else if (shootingObject.interval != null) {
-                gameOptions.shootingIntervals['object_' + thisIndex + '_' + shootingI] = setInterval(function() {
-                        if (objects[thisIndex] == null) {
-                            clearInterval(gameOptions.shootingIntervals['object_' + thisIndex + '_' + shootingI]);
-                            return;
-                        }
-                        if (gameOptions.pause == true) {
-                            return;
-                        }
-                        spawnEnemyBullet(objects[thisIndex].position, shootingObject);
-                    },
-                    shootingObject.interval);
+                spawnEnemyBullet(objects[thisIndex].position, shootingObject, thisIndex);
             }
         }
     }
-    objects[objectIndex] = newObject;
-    objects[objectIndex].index = objectIndex;
-    spawnedObjects.game['object_' + objectIndex] = objects[objectIndex];
+
     scene.add(spawnedObjects.game['object_' + objectIndex]);
     objectIndex++;
 }
 var enemyBulletIndex = 0;
 var enemyBullets = new Array();
-function spawnEnemyBullet(position, bulletObject) {
+function spawnEnemyBullet(position, bulletObject, objectIndex) {
+    if (objects[objectIndex] == null) {
+        return false;
+    }
     var refObject = bulletObject;
     var material = new THREE.MeshBasicMaterial({color: 0xf0ff00});
     if (refObject.ref != null) {
@@ -601,6 +599,7 @@ function spawnEnemyBullet(position, bulletObject) {
     else {
       return false;
     }
+
     var bullet = new THREE.Mesh(geometry, material);
     bullet.position.x = position.x;
     bullet.position.y = position.y;
@@ -617,7 +616,6 @@ function spawnEnemyBullet(position, bulletObject) {
             bullet.position.z += bulletObject.offset.z;
         }
     }
-    console.log(bulletObject.offset);
 
     easing = TWEEN.Easing.Linear.None;
     if (bulletObject.easing != null) {
@@ -654,6 +652,12 @@ function spawnEnemyBullet(position, bulletObject) {
     enemyBullets[bulletIndex].z = 0;
     scene.add(spawnedObjects.game['bullet_enemy_' + enemyBulletIndex]);
     enemyBulletIndex++;
+
+    if (refObject.interval != null) {
+        setTimeout(function(){
+            spawnEnemyBullet(position, bulletObject, objectIndex);
+        }, refObject.interval);
+    }
 }
 
 /**

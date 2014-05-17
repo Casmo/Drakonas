@@ -146,6 +146,96 @@
             "position": {
                 "x": -150,
                 "y": 40,
+                "z": 80
+            },
+            "points": [
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 80
+                },
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 70
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 100
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 50
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -150,
+                "y": 40,
+                "z": 100
+            },
+            "points": [
+                {
+                    "x": -50,
+                    "y": 40,
+                    "z": 100
+                },
+                {
+                    "x": -10,
+                    "y": 40,
+                    "z": 90
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 120
+                },
+                {
+                    "x": 50,
+                    "y": 40,
+                    "z": 70
+                }
+            ],
+            "points_duration": 10000,
+            "texture": "scout-001",
+            "spawn": true,
+            "destroyable": true,
+            "collisionable": true,
+            "stats": {
+                "hp": 2,
+                "color": [
+                    "0xf40000",
+                    "0x003261",
+                    "0x610000",
+                    "0x0b79df"
+                ],
+                "score": 500
+            }
+        },
+        {
+            "ref": "scout-001",
+            "position": {
+                "x": -150,
+                "y": 40,
                 "z": 160
             },
             "points": [
@@ -1321,10 +1411,11 @@
         {
             "ref": "boss-001",
             "texture": "boss-001",
+            "smooth": true,
             "position": {
                 "x": -5,
                 "y": 39,
-                "z": 700
+                "z": 70
             },
             "spawn": true,
             "destroyable": true,
@@ -1340,21 +1431,21 @@
                 {
                     "x": -20,
                     "y": 39,
-                    "z": 700,
+                    "z": 70,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": 20,
                     "y": 39,
-                    "z": 700,
+                    "z": 70,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 },
                 {
                     "x": -5,
                     "y": 39,
-                    "z": 700,
+                    "z": 70,
                     "duration": 2200,
                     "easing": "Quadratic.Out"
                 }

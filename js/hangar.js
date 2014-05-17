@@ -72,7 +72,6 @@ function hangar() {
       }
     );
     geometry = refObject.geometry;
-    geometry.computeFaceNormals();
     geometry.computeVertexNormals();
 
     spawnedObjects.hangar['player'] = new THREE.Mesh(geometry, material);
@@ -264,7 +263,6 @@ function hangar() {
 }
 
 function hangarAnimation() {
-    spawnedObjects.hangar['enemy'].rotation.y += 0.03;
     gameOptions.requestId = requestAnimationFrame(hangarAnimation);
     TWEEN.update();
     renderer.render(scene, camera);
