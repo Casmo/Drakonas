@@ -769,6 +769,16 @@ function gameOver(playerDied) {
             .start();
     }
     else {
+        // Enable next mission
+        var unlockedMissions = storageGetItem('gameSettings.unlockedMissions');
+        unlockedMissions = JSON.parse(unlockedMissions);
+        gameSettings.unlockedMissions = unlockedMissions;
+        unlockedMissions.push(gameSettings.currentMission);
+        unlockedMissions = JSON.stringify(unlockedMissions);
+        storageSetItem('gameSettings.unlockedMissions', unlockedMissions);
+        gameSettings.currentMission++;
+        storageSetItem('gameSettings.currentMission', gameSettings.currentMission);
+
         if (gameOptions.move == true) {
             stopMovement();
         }
