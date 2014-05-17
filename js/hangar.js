@@ -78,22 +78,34 @@ function hangar() {
     spawnedObjects.hangar['player'].rotation.y = -(Math.PI / 2);
     scene.add(spawnedObjects.hangar['player']);
 
-
     // mine
-    var refObject = gameObjects['enemy-mine'];
-    material = new THREE.MeshPhongMaterial(
-      {
-          map: gameObjects['texture-enemy-mine'],
-          normalMap: gameObjects['texture-enemy-mine-normal'],
-          shininess:85
-      }
-    );
-    geometry = refObject.geometry;
-    geometry.computeFaceNormals();
-    geometry.computeVertexNormals();
-    spawnedObjects.hangar['enemy'] = new THREE.Mesh(geometry, material);
-    spawnedObjects.hangar['enemy'].position.y = 3;
-    scene.add(spawnedObjects.hangar['enemy']);
+    if (gameSettings.currentMission >= 2) {
+        var refObject = gameObjects['enemy-mine'];
+        material = new THREE.MeshPhongMaterial(
+          {
+              map: gameObjects['texture-enemy-mine'],
+              normalMap: gameObjects['texture-enemy-mine-normal'],
+              shininess: 85
+          }
+        );
+        geometry = refObject.geometry;
+        geometry.computeFaceNormals();
+        geometry.computeVertexNormals();
+        spawnedObjects.hangar['enemy'] = new THREE.Mesh(geometry, material);
+        spawnedObjects.hangar['enemy'].position.y = 2.9;
+        spawnedObjects.hangar['enemy'].position.x = 6.08;
+        spawnedObjects.hangar['enemy'].position.z = 11;
+        spawnedObjects.hangar['enemy'].rotation.z = .5;
+        spawnedObjects.hangar['enemy'].rotation.y = .8;
+        scene.add(spawnedObjects.hangar['enemy']);
+        spawnedObjects.hangar['enemy2'] = new THREE.Mesh(geometry, material);
+        spawnedObjects.hangar['enemy2'].position.y = 0;
+        spawnedObjects.hangar['enemy2'].position.x = 8;
+        spawnedObjects.hangar['enemy2'].position.z = -13;
+        spawnedObjects.hangar['enemy2'].rotation.z = .5;
+        spawnedObjects.hangar['enemy2'].rotation.y = 1.9;
+        scene.add(spawnedObjects.hangar['enemy2']);
+    }
 
     // Hangar
     var refObject = gameObjects['hangar-skelet'];
