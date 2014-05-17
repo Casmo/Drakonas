@@ -858,9 +858,9 @@ function gameOver(playerDied) {
 function stopMovement() {
     gameOptions.move = false;
     cameraFrom = {z: camera.position.z}
-    cameraTo = {z: camera.position.z + 30}
+    cameraTo = {z: camera.position.z + 35}
     gameTweens['cameraMovement'] = new TWEEN.Tween( cameraFrom )
-      .to( cameraTo, 5000 )
+      .to( cameraTo, 5500 )
       .easing( TWEEN.Easing.Quadratic.Out )
       .onUpdate( function () {
           camera.position.z = this.z;
