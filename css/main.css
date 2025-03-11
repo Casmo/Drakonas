@@ -12,7 +12,7 @@
 html,
 body,
 #container {
-  width: 100%;
+  width: 99%;
   height: 100%;
   overflow: hidden;
   font-family: 'capture_itregular', 'Arial', 'sans-serif';
